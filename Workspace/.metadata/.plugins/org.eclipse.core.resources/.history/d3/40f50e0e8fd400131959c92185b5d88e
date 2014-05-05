@@ -13,8 +13,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 
-import javax.swing.ListModel;
-
 import dictionary.Dictionary;
 
 public class ViewDictionary extends JPanel {
@@ -62,6 +60,10 @@ public class ViewDictionary extends JPanel {
 		buttonsPanel.setBackground(Color.gray);
 		categoryPanel.setBackground(Color.orange);
 		wordsPanel.setBackground(Color.cyan);
+
+		
+		words = new JList<String>();
+		categories= new JList<String>(dictionary.getListCategory().);
 		
 		
 		

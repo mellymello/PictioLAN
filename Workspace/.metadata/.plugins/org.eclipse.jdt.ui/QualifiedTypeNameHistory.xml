@@ -14,8 +14,8 @@
 <fullyQualifiedTypeName name="javax.swing.UIManager"/>
 <fullyQualifiedTypeName name="javax.swing.UnsupportedLookAndFeelException"/>
 <fullyQualifiedTypeName name="dictionary.Dictionary"/>
-<fullyQualifiedTypeName name="javax.swing.JList"/>
 <fullyQualifiedTypeName name="javax.swing.DefaultListCellRenderer"/>
 <fullyQualifiedTypeName name="javax.swing.ListModel"/>
 <fullyQualifiedTypeName name="javax.swing.DefaultListModel"/>
+<fullyQualifiedTypeName name="javax.swing.JList"/>
 </qualifiedTypeNameHistroy>

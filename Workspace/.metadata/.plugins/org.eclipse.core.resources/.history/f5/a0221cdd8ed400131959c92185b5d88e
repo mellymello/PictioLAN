@@ -13,8 +13,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 
-import javax.swing.ListModel;
-
 import dictionary.Dictionary;
 
 public class ViewDictionary extends JPanel {
@@ -56,12 +54,22 @@ public class ViewDictionary extends JPanel {
 //		words= new JList<String>();
 //		categories= new JList<String>();
 		
-
+		///////////////////////////////////////////////////////////////////////
+		
+		//just for testing I manually add a list
+		
+		////////////////////////////////////////////////////////////////////
 		
 
 		buttonsPanel.setBackground(Color.gray);
 		categoryPanel.setBackground(Color.orange);
 		wordsPanel.setBackground(Color.cyan);
+
+		
+		String testW[] = {"test","test2","Hello","test","Goos","Poney","Hey","word"};
+		String testC[] = {"cat1","cat2","Animals","Cartoon"};
+		words = new JList<String>(testW);
+		categories= new JList<String>(testC);
 		
 		
 		
@@ -84,7 +92,7 @@ public class ViewDictionary extends JPanel {
 				System.out.println("Refresh NOW");
 				
 				dictionary.getListCategory();
-				//dictionary.getListWordCategory();
+				dictionary.getListWordCategory();
 				
 			}
 		});
