@@ -12,7 +12,8 @@
 -- Database Section
 -- ________________ 
 
-create database BD;
+create database pictiolan;
+use pictiolan;
 
 
 -- DBSpace Section
