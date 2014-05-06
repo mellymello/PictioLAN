@@ -3,6 +3,8 @@ INDEX VERSION 1.126+C:\Users\RighitZ\Documents\Heig-VD\4semestre\GEN\Mini-projet
 739078005.index
 1075156909.index
 3256372620.index
+2708239607.index
+384216248.index
 728132027.index
 4062135367.index
 1820024274.index
