@@ -1,105 +1,167 @@
--- *********************************************
--- * Standard SQL generation                   
--- *--------------------------------------------
--- * DB-MAIN version: 9.1.5              
--- * Generator date: Feb 14 2012              
--- * Generation date: Mon May 05 19:07:32 2014 
--- * LUN file: C:\Users\Zak\Documents\2HEIG\2Sem\GEN\PictioLAN\PictioLan.lun 
--- * Schema: BD/SQL1 
--- ********************************************* 
+-- phpMyAdmin SQL Dump
+-- version 4.0.4
+-- http://www.phpmyadmin.net
+--
+-- Client: localhost
+-- Généré le: Mar 06 Mai 2014 à 08:03
+-- Version du serveur: 5.6.12-log
+-- Version de PHP: 5.4.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
--- Database Section
--- ________________ 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
-create database pictiolan;
-use pictiolan;
+--
+-- Base de données: `pictiolan`
+--
+CREATE DATABASE IF NOT EXISTS `pictiolan` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `pictiolan`;
 
+-- --------------------------------------------------------
 
--- DBSpace Section
--- _______________
+--
+-- Structure de la table `category`
+--
 
+CREATE TABLE IF NOT EXISTS `category` (
+  `ID_Category` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID_Category`),
+  UNIQUE KEY `ID_IND` (`ID_Category`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
--- Tables Section
--- _____________ 
+--
+-- Contenu de la table `category`
+--
 
-create table Category (
-     ID_Category, -- Sequence attribute not implemented -- not null,
-     Name varchar(50) not null,
-     constraint ID_ID primary key (ID_Category));
+INSERT INTO `category` (`ID_Category`, `Name`) VALUES
+(1, 'Animaux'),
+(2, 'Fruits'),
+(3, 'Légumes'),
+(4, 'Sports');
 
-create table Players (
-     ID_Player, -- Sequence attribute not implemented -- not null,
-     Pseudo varchar(50) not null,
-     Password varchar(50) not null,
-     constraint ID_ID primary key (ID_Player));
+-- --------------------------------------------------------
 
-create table PlayerStats (
-     ID_Player, -- Sequence attribute not implemented -- not null,
-     Hav_ID_Player numeric(10) not null,
-     ID_Word numeric(10) not null,
-     constraint ID_ID primary key (ID_Player));
+--
+-- Structure de la table `players`
+--
 
-create table Stats (
-     Time char not null,
-     Win char not null,
-     ID_Player numeric(10) not null);
+CREATE TABLE IF NOT EXISTS `players` (
+  `ID_Player` int(11) NOT NULL AUTO_INCREMENT,
+  `Pseudo` varchar(50) NOT NULL,
+  `Password` varchar(50) NOT NULL,
+  PRIMARY KEY (`ID_Player`),
+  UNIQUE KEY `ID_IND` (`ID_Player`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-create table Words (
-     ID_Word, -- Sequence attribute not implemented -- not null,
-     Word varchar(50) not null,
-     ID_Category numeric(10) not null,
-     constraint ID_ID primary key (ID_Word));
+-- --------------------------------------------------------
 
+--
+-- Structure de la table `playerstats`
+--
 
--- Constraints Section
--- ___________________ 
+CREATE TABLE IF NOT EXISTS `playerstats` (
+  `ID_Player` int(11) NOT NULL AUTO_INCREMENT,
+  `Hav_ID_Player` decimal(10,0) NOT NULL,
+  `ID_Word` decimal(10,0) NOT NULL,
+  PRIMARY KEY (`ID_Player`),
+  UNIQUE KEY `ID_IND` (`ID_Player`),
+  KEY `FKHave_IND` (`Hav_ID_Player`),
+  KEY `FKSave_stats_IND` (`ID_Word`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-alter table PlayerStats add constraint ID_CHK
-     check(exists(select * from Stats
-                  where Stats.ID_Player = ID_Player)); 
+-- --------------------------------------------------------
 
-alter table PlayerStats add constraint FKHave_FK
-     foreign key (Hav_ID_Player)
-     references Players;
+--
+-- Structure de la table `stats`
+--
 
-alter table PlayerStats add constraint FKSave_stats_FK
-     foreign key (ID_Word)
-     references Words;
+CREATE TABLE IF NOT EXISTS `stats` (
+  `Time` char(1) NOT NULL,
+  `Win` char(1) NOT NULL,
+  `ID_Player` decimal(10,0) NOT NULL,
+  KEY `FKUse_IND` (`ID_Player`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-alter table Stats add constraint FKUse_FK
-     foreign key (ID_Player)
-     references PlayerStats;
+-- --------------------------------------------------------
 
-alter table Words add constraint FKContain_FK
-     foreign key (ID_Category)
-     references Category;
+--
+-- Structure de la table `words`
+--
 
+CREATE TABLE IF NOT EXISTS `words` (
+  `ID_Word` int(11) NOT NULL AUTO_INCREMENT,
+  `Word` varchar(50) NOT NULL,
+  `ID_Category` decimal(10,0) NOT NULL,
+  PRIMARY KEY (`ID_Word`),
+  UNIQUE KEY `ID_IND` (`ID_Word`),
+  KEY `FKContain_IND` (`ID_Category`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
 
--- Index Section
--- _____________ 
+--
+-- Contenu de la table `words`
+--
 
-create unique index ID_IND
-     on Category (ID_Category);
+INSERT INTO `words` (`ID_Word`, `Word`, `ID_Category`) VALUES
+(1, 'Alpaga', '1'),
+(2, 'Anes', '1'),
+(3, 'Antilope', '1'),
+(4, 'Babouins', '1'),
+(5, 'Baleines', '1'),
+(6, 'Belettes', '1'),
+(7, 'Bisons', '1'),
+(8, 'Blaireau', '1'),
+(9, 'Boeuf', '1'),
+(10, 'Bouquetins', '1'),
+(11, 'Buffle', '1'),
+(12, 'Cachalots', '1'),
+(13, 'Caribou', '1'),
+(14, 'Castor', '1'),
+(15, 'Cerf', '1'),
+(16, 'Chacal', '1'),
+(17, 'Chameaux', '1'),
+(18, 'Chamois', '1'),
+(19, 'Chat', '1'),
+(20, 'Cheval', '1'),
+(21, 'Chèvre', '1'),
+(22, 'Chevreuils', '1'),
+(23, 'Chien', '1'),
+(24, 'Chimpanzé', '1'),
+(25, 'Cochon', '1'),
+(26, 'Coyote', '1'),
+(27, 'Daim', '1'),
+(28, 'Dauphin', '1'),
+(29, 'Dromadaire', '1'),
+(30, 'Ecureuil', '1'),
+(31, 'Elan', '1'),
+(32, 'Eléphant', '1'),
+(33, 'Fouine', '1'),
+(34, 'Girafe', '1'),
+(35, 'Guépard', '1'),
+(36, 'Hamster', '1'),
+(37, 'Hérisson', '1'),
+(38, 'Hippopotame', '1'),
+(39, 'Lion', '1'),
+(40, 'Loup', '1'),
+(41, 'Loutre', '1'),
+(42, 'Lynx', '1'),
+(43, 'Mouton', '1'),
+(44, 'Ours', '1'),
+(45, 'Rat', '1'),
+(46, 'Renard', '1'),
+(47, 'Rhinocéros', '1'),
+(48, 'Sanglier', '1'),
+(49, 'Singe', '1'),
+(50, 'Souris', '1'),
+(51, 'Taupe', '1'),
+(52, 'Vache', '1'),
+(53, 'Zèbre', '1');
 
-create unique index ID_IND
-     on Players (ID_Player);
-
-create unique index ID_IND
-     on PlayerStats (ID_Player);
-
-create index FKHave_IND
-     on PlayerStats (Hav_ID_Player);
-
-create index FKSave_stats_IND
-     on PlayerStats (ID_Word);
-
-create index FKUse_IND
-     on Stats (ID_Player);
-
-create unique index ID_IND
-     on Words (ID_Word);
-
-create index FKContain_IND
-     on Words (ID_Category);
-
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
