@@ -87,8 +87,7 @@ public class Dictionary
 	 */
 	public LinkedList<String> getListWordCategory(String Category) 
 	{
-		String requete = "SELECT Word FROM `Word` WHERE Category.Name = " + Category 
-				+ "INNER JOIN Category ON Category.ID_Category = Words.ID_Category";
+		String requete = "SELECT Word FROM words INNER JOIN category ON category.ID_Category = words.ID_Category WHERE category.Name = \""+Category+ "\"";
 		LinkedList<String> listeWordCat = new LinkedList<String>();
 
 		ResultSet res;
