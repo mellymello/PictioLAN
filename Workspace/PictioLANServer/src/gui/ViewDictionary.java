@@ -37,10 +37,9 @@ public class ViewDictionary extends JPanel {
 	private JButton addWordButton;
 	
 	
-	public ViewDictionary(){
+	public ViewDictionary(Dictionary d){
 		
-		
-		dictionary = new Dictionary();
+		dictionary = d;
 		
 		//setting layouts to components
 		setLayout(new BorderLayout());
@@ -53,17 +52,12 @@ public class ViewDictionary extends JPanel {
 		wordsLabel = new JLabel("Words");
 		categoriesLabel= new JLabel("Categories");
 		
-//		words= new JList<String>();
-//		categories= new JList<String>();
+		words = new JList<String>();
+		categories = new JList<String>();
 		
-
-		
-
 		buttonsPanel.setBackground(Color.gray);
 		categoryPanel.setBackground(Color.orange);
 		wordsPanel.setBackground(Color.cyan);
-		
-		
 		
 		categoryPanel.add(categoriesLabel,BorderLayout.NORTH);
 		categoryPanel.add(categories,BorderLayout.CENTER);
@@ -81,10 +75,11 @@ public class ViewDictionary extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Refresh NOW");
+				String[] s = new String[dictionary.getListCategory().size()];
 				
-				dictionary.getListCategory();
-				//dictionary.getListWordCategory();
+				for(int i=0; i < dictionary.getListCategory().size(); i++)
+					s[i] = dictionary.getListCategory().get(i);
+				categories.setListData(s);
 				
 			}
 		});

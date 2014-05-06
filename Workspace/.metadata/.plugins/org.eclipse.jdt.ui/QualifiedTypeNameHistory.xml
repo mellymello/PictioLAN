@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="connexion.ServerListener"/>
+<fullyQualifiedTypeName name="javax.xml.bind.Marshaller.Listener"/>
+<fullyQualifiedTypeName name="java.net.InetAddress"/>
+<fullyQualifiedTypeName name="java.net.UnknownHostException"/>
+<fullyQualifiedTypeName name="java.net.ServerSocket"/>
+<fullyQualifiedTypeName name="connexion.ClientHandler"/>
+<fullyQualifiedTypeName name="java.net.Socket"/>
+<fullyQualifiedTypeName name="game.GameRound"/>
+<fullyQualifiedTypeName name="java.util.LinkedList"/>
 <fullyQualifiedTypeName name="javax.swing.JFrame"/>
-<fullyQualifiedTypeName name="gui.ViewDictionary"/>
-<fullyQualifiedTypeName name="javax.swing.JLabel"/>
-<fullyQualifiedTypeName name="javax.swing.JButton"/>
-<fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
-<fullyQualifiedTypeName name="javax.swing.JPanel"/>
-<fullyQualifiedTypeName name="java.awt.Color"/>
-<fullyQualifiedTypeName name="java.awt.Dimension"/>
-<fullyQualifiedTypeName name="java.awt.GridLayout"/>
-<fullyQualifiedTypeName name="java.awt.FlowLayout"/>
-<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
-<fullyQualifiedTypeName name="javax.swing.UIManager"/>
-<fullyQualifiedTypeName name="javax.swing.UnsupportedLookAndFeelException"/>
+<fullyQualifiedTypeName name="javax.swing.JTabbedPane"/>
+<fullyQualifiedTypeName name="connexion.Connexion"/>
+<fullyQualifiedTypeName name="javax.swing.JCheckBox"/>
+<fullyQualifiedTypeName name="gui.JServer"/>
 <fullyQualifiedTypeName name="dictionary.Dictionary"/>
-<fullyQualifiedTypeName name="javax.swing.DefaultListCellRenderer"/>
-<fullyQualifiedTypeName name="javax.swing.ListModel"/>
-<fullyQualifiedTypeName name="javax.swing.DefaultListModel"/>
-<fullyQualifiedTypeName name="javax.swing.JList"/>
+<fullyQualifiedTypeName name="server.Configuration"/>
+<fullyQualifiedTypeName name="javax.swing.JButton"/>
+<fullyQualifiedTypeName name="java.awt.GridLayout"/>
+<fullyQualifiedTypeName name="javax.swing.JPanel"/>
+<fullyQualifiedTypeName name="javax.swing.JTextArea"/>
+<fullyQualifiedTypeName name="javax.swing.JLabel"/>
+<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
+<fullyQualifiedTypeName name="gui.JConfiguration"/>
+<fullyQualifiedTypeName name="gui.ViewDictionary"/>
+<fullyQualifiedTypeName name="java.lang.Object"/>
 </qualifiedTypeNameHistroy>

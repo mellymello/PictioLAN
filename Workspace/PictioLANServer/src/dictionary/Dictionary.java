@@ -21,7 +21,7 @@ public class Dictionary
 		try {
 
 			conn = DriverManager
-					.getConnection("jdbc:mysql://localhost:3306/ouat?"
+					.getConnection("jdbc:mysql://localhost:3306/pictiolan?"
 							+ "user=root&password=");
 			stmt = (Statement) conn.createStatement();
 		} catch (SQLException ex) 
@@ -39,7 +39,7 @@ public class Dictionary
 		String word = "";
 		Random rand = new Random();
 		int nombreAleatoire = rand.nextInt(50);
-		String requete = "SELECT Word FROM `Words` WHERE Words.ID_Word = " + nombreAleatoire 
+		String requete = "SELECT Word FROM `Word` WHERE Words.ID_Word = " + nombreAleatoire 
 				+ " AND Category.Name = "+ Category
 				+ " INNER JOIN Category ON Category.ID_Category = Words.ID_Category";
 		
@@ -87,7 +87,7 @@ public class Dictionary
 	 */
 	public LinkedList<String> getListWordCategory(String Category) 
 	{
-		String requete = "SELECT Word FROM `Words` WHERE Category.Name = " + Category 
+		String requete = "SELECT Word FROM `Word` WHERE Category.Name = " + Category 
 				+ "INNER JOIN Category ON Category.ID_Category = Words.ID_Category";
 		LinkedList<String> listeWordCat = new LinkedList<String>();
 

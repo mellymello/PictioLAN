@@ -24,18 +24,18 @@ use pictiolan;
 -- _____________ 
 
 create table Category (
-     ID_Category -- Sequence attribute not implemented -- not null,
+     ID_Category, -- Sequence attribute not implemented -- not null,
      Name varchar(50) not null,
      constraint ID_ID primary key (ID_Category));
 
 create table Players (
-     ID_Player -- Sequence attribute not implemented -- not null,
+     ID_Player, -- Sequence attribute not implemented -- not null,
      Pseudo varchar(50) not null,
      Password varchar(50) not null,
      constraint ID_ID primary key (ID_Player));
 
 create table PlayerStats (
-     ID_Player -- Sequence attribute not implemented -- not null,
+     ID_Player, -- Sequence attribute not implemented -- not null,
      Hav_ID_Player numeric(10) not null,
      ID_Word numeric(10) not null,
      constraint ID_ID primary key (ID_Player));
@@ -46,7 +46,7 @@ create table Stats (
      ID_Player numeric(10) not null);
 
 create table Words (
-     ID_Word -- Sequence attribute not implemented -- not null,
+     ID_Word, -- Sequence attribute not implemented -- not null,
      Word varchar(50) not null,
      ID_Category numeric(10) not null,
      constraint ID_ID primary key (ID_Word));

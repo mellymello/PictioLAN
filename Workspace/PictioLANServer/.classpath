@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="C:/Users/Calixte/Documents/GitHub/PictioLAN/Workspace/PictioLANServer/mysql-connector-java-5.1.27/mysql-connector-java-5.1.27-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Magali/Documents/HES/GEN/GEN_Projet/GIT_GEN/PictioLAN/Workspace/PictioLANServer/mysql-connector-java-5.1.27/mysql-connector-java-5.1.27-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

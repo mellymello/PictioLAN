@@ -1,52 +1,57 @@
 package server;
 
+import gui.JConfiguration;
+import gui.JServer;
+import gui.ViewDictionary;
+
 import java.io.IOException;
-import java.net.InetAddress;
 import connexion.*;
+import dictionary.Dictionary;
 
 public class Server {
 	
-	Thread threadListener;
-	ServerListener listener;
+	private Thread threadListener;
+	private ServerListener listener;
 	
-	InetAddress ip;
+	private Configuration config;
+	private JConfiguration viewConfig;
+	
+	private Dictionary dictionary;
+	private ViewDictionary viewDictionary;
+	
+	JServer viewServer;
+	
 	int port;
 	
-	public Server() {
+	public Server(int p ) {
 
-	}
-	
-//	public InetAddress getLocalIP() {
-//	    
-//		try 
-//	    {
-//	      InetAddress addr = InetAddress.getLocalHost();
-//	  
-//	      byte[] ipAddr = addr.getAddress();
-//	      String hostname = addr.getHostName();
-//	      
-//	    } catch (UnknownHostException e) {}
-//	}
-	
-	//Lance le thread qui permet d'écouter le socket
-	public void startListener() {
+		port = p;
 		
+		//Création Listener
 		try {
-			listener = new ServerListener(port);
+			listener = new ServerListener();
 		
 		} catch (IOException e) {
 			e.printStackTrace(); 
 		}
 		
+		//Creation configuration
+		config = new Configuration();
+		viewConfig = new JConfiguration(config);
+		
+		//Dictionnaire
+		dictionary = new Dictionary();
+		viewDictionary = new ViewDictionary(dictionary);
+		
+		viewServer = new JServer(viewConfig, viewDictionary);
+	}
+	
+	//Lance le thread qui permet d'écouter le socket
+	public void startListener() {
 		threadListener.start();
 	}
 	
-	//Lance le thread qui permet de configurer le serveur
-	public void startConfiguration() {
-		
-	}
-	
-	public static void main (String[] args){
-		Server server = new Server();
+	public static void main (String[] args) {
+		Server server = new Server(3333);
 	}
 }
