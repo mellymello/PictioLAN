@@ -16,8 +16,6 @@ public class JServer extends JFrame{
    
    public JServer(JConfiguration config, ViewDictionary dic){
 	   
-	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	   
 	  jp1 = config;
 	  jp2 = dic;
 	  
@@ -31,8 +29,7 @@ public class JServer extends JFrame{
       
       this.setTitle("Fenetre avec un JTabbedPane");
       this.getContentPane().add(panelOnglet);
-//      this.setSize(500,500);
-      pack();
+      this.setSize(500,500);
       this.setVisible(true);
    }
 }

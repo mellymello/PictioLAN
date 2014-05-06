@@ -105,31 +105,9 @@ public class ViewDictionary extends JPanel {
 			}
 		});
 		
-		deleteCatButton = new JButton("Remove Category");
-		deleteCatButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Removing category");
-				
-			}
-		});
-		
-		deleteWordButton = new JButton("Remove Word");
-		deleteWordButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("removing word");
-				
-			}
-		});
-		
 		buttonsPanel.add(refreshButton);
 		buttonsPanel.add(addCatButton);
 		buttonsPanel.add(addWordButton);
-		buttonsPanel.add(deleteCatButton);
-		buttonsPanel.add(deleteWordButton);
 		
 		
 		add(listsPanel,BorderLayout.CENTER);
