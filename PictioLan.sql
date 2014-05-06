@@ -3,7 +3,6 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mar 06 Mai 2014 à 08:03
 -- Version du serveur: 5.6.12-log
 -- Version de PHP: 5.4.12
 
@@ -42,12 +41,16 @@ CREATE TABLE IF NOT EXISTS `category` (
 INSERT INTO `category` (`ID_Category`, `Name`) VALUES
 (1, 'Animaux'),
 (2, 'Fruits'),
-(3, 'Légumes'),
+(3, 'Legumes'),
 (4, 'Sports');
 
 -- --------------------------------------------------------
 
+-- Structure de la table `player`
 --
+
+CREATE TABLE IF NOT EXISTS `player` (
+=======
 -- Structure de la table `players`
 --
 
@@ -90,7 +93,11 @@ CREATE TABLE IF NOT EXISTS `stats` (
 
 -- --------------------------------------------------------
 
+-- Structure de la table `word`
 --
+
+CREATE TABLE IF NOT EXISTS `word` (
+=======
 -- Structure de la table `words`
 --
 
@@ -101,6 +108,14 @@ CREATE TABLE IF NOT EXISTS `words` (
   PRIMARY KEY (`ID_Word`),
   UNIQUE KEY `ID_IND` (`ID_Word`),
   KEY `FKContain_IND` (`ID_Category`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=114 ;
+
+--
+-- Contenu de la table `word`
+--
+
+INSERT INTO `word` (`ID_Word`, `Word`, `ID_Category`) VALUES
+=======
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
 
 --
@@ -160,6 +175,68 @@ INSERT INTO `words` (`ID_Word`, `Word`, `ID_Category`) VALUES
 (50, 'Souris', '1'),
 (51, 'Taupe', '1'),
 (52, 'Vache', '1'),
+(53, 'Zèbre', '1'),
+(54, 'Abricot', '2'),
+(55, 'Ananas', '2'),
+(56, 'Banane', '2'),
+(57, 'Cerise', '2'),
+(58, 'Citron', '2'),
+(59, 'Fraise', '2'),
+(60, 'Framboise', '2'),
+(61, 'Kiwi', '2'),
+(62, 'Mangue', '2'),
+(63, 'Melon', '2'),
+(64, 'Mûre', '2'),
+(65, 'Noisette', '2'),
+(66, 'Noix de coco', '2'),
+(67, 'Orange', '2'),
+(68, 'Pastèque', '2'),
+(69, 'Poire', '2'),
+(70, 'Pomme', '2'),
+(71, 'Raisin', '2'),
+(72, 'Ail', '3'),
+(73, 'Asperge', '3'),
+(74, 'Brocoli', '3'),
+(75, 'Carotte', '3'),
+(76, 'Champignon', '3'),
+(77, 'Chou', '3'),
+(78, 'Citrouille', '3'),
+(79, 'Concombre', '3'),
+(80, 'Courgette', '3'),
+(81, 'Epinard', '3'),
+(82, 'Haricot', '3'),
+(83, 'Laitue', '3'),
+(84, 'Maïs', '3'),
+(85, 'Oignon', '3'),
+(86, 'Radis', '3'),
+(87, 'Aerobic', '4'),
+(88, 'Badminton', '4'),
+(89, 'Baseball', '4'),
+(90, 'Basketball', '4'),
+(91, 'Billard', '4'),
+(92, 'Boomerang', '4'),
+(93, 'Bowling', '4'),
+(94, 'Course', '4'),
+(95, 'Cyclisme', '4'),
+(96, 'Danse', '4'),
+(97, 'Equitation', '4'),
+(98, 'Escrime', '4'),
+(99, 'Football', '4'),
+(100, 'Golf', '4'),
+(101, 'Gymnastique', '4'),
+(102, 'Handball', '4'),
+(103, 'Hockey', '4'),
+(104, 'Karaté', '4'),
+(105, 'Natation', '4'),
+(106, 'Paintball', '4'),
+(107, 'Parachutisme', '4'),
+(108, 'Pétanque', '4'),
+(109, 'Rugby', '4'),
+(110, 'Ski', '4'),
+(111, 'Snowboard', '4'),
+(112, 'Tennis', '4'),
+(113, 'Volleyball', '4');
+=======
 (53, 'Zèbre', '1');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
