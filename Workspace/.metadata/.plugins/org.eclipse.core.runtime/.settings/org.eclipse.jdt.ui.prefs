@@ -1,20 +1,19 @@
-#Tue May 06 03:44:54 CEST 2014
-content_assist_proposals_foreground=0,0,0
-spelling_locale_initialized=true
-org.eclipse.jdt.ui.text.templates_migrated=true
-useAnnotationsPrefPage=true
-eclipse.preferences.version=1
-org.eclipse.jface.textfont=1|Courier New|10.0|0|WINDOWS|1|0|0|0|0|0|0|0|0|1|0|0|0|0|Courier New;
-tabWidthPropagated=true
-org.eclipse.jdt.ui.editor.tab.width=
-fontPropagated=true
-org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
-org.eclipse.jdt.ui.javadoclocations.migrated=true
-proposalOrderMigrated=true
-org.eclipse.jdt.ui.formatterprofiles.version=11
-content_assist_proposals_background=255,255,255
-content_assist_number_of_computers=13
-useQuickDiffPrefPage=true
-org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
 content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="connexion.ClientHandler"><rhs name\="connexion.ClientHandler"/></lhs><lhs name\="java.lang.Runnable"><rhs name\="connexion.ServerListener"/></lhs><lhs name\="connexion.ServerListener"><rhs name\="connexion.ServerListener"/></lhs><lhs name\="java.io.Closeable"><rhs name\="java.net.Socket"/></lhs><lhs name\="java.lang.AutoCloseable"><rhs name\="java.net.Socket"/></lhs><lhs name\="java.net.Socket"><rhs name\="java.net.Socket"/></lhs><lhs name\="game.GameRound"><rhs name\="game.GameRound"/></lhs><lhs name\="java.util.List"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="java.util.Deque"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="java.lang.Cloneable"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="java.util.Collection"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="java.lang.Iterable"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="java.util.Queue"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="java.util.AbstractSequentialList"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="java.util.AbstractList"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="java.util.AbstractCollection"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="java.util.LinkedList"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="server.Configuration"><rhs name\="server.Configuration"/></lhs><lhs name\="javax.swing.JPanel"><rhs name\="gui.JConfiguration"/><rhs name\="gui.ViewDictionary"/><rhs name\="javax.swing.JPanel"/></lhs><lhs name\="javax.accessibility.Accessible"><rhs name\="gui.JConfiguration"/><rhs name\="gui.ViewDictionary"/><rhs name\="javax.swing.JButton"/><rhs name\="javax.swing.JPanel"/><rhs name\="javax.swing.JTextArea"/><rhs name\="javax.swing.JLabel"/></lhs><lhs name\="javax.swing.JComponent"><rhs name\="gui.JConfiguration"/><rhs name\="gui.ViewDictionary"/><rhs name\="javax.swing.JButton"/><rhs name\="javax.swing.JPanel"/><rhs name\="javax.swing.JTextArea"/><rhs name\="javax.swing.JLabel"/></lhs><lhs name\="javax.swing.TransferHandler$HasGetTransferHandler"><rhs name\="gui.JConfiguration"/><rhs name\="gui.ViewDictionary"/><rhs name\="javax.swing.JButton"/><rhs name\="javax.swing.JPanel"/><rhs name\="javax.swing.JTextArea"/><rhs name\="javax.swing.JLabel"/></lhs><lhs name\="java.awt.Container"><rhs name\="gui.JConfiguration"/><rhs name\="gui.ViewDictionary"/><rhs name\="javax.swing.JButton"/><rhs name\="javax.swing.JPanel"/><rhs name\="javax.swing.JTextArea"/><rhs name\="javax.swing.JLabel"/></lhs><lhs name\="java.awt.Component"><rhs name\="gui.JConfiguration"/><rhs name\="gui.ViewDictionary"/><rhs name\="javax.swing.JButton"/><rhs name\="javax.swing.JPanel"/><rhs name\="javax.swing.JTextArea"/><rhs name\="javax.swing.JLabel"/></lhs><lhs name\="java.awt.image.ImageObserver"><rhs name\="gui.JConfiguration"/><rhs name\="gui.ViewDictionary"/><rhs name\="javax.swing.JButton"/><rhs name\="javax.swing.JPanel"/><rhs name\="javax.swing.JTextArea"/><rhs name\="javax.swing.JLabel"/></lhs><lhs name\="java.awt.MenuContainer"><rhs name\="gui.JConfiguration"/><rhs name\="gui.ViewDictionary"/><rhs name\="javax.swing.JButton"/><rhs name\="javax.swing.JPanel"/><rhs name\="javax.swing.JTextArea"/><rhs name\="javax.swing.JLabel"/></lhs><lhs name\="gui.JConfiguration"><rhs name\="gui.JConfiguration"/></lhs><lhs name\="dictionary.Dictionary"><rhs name\="dictionary.Dictionary"/></lhs><lhs name\="gui.ViewDictionary"><rhs name\="gui.ViewDictionary"/></lhs><lhs name\="javax.swing.AbstractButton"><rhs name\="javax.swing.JButton"/></lhs><lhs name\="java.awt.ItemSelectable"><rhs name\="javax.swing.JButton"/></lhs><lhs name\="javax.swing.SwingConstants"><rhs name\="javax.swing.JButton"/><rhs name\="javax.swing.JLabel"/></lhs><lhs name\="javax.swing.JButton"><rhs name\="javax.swing.JButton"/></lhs><lhs name\="java.awt.LayoutManager"><rhs name\="java.awt.GridLayout"/><rhs name\="java.awt.BorderLayout"/></lhs><lhs name\="java.awt.GridLayout"><rhs name\="java.awt.GridLayout"/></lhs><lhs name\="javax.swing.text.JTextComponent"><rhs name\="javax.swing.JTextArea"/></lhs><lhs name\="javax.swing.Scrollable"><rhs name\="javax.swing.JTextArea"/></lhs><lhs name\="javax.swing.JTextArea"><rhs name\="javax.swing.JTextArea"/></lhs><lhs name\="javax.swing.JLabel"><rhs name\="javax.swing.JLabel"/></lhs></history>
+content_assist_number_of_computers=13
+content_assist_proposals_background=255,255,255
+content_assist_proposals_foreground=0,0,0
+eclipse.preferences.version=1
+fontPropagated=true
+org.eclipse.jdt.ui.editor.tab.width=
+org.eclipse.jdt.ui.formatterprofiles.version=12
+org.eclipse.jdt.ui.javadoclocations.migrated=true
 org.eclipse.jdt.ui.text.code_templates_migrated=true
+org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
+org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
+org.eclipse.jdt.ui.text.templates_migrated=true
+org.eclipse.jface.textfont=1|Consolas|10.0|0|WINDOWS|1|0|0|0|0|0|0|0|0|1|0|0|0|0|Consolas;
+proposalOrderMigrated=true
+spelling_locale_initialized=true
+tabWidthPropagated=true
+useAnnotationsPrefPage=true
+useQuickDiffPrefPage=true
