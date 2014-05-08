@@ -17,7 +17,7 @@ import javax.swing.ListModel;
 
 import dictionary.Dictionary;
 
-public class ViewDictionary extends JPanel {
+public class JDictionary extends JPanel {
 
 	private Dictionary dictionary;
 
@@ -40,7 +40,7 @@ public class ViewDictionary extends JPanel {
 	
 	
 	
-	public ViewDictionary(Dictionary d){
+	public JDictionary(Dictionary d){
 		
 		dictionary = d;
 		

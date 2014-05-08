@@ -2,7 +2,7 @@ package server;
 
 import gui.JConfiguration;
 import gui.JServer;
-import gui.ViewDictionary;
+import gui.JDictionary;
 
 import java.io.IOException;
 import connexion.*;
@@ -17,7 +17,7 @@ public class Server {
 	private JConfiguration viewConfig;
 	
 	private Dictionary dictionary;
-	private ViewDictionary viewDictionary;
+	private JDictionary viewDictionary;
 	
 	JServer viewServer;
 	
@@ -41,7 +41,7 @@ public class Server {
 		
 		//Dictionnaire
 		dictionary = new Dictionary();
-		viewDictionary = new ViewDictionary(dictionary);
+		viewDictionary = new JDictionary(dictionary);
 		
 		viewServer = new JServer(viewConfig, viewDictionary);
 	}

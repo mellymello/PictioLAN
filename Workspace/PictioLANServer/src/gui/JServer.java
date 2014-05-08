@@ -12,10 +12,10 @@ import javax.swing.JTabbedPane;
 public class JServer extends JFrame{
    private JTabbedPane panelOnglet;
    private JConfiguration jp1;
-   private ViewDictionary jp2;
+   private JDictionary jp2;
 
    
-   public JServer(JConfiguration config, ViewDictionary dic){
+   public JServer(JConfiguration config, JDictionary dic){
 	   
 	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	   setPreferredSize(new Dimension(275,350));
