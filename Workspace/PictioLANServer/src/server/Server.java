@@ -1,10 +1,12 @@
 package server;
 
 import gui.JConfiguration;
+import gui.JGamer;
 import gui.JServer;
 import gui.JDictionary;
 
 import java.io.IOException;
+
 import connexion.*;
 import dictionary.Dictionary;
 
@@ -15,6 +17,7 @@ public class Server {
 	
 	private Configuration config;
 	private JConfiguration viewConfig;
+	private JGamer viewGamers;
 	
 	private Dictionary dictionary;
 	private JDictionary viewDictionary;
@@ -39,11 +42,15 @@ public class Server {
 		config = new Configuration();
 		viewConfig = new JConfiguration(config);
 		
+		
 		//Dictionnaire
 		dictionary = new Dictionary();
 		viewDictionary = new JDictionary(dictionary);
 		
-		viewServer = new JServer(viewConfig, viewDictionary);
+		//Gamers
+		viewGamers = new JGamer();
+		
+		viewServer = new JServer(viewConfig, viewDictionary,viewGamers);
 	}
 	
 	//Lance le thread qui permet d'écouter le socket
