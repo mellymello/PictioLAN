@@ -1,18 +1,14 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
-import server.Configuration;
+import server.*;
 
 public class JConfiguration extends JPanel{
 	
-	private Configuration config;
+	private Server config;
 	
 	private JPanel grid = new JPanel();
 	
@@ -20,7 +16,7 @@ public class JConfiguration extends JPanel{
 	private JButton buttonStop;
 	private JLabel info;
 	
-	public JConfiguration(Configuration c) {
+	public JConfiguration(Server c) {
 		config = c;
 		
 		grid.setLayout(new BorderLayout());
