@@ -34,13 +34,12 @@ public class ServerListener implements Runnable {
 			
 		try {
 			Socket s = socket.accept();
-			client = new ClientHandler(s);
+			client.setConnexion(s);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	
-	}
-	
+	}	
 }
 

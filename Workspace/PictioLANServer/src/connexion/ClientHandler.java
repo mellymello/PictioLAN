@@ -13,8 +13,9 @@ package connexion;
 
 import java.net.Socket;
 import game.*;
+import gamer.ManageGamer;
 
-public class ClientHandler {
+public class ClientHandler implements Runnable {
 	
 	Socket connexion;
 	ActiveGamer gamer;
@@ -32,7 +33,16 @@ public class ClientHandler {
 	
 	//TODO : utilisr la méthode authentification du Gamer pour authentifier la connexion
 	//Si l'authentification échoue, on ferme le socket et la connexion.
-	public void Authentification() {
+	
+	public void run() {
 		
+		//Attend le pseudo de l'utilisateur
+		String pseudo = "magali";
+		
+		//Attend le mot de passe
+		String password = "1234";
+		
+		//Retourner le resultat
+		gamer = ManageGamer.Authentification(pseudo, password);
 	}
 }

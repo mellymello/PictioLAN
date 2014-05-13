@@ -1,16 +1,15 @@
 package dictionary;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Random;
 
+import server.BDConnexion;
+
 public class Dictionary
 {
-	private Connection conn;
 	private Statement stmt;
 
 	/* TODO
@@ -18,16 +17,7 @@ public class Dictionary
 	 */
 	public Dictionary()
 	{
-		try {
-
-			conn = DriverManager
-					.getConnection("jdbc:mysql://localhost:3306/pictiolan?"
-							+ "user=root&password=");
-			stmt = (Statement) conn.createStatement();
-		} catch (SQLException ex) 
-		{
-			System.out.println("Impossible to connect to the database !\nTurn the server on and retry");
-		}
+		this.stmt = BDConnexion.bd.stmt;
 	}
 	
 	/* TODO
@@ -87,8 +77,7 @@ public class Dictionary
 	 */
 	public LinkedList<String> getListWordCategory(String Category) 
 	{
-		String requete = "SELECT Word FROM `Word` WHERE Category.Name = " + Category 
-				+ "INNER JOIN Category ON Category.ID_Category = Words.ID_Category";
+		String requete = "SELECT Word FROM words INNER JOIN category ON category.ID_Category = words.ID_Category WHERE category.Name = \""+Category+ "\"";
 		LinkedList<String> listeWordCat = new LinkedList<String>();
 
 		ResultSet res;
@@ -103,19 +92,6 @@ public class Dictionary
 		}
 
 		return listeWordCat;
-	}
-	
-	public void closeConnection() {
-
-		try {
-			if (stmt != null)
-				stmt.close(); // This closes ResultSet too
-			if (conn != null)
-				conn.close();
-		} catch (SQLException ex) {
-			System.out.println("Impossible to close the database connection !");
-		}
-
 	}
 	
 }

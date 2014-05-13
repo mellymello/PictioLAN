@@ -18,10 +18,12 @@ package server;
  */
 
 import gui.JConfiguration;
+import gui.JGamer;
 import gui.JServer;
-import gui.ViewDictionary;
+import gui.JDictionary;
 
 import java.io.IOException;
+
 import connexion.*;
 import dictionary.Dictionary;
 
@@ -34,10 +36,11 @@ public class Server {
 	//Modèle et vue pour la configuration
 	int port;
 	private JConfiguration viewConfig;
+	private JGamer viewGamers;
 	
 	//Modèle et vue pour la gestion du dictionnaire
 	private Dictionary dictionary;
-	private ViewDictionary viewDictionary;
+	private JDictionary viewDictionary;
 	
 	//TODO Modèle et vue pour la gestion des parties actives
 	
@@ -62,16 +65,18 @@ public class Server {
 		
 		//Création configuration
 		viewConfig = new JConfiguration(this);
-		
-		//Création Dictionnaire
+
 		dictionary = new Dictionary();
-		viewDictionary = new ViewDictionary(dictionary);
+		viewDictionary = new JDictionary(dictionary);
+		
+		//Gamers
+		viewGamers = new JGamer();
 		
 		//TODO Création éléments pour la gestion des joueurs
 		
 		//TODO Création éléments pour la gestion des parties en cours
 		
-		viewServer = new JServer(viewConfig, viewDictionary);
+		viewServer = new JServer(viewConfig, viewDictionary,viewGamers);
 	}
 	
 	//Modèle pour la configuration
@@ -80,6 +85,7 @@ public class Server {
 	
 	//Lance le thread qui permet d'écouter le socket
 	public void startListener() {
+		threadListener = new Thread(listener);
 		threadListener.start();
 	}
 	
