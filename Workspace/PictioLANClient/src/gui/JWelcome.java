@@ -7,26 +7,32 @@ import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class JWelcome {
+public class JWelcome implements Observer{
 
 	private JFrame frame;
 	private JTextField txtAdresseIp;
     private Pattern pattern;
     private Matcher matcher;
+    
+	private boolean enable = false;
+
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
 	 
 
 	/**
@@ -110,9 +116,8 @@ public class JWelcome {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JSubscribe subscribe = new JSubscribe();
-				frame.dispose();
-				
+				JSubscribe subscribe = new JSubscribe(JWelcome.this);
+				frame.setEnabled(false);
 			}
 		});
 		
@@ -157,6 +162,13 @@ public class JWelcome {
 			}
 		});
 		
+	}
+
+
+	@Override
+	public void update(Observable arg0, Object arg1) 
+	{
+		frame.setEnabled(true);
 	}
 
 }

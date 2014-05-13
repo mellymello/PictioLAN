@@ -4,24 +4,31 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Observable;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class JSubscribe {
+public class JSubscribe extends Observable{
 
 	private JFrame frame;
 	private JTextField txtPseudo;
 	private JTextField txtPassword;
 	private JTextField txtEmail;
 
+
 	/**
 	 * Create the application.
 	 */
-	public JSubscribe() {
+	public JSubscribe(JWelcome w) {
 		initialize();
 		frame.setVisible(true);
+		this.addObserver(w);
 	}
 
 	/**
@@ -53,6 +60,15 @@ public class JSubscribe {
 		
 		JButton btnSubscribe = new JButton("Subscribe");
 		panel.add(btnSubscribe);
+		btnSubscribe.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				setChanged();
+				notifyObservers();
+				frame.dispose();			
+			}
+		});
 	}
 
 }
