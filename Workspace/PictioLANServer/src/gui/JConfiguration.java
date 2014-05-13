@@ -68,9 +68,9 @@ public class JConfiguration extends JPanel{
 			buttonStopImage = ImageIO.read(getClass().getResource(
 					"/img/stopButton.png"));
 			buttonStopIcon = new ImageIcon(buttonStopImage);
-			buttonStartPressedImage = ImageIO.read(getClass().getResource(
+			buttonStopPressedImage = ImageIO.read(getClass().getResource(
 					"/img/stopButtonPressed.png"));
-			buttonStopPressedIcon = new ImageIcon(buttonStartPressedImage);
+			buttonStopPressedIcon = new ImageIcon(buttonStopPressedImage);
 
 			buttonStop = new JButton(buttonStopPressedIcon);
 

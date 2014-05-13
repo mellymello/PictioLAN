@@ -1,0 +1,30 @@
+PLAYER_TABLE:
+
+Insertion:
+INSERT INTO Player
+VALUES (DEFAULT, "Player1", SHA1("password"), "email", NOW())
+
+Sélection:
+SELECT Pseudo, Password FROM Player
+WHERE Pseudo='Player1'
+
+
+WORD_TABLE:
+
+Insertion:
+INSERT INTO Word
+VALUES (DEFAULT, 'newWord', ID_Category)
+
+CATEGORY_TABLE:
+Insertion:
+INSERT INTO Category
+VALUES (DEFAULT, "newCategory")
+
+STATS_TABLE:
+
+Insertion:
+INSERT INTO stats
+VALUES(ID_Player, ID_Word, '00:01:30', WIN)
+(Win est un booléen)
+
+
