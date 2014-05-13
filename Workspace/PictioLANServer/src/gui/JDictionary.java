@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -13,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 
 import dictionary.Dictionary;
@@ -24,6 +26,9 @@ public class JDictionary extends JPanel {
 
 	private JList<String> words;
 	private JList<String> categories;
+
+	private JScrollPane scrollWords;
+	private JScrollPane scrollCategories;
 
 	private JPanel listsPanel;
 	private JPanel categoryPanel;
@@ -40,6 +45,9 @@ public class JDictionary extends JPanel {
 	private JButton deleteCatButton;
 	private JButton deleteWordButton;
 
+	private String selectedCat;
+	private String selectedWord;
+
 	public JDictionary(Dictionary d) {
 
 		dictionary = d;
@@ -47,8 +55,8 @@ public class JDictionary extends JPanel {
 		// setting layouts to components
 		setLayout(new BorderLayout());
 		listsPanel = new JPanel(new GridLayout(1, 2));
-		buttonsPanel = new JPanel(new GridLayout(1,2));
-		buttonPanelListCtrl = new JPanel(new GridLayout(2,2));
+		buttonsPanel = new JPanel(new GridLayout(1, 2));
+		buttonPanelListCtrl = new JPanel(new GridLayout(2, 2));
 
 		categoryPanel = new JPanel(new BorderLayout());
 		wordsPanel = new JPanel(new BorderLayout());
@@ -64,10 +72,12 @@ public class JDictionary extends JPanel {
 		wordsPanel.setBackground(Color.cyan);
 
 		categoryPanel.add(categoriesLabel, BorderLayout.NORTH);
-		categoryPanel.add(categories, BorderLayout.CENTER);
+		scrollCategories = new JScrollPane(categories);
+		categoryPanel.add(scrollCategories, BorderLayout.CENTER);
 
 		wordsPanel.add(wordsLabel, BorderLayout.NORTH);
-		wordsPanel.add(words, BorderLayout.CENTER);
+		scrollWords = new JScrollPane(words);
+		wordsPanel.add(scrollWords, BorderLayout.CENTER);
 
 		listsPanel.add(categoryPanel);
 		listsPanel.add(wordsPanel);
@@ -77,11 +87,26 @@ public class JDictionary extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String[] s = new String[dictionary.getListCategory().size()];
+				selectedCat = categories.getSelectedValue();
 
-				for (int i = 0; i < dictionary.getListCategory().size(); i++)
-					s[i] = dictionary.getListCategory().get(i);
-				categories.setListData(s);
+				LinkedList<String> tmpCat = dictionary.getListCategory();
+				String[] cat = new String[tmpCat.size()];
+
+				for (int i = 0; i < tmpCat.size(); i++) {
+					cat[i] = tmpCat.get(i);
+				}
+				categories.setListData(cat);
+
+				if (selectedCat != null) {
+					LinkedList<String> tmpWords = dictionary
+							.getListWordCategory(selectedCat);
+					String[] w = new String[tmpWords.size()];
+
+					for (int i = 0; i < tmpWords.size(); i++) {
+						w[i] = tmpWords.get(i);
+					}
+					words.setListData(w);
+				}
 
 			}
 		});
@@ -90,12 +115,12 @@ public class JDictionary extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Adding Category");
+
 				String c = JOptionPane.showInputDialog(null,
 						"Enter a category", "add category",
 						JOptionPane.QUESTION_MESSAGE);
 				if (c != null) {
-					System.out.println(c);
+					dictionary.addCategory(c);
 				}
 
 			}
@@ -105,11 +130,21 @@ public class JDictionary extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Adding word");
-				String w = JOptionPane.showInputDialog(null, "Enter a word",
-						"add word", JOptionPane.QUESTION_MESSAGE);
-				if (w != null) {
-					System.out.println(w);
+
+				selectedCat = categories.getSelectedValue();
+				if (selectedCat != null) {
+
+					String w = JOptionPane.showInputDialog(null,
+							"Enter a word", "add word",
+							JOptionPane.QUESTION_MESSAGE);
+					if (w != null) {
+						dictionary.addWord(w, selectedCat);
+					}
+
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"You have to select a category !", "Warning",
+							JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -119,12 +154,13 @@ public class JDictionary extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String selectedCat;
-				if((selectedCat=categories.getSelectedValue())!=null){
-					System.out.println("Removing :" +selectedCat);
-				}
-				else{
-					JOptionPane.showMessageDialog(null, "You have to select a category !","Warning", JOptionPane.WARNING_MESSAGE);
+
+				if ((selectedCat = categories.getSelectedValue()) != null) {
+					dictionary.deleteCategory(selectedCat);
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"You have to select a category !", "Warning",
+							JOptionPane.WARNING_MESSAGE);
 				}
 
 			}
@@ -135,26 +171,27 @@ public class JDictionary extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String selectedWord;
-				if((selectedWord=words.getSelectedValue())!=null){
-					System.out.println("Removing :" +selectedWord);
-				}
-				else{
-					JOptionPane.showMessageDialog(null, "You have to select a word !","Warning", JOptionPane.WARNING_MESSAGE);
+
+				if ((selectedWord = words.getSelectedValue()) != null) {
+					dictionary.deleteWord(selectedWord);
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"You have to select a word !", "Warning",
+							JOptionPane.WARNING_MESSAGE);
 				}
 
 			}
 		});
 
 		buttonsPanel.add(refreshButton);
-		
+
 		buttonPanelListCtrl.add(addCatButton);
 		buttonPanelListCtrl.add(addWordButton);
 		buttonPanelListCtrl.add(deleteCatButton);
 		buttonPanelListCtrl.add(deleteWordButton);
 
 		buttonsPanel.add(buttonPanelListCtrl);
-		
+
 		add(listsPanel, BorderLayout.CENTER);
 		add(buttonsPanel, BorderLayout.SOUTH);
 	}
