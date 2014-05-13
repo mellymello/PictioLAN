@@ -9,20 +9,19 @@ import java.awt.FlowLayout;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class JConnect {
+public class JSubscribe {
 
 	private JFrame frame;
 	private JTextField txtPseudo;
 	private JTextField txtPassword;
-
+	private JTextField txtEmail;
 
 	/**
 	 * Create the application.
 	 */
-	public JConnect() {
+	public JSubscribe() {
 		initialize();
 		frame.setVisible(true);
-		frame.pack();
 	}
 
 	/**
@@ -30,7 +29,7 @@ public class JConnect {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 450, 100);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -47,8 +46,13 @@ public class JConnect {
 		panel.add(txtPassword);
 		txtPassword.setColumns(10);
 		
-		JButton btnOk = new JButton("OK");
-		panel.add(btnOk);
+		txtEmail = new JTextField();
+		txtEmail.setText("Email");
+		panel.add(txtEmail);
+		txtEmail.setColumns(10);
+		
+		JButton btnSubscribe = new JButton("Subscribe");
+		panel.add(btnSubscribe);
 	}
 
 }
