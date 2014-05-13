@@ -11,21 +11,21 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import server.*;
 
-import server.Configuration;
 
-public class JConfiguration extends JPanel {
-
-	private Configuration config;
-
+public class JConfiguration extends JPanel{
+	
+	private Server config;
+	
+	private JPanel grid = new JPanel();
+	
 	private JButton buttonStart;
 	private BufferedImage buttonStartImage;
 	private ImageIcon buttonStartIcon;
@@ -42,7 +42,7 @@ public class JConfiguration extends JPanel {
 
 	private JPanel buttonPanel;
 	
-	public JConfiguration(Configuration c) {
+	public JConfiguration(Server c) {
 		config = c;
 
 		buttonPanel = new JPanel();
@@ -68,9 +68,9 @@ public class JConfiguration extends JPanel {
 			buttonStopImage = ImageIO.read(getClass().getResource(
 					"/img/stopButton.png"));
 			buttonStopIcon = new ImageIcon(buttonStopImage);
-			buttonStartPressedImage = ImageIO.read(getClass().getResource(
+			buttonStopPressedImage = ImageIO.read(getClass().getResource(
 					"/img/stopButtonPressed.png"));
-			buttonStopPressedIcon = new ImageIcon(buttonStartPressedImage);
+			buttonStopPressedIcon = new ImageIcon(buttonStopPressedImage);
 
 			buttonStop = new JButton(buttonStopPressedIcon);
 

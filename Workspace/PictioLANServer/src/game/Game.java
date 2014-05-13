@@ -2,21 +2,23 @@ package game;
 
 import java.util.LinkedList;
 
+import round.Round;
+
 public class Game {
 
 	private Round[] rounds;
 	private int idActiveRound;
 	
-	private Gamer creator;
-	private LinkedList<Gamer> listGamer = new LinkedList<Gamer>();
+	private ActiveGamer creator;
+	private LinkedList<ActiveGamer> listGamer = new LinkedList<ActiveGamer>();
 	
-	public Game(int nbRounds, Gamer c) {
+	public Game(int nbRounds, ActiveGamer c) {
 		rounds = new Round[nbRounds];
 		creator = c;
 		idActiveRound = 0;
 	}
 	
-	public Gamer getCreator() {
+	public ActiveGamer getCreator() {
 		return creator;
 	}
 	
@@ -24,18 +26,18 @@ public class Game {
 		return rounds[idActiveRound];
 	}
 	
-	public void setCreator(Gamer c) {
+	public void setCreator(ActiveGamer c) {
 		creator = c;
 	}
 	
-	public void addGamer(Gamer gamer) {
+	public void addGamer(ActiveGamer gamer) {
 		listGamer.add(gamer);
 	}
 
 	/* TODO
 	 * Parcourir la liste et supprimer le gamer de la liste.
 	 */
-	public void delGamer(Gamer gamer) {
+	public void delGamer(ActiveGamer gamer) {
 		
 	}
 
