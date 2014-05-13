@@ -66,6 +66,8 @@ public class JWelcome implements Observer{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setTitle("Welcome - PictioLan");
 		
 		JPanel pButton = new JPanel();
 		frame.getContentPane().add(pButton, BorderLayout.CENTER);
@@ -105,7 +107,7 @@ public class JWelcome implements Observer{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				Client client = new Client("Client PictioLan");
 				
 			}
 		});

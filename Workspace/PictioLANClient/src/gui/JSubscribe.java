@@ -38,6 +38,8 @@ public class JSubscribe extends Observable{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 100);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setTitle("Subscribe and have an account !!!");
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
