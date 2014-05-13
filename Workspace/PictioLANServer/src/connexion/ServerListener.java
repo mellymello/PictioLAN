@@ -26,7 +26,6 @@ public class ServerListener implements Runnable {
 	
 	public ServerListener(int port) throws IOException {
 		socket = new ServerSocket(port);
-		client = new ClientHandler();
 	}
 
 	//TODO : Mettre à jour la méthode pour qu'elle accepte plusieurs connexion
@@ -34,7 +33,7 @@ public class ServerListener implements Runnable {
 			
 		try {
 			Socket s = socket.accept();
-			client.setConnexion(s);
+			client = new ClientHandler(s);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

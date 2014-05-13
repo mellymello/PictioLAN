@@ -11,38 +11,49 @@ package connexion;
  * Cette classe peut fermer un socket et mettre fin à la connexion du joueur.
  */
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import game.*;
 import gamer.ManageGamer;
 
 public class ClientHandler implements Runnable {
 	
-	Socket connexion;
+	Socket connexion = null;
 	ActiveGamer gamer;
 	ControlGame ctrGame;
+
+	BufferedReader in;
+	PrintWriter out;
 	
-	public ClientHandler(){}
-	
-	public ClientHandler(Socket s) {
+	public ClientHandler(Socket s) throws IOException {
+		
 		connexion = s;
-	}
-	
-	public void setConnexion(Socket s) {
-		connexion = s;
+		
+		in = new BufferedReader (new InputStreamReader (connexion.getInputStream()));
+		out = new PrintWriter(connexion.getOutputStream());
 	}
 	
 	//TODO : utilisr la méthode authentification du Gamer pour authentifier la connexion
 	//Si l'authentification échoue, on ferme le socket et la connexion.
+	public boolean authentification_Client() throws IOException {
+		
+		String pseudo = in.readLine();
+		String pass = in.readLine();
+		
+		gamer =  ManageGamer.authentification_BD(pseudo, pass);
+		
+		if(gamer == null)
+			return false;
+		else
+			return true;
+	}
+	
 	
 	public void run() {
 		
-		//Attend le pseudo de l'utilisateur
-		String pseudo = "magali";
 		
-		//Attend le mot de passe
-		String password = "1234";
-		
-		//Retourner le resultat
-		gamer = ManageGamer.Authentification(pseudo, password);
 	}
 }
