@@ -1,4 +1,5 @@
-/gui
-/img
-/server
+/connexion
 /dictionary
+/game
+/gui
+/server

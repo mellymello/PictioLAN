@@ -1,5 +1,7 @@
 package gui;
 
+import gamer.ManageGamer;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -15,7 +17,7 @@ import javax.swing.JPanel;
 
 public class JGamer extends JPanel implements ItemListener{
 
-//	private LinkedList<Gamer> activesGamers;
+	private ManageGamer gamer;
 	private LinkedList<String> activesGamers;
 	
 	private LinkedList<JCheckBox> gamersCheckboxes;
@@ -60,8 +62,6 @@ public class JGamer extends JPanel implements ItemListener{
 					selectAll();
 					allSelected=true;
 				}
-				
-				
 			}
 		});
 		buttonPanel=new JPanel(new FlowLayout());
@@ -69,8 +69,6 @@ public class JGamer extends JPanel implements ItemListener{
 		
 		checkBoxPanel= new JPanel(new GridLayout(activesGamers.size(), 0));
 		setGamerCheckBoxes();
-		
-		
 		
 		this.add(checkBoxPanel,BorderLayout.CENTER);
 		this.add(buttonPanel,BorderLayout.SOUTH);
@@ -100,13 +98,7 @@ public class JGamer extends JPanel implements ItemListener{
 
 		for (int i = 0; i < gamersCheckboxes.size(); i++) {
 			if(gamersCheckboxes.get(i).equals(e.getItem())){
-				////
-				///
-				//
-				System.out.println(activesGamers.get(i));
-				//
-				///
-				////
+				
 			}
 		}
 		

@@ -1,22 +1,23 @@
 package dictionary;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
 
-public class Dictionary {
-	private Connection conn;
+import server.BDConnexion;
+
+public class Dictionary
+{
+
 	private Statement stmt;
 
 	/*
 	 * TODO Connexion avec la base de donnée
 	 */
+
 	public Dictionary() {
 		try {
 
@@ -31,7 +32,8 @@ public class Dictionary {
 							"Impossible to connect to the database !\nTurn the server on and retry",
 							"Error", JOptionPane.ERROR_MESSAGE);
 		}
-	}
+
+
 
 	public int getCategoryID(String category) throws SQLException {
 		int id = -1;
@@ -223,6 +225,7 @@ public class Dictionary {
 	
 	 stmt.executeUpdate(requete);
 	
+
 	 } catch (SQLException e) {
 	 JOptionPane.showMessageDialog(null,
 	 "Impossible to delete word : "+word,
