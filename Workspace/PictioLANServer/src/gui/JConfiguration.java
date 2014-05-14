@@ -24,7 +24,6 @@ public class JConfiguration extends JPanel{
 	
 	private Server config;
 	
-	private JPanel grid = new JPanel();
 	
 	private JButton buttonStart;
 	private BufferedImage buttonStartImage;
@@ -92,7 +91,9 @@ public class JConfiguration extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+			
 				System.out.println("Starting UP");
+				config.startListener();
 				buttonStart.setIcon(buttonStartPressedIcon);
 				buttonStop.setIcon(buttonStopIcon);
 				
@@ -105,6 +106,7 @@ public class JConfiguration extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Shut Down NOW !");
+				config.stopListener();
 				buttonStop.setIcon(buttonStopPressedIcon);
 				buttonStart.setIcon(buttonStartIcon);
 

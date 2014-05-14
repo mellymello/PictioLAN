@@ -35,6 +35,7 @@ public class Dictionary {
 							null,
 							"Impossible to connect to the database !\nTurn the server on and retry",
 							"Error", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		}
 
 	}
