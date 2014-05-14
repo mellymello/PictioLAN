@@ -1,18 +1,22 @@
 package dictionary;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
 
-import server.BDConnexion;
 
-public class Dictionary
-{
+public class Dictionary {
 
+	private Connection conn;
 	private Statement stmt;
+
+
 
 	/*
 	 * TODO Connexion avec la base de donnée
@@ -33,7 +37,7 @@ public class Dictionary
 							"Error", JOptionPane.ERROR_MESSAGE);
 		}
 
-
+	}
 
 	public int getCategoryID(String category) throws SQLException {
 		int id = -1;
@@ -217,26 +221,24 @@ public class Dictionary
 
 	}
 
-	 public void deleteWord(String word) {
-	
-	 String requete = "DELETE FROM word WHERE word=\""+word+"\"";
-	
-	 try {
-	
-	 stmt.executeUpdate(requete);
-	
+	public void deleteWord(String word) {
 
-	 } catch (SQLException e) {
-	 JOptionPane.showMessageDialog(null,
-	 "Impossible to delete word : "+word,
-	 "Error", JOptionPane.ERROR_MESSAGE);
-	 return;
-	 }
-	
-	 JOptionPane.showMessageDialog(null, "Deleted "+word,
-	 "Done", JOptionPane.INFORMATION_MESSAGE);
-	
-	 }
+		String requete = "DELETE FROM word WHERE word=\"" + word + "\"";
+
+		try {
+
+			stmt.executeUpdate(requete);
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Impossible to delete word : "
+					+ word, "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		JOptionPane.showMessageDialog(null, "Deleted " + word, "Done",
+				JOptionPane.INFORMATION_MESSAGE);
+
+	}
 
 	public void closeConnection() {
 

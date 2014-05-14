@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -89,27 +91,48 @@ public class JDictionary extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				selectedCat = categories.getSelectedValue();
 
-				LinkedList<String> tmpCat = dictionary.getListCategory();
-				String[] cat = new String[tmpCat.size()];
-
-				for (int i = 0; i < tmpCat.size(); i++) {
-					cat[i] = tmpCat.get(i);
-				}
-				categories.setListData(cat);
-
-				if (selectedCat != null) {
-					LinkedList<String> tmpWords = dictionary
-							.getListWordCategory(selectedCat);
-					String[] w = new String[tmpWords.size()];
-
-					for (int i = 0; i < tmpWords.size(); i++) {
-						w[i] = tmpWords.get(i);
-					}
-					words.setListData(w);
-				}
+				
+				refreshCategoriesList();
+				refreshWordList();
 
 			}
 		});
+
+		categories.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// Not used ;-)
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// Not used ;-)
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// Not used ;-)
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// Not used ;-)
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selectedCat = categories.getSelectedValue();
+
+			refreshWordList();
+
+			}
+		});
+
 		addCatButton = new JButton("Add Category");
 		addCatButton.addActionListener(new ActionListener() {
 
@@ -121,6 +144,7 @@ public class JDictionary extends JPanel {
 						JOptionPane.QUESTION_MESSAGE);
 				if (c != null) {
 					dictionary.addCategory(c);
+					refreshCategoriesList();
 				}
 
 			}
@@ -139,6 +163,7 @@ public class JDictionary extends JPanel {
 							JOptionPane.QUESTION_MESSAGE);
 					if (w != null) {
 						dictionary.addWord(w, selectedCat);
+						refreshWordList();
 					}
 
 				} else {
@@ -157,6 +182,7 @@ public class JDictionary extends JPanel {
 
 				if ((selectedCat = categories.getSelectedValue()) != null) {
 					dictionary.deleteCategory(selectedCat);
+					refreshCategoriesList();
 				} else {
 					JOptionPane.showMessageDialog(null,
 							"You have to select a category !", "Warning",
@@ -174,6 +200,7 @@ public class JDictionary extends JPanel {
 
 				if ((selectedWord = words.getSelectedValue()) != null) {
 					dictionary.deleteWord(selectedWord);
+					refreshWordList();
 				} else {
 					JOptionPane.showMessageDialog(null,
 							"You have to select a word !", "Warning",
@@ -194,5 +221,29 @@ public class JDictionary extends JPanel {
 
 		add(listsPanel, BorderLayout.CENTER);
 		add(buttonsPanel, BorderLayout.SOUTH);
+	}
+
+	private void refreshWordList() {
+		if (selectedCat != null) {
+
+			LinkedList<String> tmpWords = dictionary
+					.getListWordCategory(selectedCat);
+			String[] w = new String[tmpWords.size()];
+
+			for (int i = 0; i < tmpWords.size(); i++) {
+				w[i] = tmpWords.get(i);
+			}
+			words.setListData(w);
+		}
+	}
+	
+	private void refreshCategoriesList(){
+		LinkedList<String> tmpCat = dictionary.getListCategory();
+		String[] cat = new String[tmpCat.size()];
+
+		for (int i = 0; i < tmpCat.size(); i++) {
+			cat[i] = tmpCat.get(i);
+		}
+		categories.setListData(cat);
 	}
 }
