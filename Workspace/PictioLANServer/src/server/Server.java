@@ -17,6 +17,7 @@ package server;
  * qui permmettent de lancer un thread pour accepter les connexions TCP des joueurs.
  */
 
+import gamer.ManageGamer;
 import gui.JConfiguration;
 import gui.JGamer;
 import gui.JServer;
@@ -36,6 +37,8 @@ public class Server {
 	//Modèle et vue pour la configuration
 	int port;
 	private JConfiguration viewConfig;
+	
+	private ManageGamer managGamers;
 	private JGamer viewGamers;
 	
 	//Modèle et vue pour la gestion du dictionnaire
@@ -70,7 +73,8 @@ public class Server {
 		viewDictionary = new JDictionary(dictionary);
 		
 		//Gamers
-		viewGamers = new JGamer();
+		managGamers= new ManageGamer();
+		viewGamers = new JGamer(managGamers);
 		
 		//TODO Création éléments pour la gestion des joueurs
 		

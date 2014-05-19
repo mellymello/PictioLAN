@@ -217,7 +217,7 @@ public class Dictionary {
 			return;
 		}
 
-		JOptionPane.showMessageDialog(null, "Deleted " + category, "Done",
+		JOptionPane.showMessageDialog(null, "Deleted category :" + category, " !",
 				JOptionPane.INFORMATION_MESSAGE);
 
 	}
@@ -236,7 +236,7 @@ public class Dictionary {
 			return;
 		}
 
-		JOptionPane.showMessageDialog(null, "Deleted " + word, "Done",
+		JOptionPane.showMessageDialog(null, "Deleted word :" + word, " !",
 				JOptionPane.INFORMATION_MESSAGE);
 
 	}
