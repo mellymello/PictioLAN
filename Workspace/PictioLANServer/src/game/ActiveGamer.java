@@ -3,7 +3,6 @@ package game;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
-
 import server.BDConnexion;
 
 /*
@@ -25,11 +24,14 @@ public class ActiveGamer {
 	public ActiveGamer(String p, boolean c) {
 		pseudo = p;
 		gameCreator = c;
-	
 	}
 	
 	public void setPseudo(String p) {
 		pseudo = p;
+	}
+	
+	public String getPseudo(){
+		return pseudo;
 	}
 	
 	public void setCreateurPartie(boolean isCreator) {

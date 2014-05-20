@@ -15,20 +15,25 @@ import java.awt.event.MouseListener;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
+import connection.ConnectionServer;
+
 public class JConnect {
 
 	private JFrame frame;
 	private JTextField txtPseudo;
 	private JTextField txtPassword;
 
-
+	private ConnectionServer connServer;
+	
 	/**
 	 * Create the application.
 	 */
-	public JConnect() {
+	public JConnect(ConnectionServer c) {
 		initialize();
 		frame.setVisible(true);
 		frame.pack();
+		
+		connServer = c;
 	}
 
 	/**
@@ -124,8 +129,12 @@ public class JConnect {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Client client = new Client ("Client PictioLan");
 				
+				//Authentification !!
+				connServer.setPseudo(txtPseudo.getText());
+				connServer.setPassword(txtPassword.getText());
+				connServer.authentification("AUTH_CONNECT");
+				//Authentification !!
 			}
 		});
 	}

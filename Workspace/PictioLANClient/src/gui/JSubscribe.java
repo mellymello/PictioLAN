@@ -14,21 +14,27 @@ import java.util.Observable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
+import connection.ConnectionServer;
+
 public class JSubscribe extends Observable{
 
 	private JFrame frame;
 	private JTextField txtPseudo;
 	private JTextField txtPassword;
 	private JTextField txtEmail;
+	
+	private ConnectionServer connServer;
 
 
 	/**
 	 * Create the application.
 	 */
-	public JSubscribe(JWelcome w) {
+	public JSubscribe(JWelcome w, ConnectionServer c) {
 		initialize();
 		frame.setVisible(true);
 		this.addObserver(w);
+		
+		connServer = c;
 	}
 
 	/**
@@ -68,7 +74,18 @@ public class JSubscribe extends Observable{
 			public void actionPerformed(ActionEvent arg0) {
 				setChanged();
 				notifyObservers();
-				frame.dispose();			
+				frame.dispose();
+				
+				//Connexion au serveur !!
+				connServer.setIP("127.0.0.1");
+				connServer.launchConnexion();
+				//Connexion au serveur !!
+				//Subscribe
+				connServer.setPseudo(txtPseudo.getText());
+				connServer.setPassword(txtPassword.getText());
+				connServer.setEmail(txtEmail.getText());
+				connServer.authentification("AUTH_SUBSCRIBE");
+				//Subscribe
 			}
 		});
 	}

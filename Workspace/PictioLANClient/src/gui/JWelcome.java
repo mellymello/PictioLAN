@@ -1,10 +1,7 @@
 package gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -17,9 +14,10 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.swing.JButton;
 import javax.swing.JTextField;
+
+import connection.ConnectionServer;
 
 public class JWelcome implements Observer{
 
@@ -30,33 +28,20 @@ public class JWelcome implements Observer{
     
 	private boolean enable = false;
 
+	ConnectionServer connServer;
+	
 	public void setEnable(boolean enable) {
 		this.enable = enable;
 	}
 	 
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JWelcome window = new JWelcome();
-					window.frame.setVisible(true);
-					window.frame.pack();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the application.
 	 */
-	public JWelcome() {
+	public JWelcome(ConnectionServer server) {
+		connServer = server;
 		initialize();
+		frame.setVisible(true);
+		frame.pack();
 	}
 
 	/**
@@ -80,24 +65,25 @@ public class JWelcome implements Observer{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
+//				boolean isIpValide = true;
+//				try {
+//					InetAddress ip = InetAddress.getByName(txtAdresseIp.getText());
+//				}
+//				catch (UnknownHostException uhe) {
+//					txtAdresseIp.setText("");
+//					isIpValide = false;
+//				}
 				
-				boolean isIpValide = true;
-				try
-				{
-					InetAddress ip = InetAddress.getByName(txtAdresseIp.getText());
-				}
-				catch (UnknownHostException uhe)
-				{
-				
-					txtAdresseIp.setText("");
-					isIpValide = false;
-				}
-				if (isIpValide == true)
-				{
-					JConnect connect = new JConnect();
+				//if (isIpValide == true) {
+					
+					//Connexion au serveur !!
+					connServer.setIP(txtAdresseIp.getText());
+					connServer.launchConnexion();
+					//Connexion au serveur !!
+					
+					JConnect connect = new JConnect(connServer);
 					frame.dispose();
-				}
-
+				//}
 			}
 		});
 		
@@ -107,8 +93,13 @@ public class JWelcome implements Observer{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Client client = new Client("Client PictioLan");
 				
+				//Connexion au serveur !!
+				connServer.setIP(txtAdresseIp.getText());
+				connServer.launchConnexion();
+				connServer.authentification("AUTH_ANONYMOUS");
+				//Client client = new Client("Client PictioLan");
+				//Connexion au serveur !!
 			}
 		});
 		
@@ -118,7 +109,7 @@ public class JWelcome implements Observer{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JSubscribe subscribe = new JSubscribe(JWelcome.this);
+				JSubscribe subscribe = new JSubscribe(JWelcome.this,connServer);
 				frame.setEnabled(false);
 			}
 		});
@@ -136,41 +127,32 @@ public class JWelcome implements Observer{
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				txtAdresseIp.setText("");
-				
 			}
 		});
-		
 	}
-
 
 	@Override
-	public void update(Observable arg0, Object arg1) 
-	{
+	public void update(Observable arg0, Object arg1) {
 		frame.setEnabled(true);
 	}
-
 }

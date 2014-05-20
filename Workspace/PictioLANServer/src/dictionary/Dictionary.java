@@ -10,18 +10,14 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
-
 public class Dictionary {
 
 	private Connection conn;
 	private Statement stmt;
 
-
-
 	/*
 	 * TODO Connexion avec la base de donnée
 	 */
-
 	public Dictionary() {
 		try {
 
@@ -37,7 +33,6 @@ public class Dictionary {
 							"Error", JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		}
-
 	}
 
 	public int getCategoryID(String category) throws SQLException {
@@ -55,10 +50,8 @@ public class Dictionary {
 			JOptionPane.showMessageDialog(null,
 					"Impossible to get the category ID for category: "
 							+ category, "Error", JOptionPane.ERROR_MESSAGE);
-
 			throw e;
 		}
-
 		return id;
 	}
 
@@ -176,7 +169,6 @@ public class Dictionary {
 				+ "\")";
 
 		try {
-
 			stmt.executeUpdate(requete);
 
 		} catch (SQLException e) {
@@ -253,7 +245,6 @@ public class Dictionary {
 					"Impossible to close the database connection !", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
-
 	}
 
 }

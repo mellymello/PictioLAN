@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 public class JGamer extends JPanel implements ItemListener{
 
-	private ManageGamer gamer;
+	//private ManageGamer manager;
 	private LinkedList<String> activesGamers;
 	
 	private LinkedList<JCheckBox> gamersCheckboxes;
@@ -29,9 +29,9 @@ public class JGamer extends JPanel implements ItemListener{
 	private JPanel checkBoxPanel;
 	
 	public JGamer(){
+		//manager = g;
 		
 		this.setLayout(new BorderLayout());
-		
 		activesGamers= new LinkedList<String>();
 		
 		//just for testing
@@ -39,7 +39,6 @@ public class JGamer extends JPanel implements ItemListener{
 		activesGamers.add("player2");
 		activesGamers.add("player3");
 		activesGamers.add("player4");
-				
 		
 		gamersCheckboxes=new LinkedList<JCheckBox>();
 		for (int i = 0; i < activesGamers.size(); i++) {
@@ -77,7 +76,6 @@ public class JGamer extends JPanel implements ItemListener{
 	private void setGamerCheckBoxes( ){
 		for (int i = 0; i < gamersCheckboxes.size(); i++) {
 			checkBoxPanel.add(gamersCheckboxes.get(i));
-			
 		}
 	}
 	
@@ -101,8 +99,5 @@ public class JGamer extends JPanel implements ItemListener{
 				
 			}
 		}
-		
 	}
-	
-	
 }
