@@ -1,6 +1,7 @@
 package gamer;
 
 import game.ActiveGamer;
+import server.BDConnexion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -11,9 +12,14 @@ import server.BDConnexion;
 
 public class ManageGamer {
 	
+
 	//Liste static des joueurs connectés et/ou authentifiés !!!
 	static LinkedList<ActiveGamer> listActiveGamer = new LinkedList<ActiveGamer>();
 	
+	public ManageGamer() {
+		
+	}
+		
 	public static ActiveGamer authentification_BD(String pseudo, String pass) {
 		
 		String requete = "SELECT password FROM player WHERE pseudo = \"" + pseudo + "\"";
@@ -76,6 +82,7 @@ public class ManageGamer {
 		return null;
 	}
 
+
 	public static LinkedList<String> getGamers(){
 		
 		LinkedList<String> gamers = new LinkedList<String>();
@@ -85,17 +92,21 @@ public class ManageGamer {
 		
 		try {
 			res = BDConnexion.bd.stmt.executeQuery(requete);
-			
-			while(res.next())
-				gamers.add(res.getString("pseudo"));
-			
+
+			while (res.next()) {
+				gamers.add(res.getString("Pseudo"));
+			}
 		} catch (SQLException e) {
-			System.out.println("Impossible to execute the request 2!");
+			JOptionPane.showMessageDialog(null,
+					"Impossible to get the words list", "Error",
+					JOptionPane.ERROR_MESSAGE);
+
 		}
-		
+
 		return gamers;
 	}
 	
+
 	public static boolean checkPseudo(String pseudo) {
 		
 		boolean notExist = true;
@@ -108,5 +119,22 @@ public class ManageGamer {
 		}
 		
 		return notExist;
+}
+	public static void deleteGamer(String gamerPseudo) {
+
+		String requete = "DELETE FROM player WHERE pseudo=\"" + gamerPseudo + "\"";
+
+		try {
+
+			BDConnexion.bd.stmt.executeUpdate(requete);
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Impossible to delete player : "
+					+ gamerPseudo, "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		JOptionPane.showMessageDialog(null, "Deleted player " + gamerPseudo, " !",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 }

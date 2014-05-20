@@ -31,6 +31,10 @@ public class JSubscribe extends Observable{
 	 */
 	public JSubscribe(JWelcome w, ConnectionServer c) {
 		initialize();
+		
+
+	    //frame.setUndecorated(true);
+	    
 		frame.setVisible(true);
 		this.addObserver(w);
 		

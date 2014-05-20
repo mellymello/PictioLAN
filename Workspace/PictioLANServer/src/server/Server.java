@@ -34,6 +34,8 @@ public class Server {
 	private ServerListener listener;
 	
 	private JConfiguration viewConfig;
+	
+	private ManageGamer managGamers;
 	private JGamer viewGamers;
 	
 	//Modèle et vue pour la gestion du dictionnaire
@@ -57,6 +59,7 @@ public class Server {
 		dictionary = new Dictionary();
 		viewDictionary = new JDictionary(dictionary);
 		
+		managGamers= new ManageGamer();
 		//TODO Création éléments pour la gestion des joueurs
 		//gamers_bd = new ManageGamer();
 		viewGamers = new JGamer();
