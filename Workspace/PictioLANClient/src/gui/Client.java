@@ -2,7 +2,7 @@ package gui;
 
 import gui_Client.Information;
 import gui_Client.ListePartie;
-import gui_Client.Propositions;
+import gui_Client.Proposition;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,7 +25,7 @@ public class Client extends JFrame implements Configuration
 	private Dessin dessin;
 	private JPanel left = new JPanel();
 	private JPanel pCentre = new JPanel();
-	private Propositions proposition = new Propositions();
+	private Proposition proposition = new Proposition();
 	private ListePartie listePartie = new ListePartie();
 	private Information info = new Information();
 	
