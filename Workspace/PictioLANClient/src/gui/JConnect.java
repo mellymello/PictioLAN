@@ -1,0 +1,239 @@
+package gui;
+
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.sql.PseudoColumnUsage;
+
+import javax.swing.JTextField;
+import javax.swing.JButton;
+
+import connection.ConnectionServer;
+public class JConnect extends JFrame {
+
+	private ConnectPanel basePanel;
+	private InputPanel inputPanel;
+
+	private JPanel exitPanel;
+
+	private JButton exitButton;
+
+	protected ConnectionServer connServer;
+	
+	/**
+	 * Create the application.
+	 */
+	public JConnect(ConnectionServer conn) {
+		
+		connServer = conn;
+		initialize();
+		this.setVisible(true);
+		this.pack();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+
+		this.setPreferredSize(new Dimension(600, 300));
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		this.setUndecorated(true);
+		this.setLayout(new BorderLayout());
+
+		this.setTitle("Connect to our db");
+
+		basePanel = new ConnectPanel();
+		inputPanel = new InputPanel(connServer);
+
+		exitPanel = new JPanel();
+		exitPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
+
+		exitButton = new JButton("X");
+		exitButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+
+			}
+		});
+		exitPanel.add(exitButton);
+
+		this.getContentPane().add(exitPanel, BorderLayout.NORTH);
+
+		MoveMouseListener mml = new MoveMouseListener(basePanel);
+		this.addMouseMotionListener(mml);
+		this.addMouseListener(mml);
+
+		this.getContentPane().add(basePanel, BorderLayout.CENTER);
+		basePanel.setLayout(new BorderLayout());
+
+		basePanel.add(inputPanel, BorderLayout.CENTER);
+
+	}
+
+}
+
+class ConnectPanel extends JPanel {
+	Image bg = new ImageIcon(getClass()
+			.getResource("/img/login_backGround.jpg")).getImage();
+
+	@Override
+	public void paintComponent(Graphics g) {
+		g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+	}
+}
+
+class InputPanel extends JPanel {
+
+	private JLabel pseudoLabel;
+	private JLabel passLabel;
+	private JTextField txtPseudo;
+	private JPasswordField passField;
+
+	private JButton loginButton;
+
+	private ConnectionServer connServer;
+	
+	public InputPanel(ConnectionServer conn) {
+		
+		connServer = conn;
+		
+		setOpaque(false);
+		setLayout(new GridBagLayout());
+
+		pseudoLabel = new JLabel("Pseudo: ");
+		pseudoLabel.setForeground(Color.WHITE);
+
+		txtPseudo = new JTextField();
+		txtPseudo.setColumns(12);
+
+		passLabel = new JLabel("Password : ");
+		passLabel.setForeground(Color.WHITE);
+
+		passField = new JPasswordField();
+		passField.setColumns(12);
+
+		loginButton = new JButton("Login");
+
+		loginButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				//Authentification !!
+				connServer.setPseudo(txtPseudo.getText());
+				connServer.setPassword(passField.getText());
+				connServer.authentification("AUTH_CONNECT");
+				//Authentification !!
+			}
+		});
+
+		GridBagConstraints c = new GridBagConstraints();
+
+		c.insets = new Insets(10, 80, 0, 0);
+		c.gridx = 0;
+		c.gridy = 0;
+		add(pseudoLabel, c);
+
+		c.insets = new Insets(10, 0, 0, 0);
+		c.gridx = 1;
+		c.gridy = 0;
+		add(txtPseudo, c);
+
+		c.insets = new Insets(10, 80, 0, 0);
+		c.gridx = 0;
+		c.gridy = 1;
+		add(passLabel, c);
+
+		c.insets = new Insets(10, 0, 0, 0);
+		c.gridx = 1;
+		c.gridy = 1;
+		add(passField, c);
+
+		c.gridx = 1;
+		c.gridy = 2;
+		add(loginButton, c);
+
+	}
+}
+
+class MoveMouseListener implements MouseListener, MouseMotionListener {
+	JComponent target;
+	Point start_drag;
+	Point start_loc;
+
+	public MoveMouseListener(JComponent target) {
+		this.target = target;
+	}
+
+	public static JFrame getFrame(Container target) {
+		if (target instanceof JFrame) {
+			return (JFrame) target;
+		}
+		return getFrame(target.getParent());
+	}
+
+	Point getScreenLocation(MouseEvent e) {
+		Point cursor = e.getPoint();
+		Point target_location = this.target.getLocationOnScreen();
+		return new Point((int) (target_location.getX() + cursor.getX()),
+				(int) (target_location.getY() + cursor.getY()));
+	}
+
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	public void mouseExited(MouseEvent e) {
+	}
+
+	public void mousePressed(MouseEvent e) {
+		this.start_drag = this.getScreenLocation(e);
+		this.start_loc = this.getFrame(this.target).getLocation();
+	}
+
+	public void mouseReleased(MouseEvent e) {
+	}
+
+	public void mouseDragged(MouseEvent e) {
+		Point current = this.getScreenLocation(e);
+		Point offset = new Point(
+				(int) current.getX() - (int) start_drag.getX(),
+				(int) current.getY() - (int) start_drag.getY());
+		JFrame frame = this.getFrame(target);
+		Point new_location = new Point(
+				(int) (this.start_loc.getX() + offset.getX()),
+				(int) (this.start_loc.getY() + offset.getY()));
+		frame.setLocation(new_location);
+	}
+
+	public void mouseMoved(MouseEvent e) {
+	}
+}
