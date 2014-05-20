@@ -29,8 +29,10 @@ import java.net.UnknownHostException;
 
 public class JWelcome extends JFrame{
 
+	/// just for test
 	public static void main(String[] args) {
 		JWelcome startUP = new JWelcome(new ConnectionServer());
+		
 	}
 
 	private WelcomePanel basePanel;
