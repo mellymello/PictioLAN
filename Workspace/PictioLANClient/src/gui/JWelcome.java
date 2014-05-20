@@ -80,11 +80,11 @@ public class JWelcome implements Observer{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				
+				String text = txtAdresseIp.getText();
 				boolean isIpValide = true;
 				try
 				{
-					InetAddress ip = InetAddress.getByName(txtAdresseIp.getText());
+					InetAddress ip = InetAddress.getByName(text);
 				}
 				catch (UnknownHostException uhe)
 				{
@@ -92,7 +92,7 @@ public class JWelcome implements Observer{
 					txtAdresseIp.setText("");
 					isIpValide = false;
 				}
-				if (isIpValide == true)
+				if (isIpValide == true && ! text.equals(""))
 				{
 					JConnect connect = new JConnect();
 					frame.dispose();
