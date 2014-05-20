@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import connection.ConnectionServer;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,6 +29,9 @@ import java.net.UnknownHostException;
 
 public class JWelcome extends JFrame{
 
+	public static void main(String[] args) {
+		JWelcome startUP = new JWelcome(new ConnectionServer());
+	}
 
 	private WelcomePanel basePanel;
 	private ServerInput inputPanel;
@@ -34,33 +39,27 @@ public class JWelcome extends JFrame{
 	private JPanel exitPanel;
 
 	private JButton exitButton;
-    
+   
 
+	ConnectionServer connServer;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		
-		JWelcome mainWindow = new JWelcome();
-	}
-	
-
-	 
-
 	/**
 	 * Create the application.
 	 */
-	public JWelcome() {
+	public JWelcome(ConnectionServer conn) {
+		connServer = conn;
 		initialize();
+
 		this.setVisible(true);
 		this.pack();
+
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+
 
 		this.setPreferredSize(new Dimension(600, 300));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,8 +81,10 @@ public class JWelcome extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
-
+				
 			}
+			
+			
 		});
 		exitPanel.add(exitButton);
 
@@ -98,6 +99,7 @@ public class JWelcome extends JFrame{
 
 		basePanel.add(inputPanel, BorderLayout.EAST);
 		
+
 	}
 	
 	
@@ -112,7 +114,6 @@ public class JWelcome extends JFrame{
 	}
 
 	class ServerInput extends JPanel {
-
 		
 		private JLabel ipLabel;
 		private JTextField ipField;
@@ -160,7 +161,7 @@ public class JWelcome extends JFrame{
 							System.out.println("ANONYMOUS we are LEGION");
 						}
 						else{
-						JConnect connect = new JConnect();
+						JConnect connect = new JConnect(connServer);
 						}
 						JWelcome.this.dispose();
 					}

@@ -10,35 +10,124 @@ package connexion;
  * Il contrôle le modèle ClientHandler et met à jour la vue JGamer de la classe JServer
  */
 
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ServerListener implements Runnable {
+public class ServerListener {
+	
+	//Modèle et vue pour la configuration
+	int chat_port = 3333;
+	int drawing_port = 3334;
+	int connexion_port = 3336;
+	
+	ChatListener chat;
+	DrawingListener drawing;
+	ConnexionListener connexion;
 
-	ServerSocket socket;
-	
-	//TODO : Mettre a jour l'attribut pour gérer une liste de client
-	ClientHandler client;
-	
-	//TODO : Liste de joueur authentifier actif.
-	
-	public ServerListener(int port) throws IOException {
-		socket = new ServerSocket(port);
-	}
+	Thread threadChat;
+	Thread threadDrawing;
+	Thread threadConnexion;
 
-	//TODO : Mettre à jour la méthode pour qu'elle accepte plusieurs connexion
-	public void run() {
-			
+	public ServerListener () {
+		
+		System.out.println("DEBUG - new ServerListener");
+		
 		try {
-			Socket s = socket.accept();
-			client = new ClientHandler(s);
+			//chat = new ChatListener();
+			//drawing = new DrawingListener();
+			connexion = new ConnexionListener();
+			
+			//threadChat = new Thread(chat);
+			//threadDrawing = new Thread(drawing);
+			
+			//threadChat.start();
+			//threadDrawing.start();
+			
 			
 		} catch (IOException e) {
+			System.out.println("Error : ServerListener");
 			e.printStackTrace();
 		}
+	}
 	
-	}	
+	//Socket ChatListener
+	class ChatListener implements Runnable {
+		
+		ChatHandler client;
+		ServerSocket socketChatListener;
+		
+		public ChatListener () throws IOException {
+			socketChatListener = new ServerSocket(chat_port);
+		}
+		
+		public void run() {
+			
+			try {
+				Socket s = socketChatListener.accept();
+				client = new ChatHandler(s);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	//Socket ChatListener
+	class DrawingListener implements Runnable {
+		
+		DrawingHandler client;
+		ServerSocket socketChatListener;
+		
+		public DrawingListener() throws IOException {
+			socketChatListener = new ServerSocket(drawing_port);
+		}
+		
+		public void run() {
+			
+			try {
+				Socket s = socketChatListener.accept();
+				client = new DrawingHandler(s);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	//Socket ConnexionListener
+	class ConnexionListener implements Runnable {
+		
+		ConnexionHandler client;
+		ServerSocket socketConnexionListener = null;
+		Socket s = null;
+		
+		public ConnexionListener () throws IOException {
+			threadConnexion = new Thread(this);
+			threadConnexion.start();
+		}
+		
+		public void run() {
+			
+			try {
+				socketConnexionListener = new ServerSocket(connexion_port);
+				s = socketConnexionListener.accept();
+				client = new ConnexionHandler(s);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			finally {
+				
+				try {
+					if(socketConnexionListener != null)
+						socketConnexionListener.close();
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }
 

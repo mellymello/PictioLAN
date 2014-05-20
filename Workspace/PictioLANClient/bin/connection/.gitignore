@@ -1,1 +1,4 @@
 /ConnectionServer.class
+/ConnectionServer$ChatListener.class
+/ConnectionServer$ConnexionListener.class
+/ConnectionServer$DrawingListener.class

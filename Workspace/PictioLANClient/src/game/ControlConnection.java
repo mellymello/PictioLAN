@@ -1,19 +1,16 @@
 package game;
 
 import connection.ConnectionServer;
-import gui.JConnection;
+import gui.JWelcome;
 
 public class ControlConnection {
-
-	JConnection vue;
+	
+	JWelcome mainVue;
 	ConnectionServer modele;
-	Thread communication;
 	
 	public ControlConnection() {
-		modele = new ConnectionServer("192.168.1.140");
-		vue = new JConnection();
-		communication = new Thread(modele);
-		communication.start();
+		modele = new ConnectionServer();
+		mainVue = new JWelcome(modele);
 	}
 	
 	public static void main (String[] args) {

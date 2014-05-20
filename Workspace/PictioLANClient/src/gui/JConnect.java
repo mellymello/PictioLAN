@@ -19,13 +19,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
+import connection.ConnectionServer;
 
 public class JConnect extends JFrame implements Observer {
 
@@ -36,10 +36,14 @@ public class JConnect extends JFrame implements Observer {
 
 	private JButton exitButton;
 
+	private ConnectionServer connServer;
+
 	/**
 	 * Create the application.
 	 */
-	public JConnect() {
+	public JConnect(ConnectionServer conn) {
+
+		connServer = conn;
 		initialize();
 		this.setVisible(true);
 		this.pack();
@@ -87,15 +91,15 @@ public class JConnect extends JFrame implements Observer {
 		basePanel.add(inputPanel, BorderLayout.CENTER);
 
 	}
-	
-	
+
 	class ConnectPanel extends JPanel {
-		Image bg = new ImageIcon(getClass()
-				.getResource("/img/login_backGround.jpg")).getImage();
+		Image bg = new ImageIcon(getClass().getResource(
+				"/img/login_backGround.jpg")).getImage();
 
 		@Override
 		public void paintComponent(Graphics g) {
 			g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+
 		}
 	}
 
@@ -105,7 +109,7 @@ public class JConnect extends JFrame implements Observer {
 		private JLabel passLabel;
 		private JTextField txtPseudo;
 		private JPasswordField passField;
-		
+
 		private JLabel subscribeLabel;
 
 		private JButton loginButton;
@@ -165,26 +169,25 @@ public class JConnect extends JFrame implements Observer {
 			c.gridx = 2;
 			c.gridy = 2;
 			add(loginButton, c);
-			
-			subscribeLabel= new JLabel("<HTML><U>Subscribe<U><HTML>");
-			
+
+			subscribeLabel = new JLabel("<HTML><U>Subscribe<U><HTML>");
+
 			subscribeLabel.setForeground(Color.BLUE);
-			
+
 			subscribeLabel.addMouseListener(new MouseAdapter() {
-				
+
 				public void mouseClicked(MouseEvent e) {
-					JSubscribe subscribe = new JSubscribe(JConnect.this);
+					JSubscribe subscribe = new JSubscribe(JConnect.this,connServer);
 					JConnect.this.setEnabled(false);
-					
+
 				}
 			});
-			
-			
+
 			c.insets = new Insets(10, 0, 0, 40);
-			
-			c.gridx=1;
-			c.gridy=2;
-			add(subscribeLabel,c);
+
+			c.gridx = 1;
+			c.gridy = 2;
+			add(subscribeLabel, c);
 
 		}
 	}
@@ -192,11 +195,7 @@ public class JConnect extends JFrame implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		this.setEnabled(true);
-		
+
 	}
 
 }
-
-
-
-

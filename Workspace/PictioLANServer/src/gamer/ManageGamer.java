@@ -1,12 +1,9 @@
 package gamer;
 
 import game.ActiveGamer;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
+import server.BDConnexion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
@@ -15,64 +12,86 @@ import server.BDConnexion;
 
 public class ManageGamer {
 	
-	private Connection conn;
-	private Statement stmt;
+
+	//Liste static des joueurs connectés et/ou authentifiés !!!
+	static LinkedList<ActiveGamer> listActiveGamer = new LinkedList<ActiveGamer>();
 	
 	public ManageGamer() {
-		try {
-
-			conn = DriverManager
-					.getConnection("jdbc:mysql://localhost:3306/pictiolan?"
-							+ "user=root&password=");
-			stmt = (Statement) conn.createStatement();
-		} catch (SQLException ex) {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"Impossible to connect to the database !\nTurn the server on and retry",
-							"Error", JOptionPane.ERROR_MESSAGE);
-			System.exit(0);
-		}
+		
 	}
-	
+		
 	public static ActiveGamer authentification_BD(String pseudo, String pass) {
 		
-		String requete = "SELECT * FROM `Category`";
+		String requete = "SELECT password FROM player WHERE pseudo = \"" + pseudo + "\"";
 		ResultSet res;
 		
 		try {
 			res = BDConnexion.bd.stmt.executeQuery(requete);
 			
-			if(res == null)
-				return null;
-			else
-				return new ActiveGamer(pseudo, false);
+			if(res != null) {
+				res.next();
+				if(res.getString(1).equals(pass)) {
+					ActiveGamer temp = new ActiveGamer(pseudo, false);
+					listActiveGamer.add(temp);
+					return temp;
+				}
+				else
+					return null;
+				}
 			
 		} catch (SQLException e) {
-			System.out.println("Impossible to execute the request 2!");
+			System.out.println("Impossible to execute the request authentification !");
 		}
 		
 		return null;
 	}
 
-	public void delGamer(String pseudo){
+	public static void delGamer(String pseudo){
 		
 	}
 	
 	
-	public void addGamer(String pseudo, String pass, boolean isAdmin){
+	public static ActiveGamer addGamer(String pseudo, String pass, String email){
+	
+		LinkedList<String> listPseudo = getGamers();
 		
+		boolean notExist = true;
+		
+		for(int i=0; i < listPseudo.size(); i++){
+			
+			if(listPseudo.get(i).equals(pseudo)) {
+				notExist = false;
+				break;
+			}
+		}
+		
+		if(notExist) {
+			try {
+
+				String requete = "INSERT INTO player(Pseudo, Password, Email) VALUES (\""+pseudo+"\",\""+pass+"\",\""+email+"\")";
+				BDConnexion.bd.stmt.executeUpdate(requete);
+				
+				return new ActiveGamer(pseudo,true);
+
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Impossible to add player !",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
+		return null;
 	}
 
-	public LinkedList<String> getGamers(){
-				
-		String requete = "SELECT * FROM `player`";
-		ResultSet res;
+
+	public static LinkedList<String> getGamers(){
 		
 		LinkedList<String> gamers = new LinkedList<String>();
-
+		
+		String requete = "SELECT pseudo FROM `player`";
+		ResultSet res;
+		
 		try {
-			res = stmt.executeQuery(requete);
+			res = BDConnexion.bd.stmt.executeQuery(requete);
 
 			while (res.next()) {
 				gamers.add(res.getString("Pseudo"));
@@ -87,13 +106,27 @@ public class ManageGamer {
 		return gamers;
 	}
 	
-	public void deleteGamer(String gamerPseudo) {
+
+	public static boolean checkPseudo(String pseudo) {
+		
+		boolean notExist = true;
+		
+		for(ActiveGamer gamer : listActiveGamer) {
+			
+			if(gamer.getPseudo().equals(pseudo)) {
+				notExist = false;
+			}
+		}
+		
+		return notExist;
+}
+	public static void deleteGamer(String gamerPseudo) {
 
 		String requete = "DELETE FROM player WHERE pseudo=\"" + gamerPseudo + "\"";
 
 		try {
 
-			stmt.executeUpdate(requete);
+			BDConnexion.bd.stmt.executeUpdate(requete);
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Impossible to delete player : "
@@ -103,6 +136,5 @@ public class ManageGamer {
 
 		JOptionPane.showMessageDialog(null, "Deleted player " + gamerPseudo, " !",
 				JOptionPane.INFORMATION_MESSAGE);
-
 	}
 }

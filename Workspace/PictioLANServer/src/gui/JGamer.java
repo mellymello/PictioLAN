@@ -17,12 +17,10 @@ import javax.swing.JPanel;
 
 public class JGamer extends JPanel implements ItemListener{
 
-	private ManageGamer gamerManager;
+	//private ManageGamer manager;
 	private LinkedList<String> activesGamers;
 	
 	private LinkedList<JCheckBox> gamersCheckboxes;
-	
-	private JButton deleteSelectedPlayer;
 	
 	private JButton activateDesactivateAll;
 	private boolean allSelected;
@@ -30,13 +28,17 @@ public class JGamer extends JPanel implements ItemListener{
 	private JPanel buttonPanel;
 	private JPanel checkBoxPanel;
 	
-	public JGamer(ManageGamer g){
-		this.gamerManager= g;
+	public JGamer(){
+		//manager = g;
 		
 		this.setLayout(new BorderLayout());
+		activesGamers= new LinkedList<String>();
 		
-		activesGamers= gamerManager.getGamers();
-				
+		//just for testing
+		activesGamers.add("player1");
+		activesGamers.add("player2");
+		activesGamers.add("player3");
+		activesGamers.add("player4");
 		
 		gamersCheckboxes=new LinkedList<JCheckBox>();
 		for (int i = 0; i < activesGamers.size(); i++) {
@@ -46,25 +48,7 @@ public class JGamer extends JPanel implements ItemListener{
 		
 		allSelected=true;
 		selectAll();
-		
-		deleteSelectedPlayer= new JButton("del players");
-		
-		deleteSelectedPlayer.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				for(int i=0; i<gamersCheckboxes.size();i++){
-					if(gamersCheckboxes.get(i).isSelected()){
-						gamerManager.deleteGamer(gamersCheckboxes.get(i).getText());
-						gamersCheckboxes.remove(i);
-						setGamerCheckBoxes();
-					}
-				}
-				
-			}
-		});
-		
-		activateDesactivateAll= new JButton("Activate/Desactivate ALL");
+		activateDesactivateAll= new JButton("Activate / Desactivate ALL");
 		activateDesactivateAll.addActionListener(new ActionListener() {
 			
 			@Override
@@ -81,7 +65,6 @@ public class JGamer extends JPanel implements ItemListener{
 		});
 		buttonPanel=new JPanel(new FlowLayout());
 		buttonPanel.add(activateDesactivateAll);
-		buttonPanel.add(deleteSelectedPlayer);
 		
 		checkBoxPanel= new JPanel(new GridLayout(activesGamers.size(), 0));
 		setGamerCheckBoxes();
@@ -91,12 +74,9 @@ public class JGamer extends JPanel implements ItemListener{
 	}
 	
 	private void setGamerCheckBoxes( ){
-		checkBoxPanel.removeAll();
 		for (int i = 0; i < gamersCheckboxes.size(); i++) {
 			checkBoxPanel.add(gamersCheckboxes.get(i));
-			
 		}
-		repaint();
 	}
 	
 	private void selectAll(){
@@ -116,11 +96,8 @@ public class JGamer extends JPanel implements ItemListener{
 
 		for (int i = 0; i < gamersCheckboxes.size(); i++) {
 			if(gamersCheckboxes.get(i).equals(e.getItem())){
-				System.out.println("Do some action over gamer: "+ gamersCheckboxes.get(i).getText());
+				
 			}
 		}
-		
 	}
-	
-	
 }

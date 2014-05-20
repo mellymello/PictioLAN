@@ -20,13 +20,16 @@ import game.*;
 import gamer.ManageGamer;
 
 public class ClientHandler implements Runnable {
-	
+		
 	Socket connexion = null;
+	
 	ActiveGamer gamer;
 	ControlGame ctrGame;
 
 	BufferedReader in;
 	PrintWriter out;
+	
+	public ClientHandler(){}
 	
 	public ClientHandler(Socket s) throws IOException {
 		
@@ -34,6 +37,8 @@ public class ClientHandler implements Runnable {
 		
 		in = new BufferedReader (new InputStreamReader (connexion.getInputStream()));
 		out = new PrintWriter(connexion.getOutputStream());
+		
+		//authentification_Client();
 	}
 	
 	//TODO : utilisr la méthode authentification du Gamer pour authentifier la connexion
@@ -43,7 +48,7 @@ public class ClientHandler implements Runnable {
 		String pseudo = in.readLine();
 		String pass = in.readLine();
 		
-		gamer =  ManageGamer.authentification_BD(pseudo, pass);
+		gamer = ManageGamer.authentification_BD(pseudo, pass);
 		
 		if(gamer == null)
 			return false;
@@ -56,4 +61,5 @@ public class ClientHandler implements Runnable {
 		
 		
 	}
+
 }

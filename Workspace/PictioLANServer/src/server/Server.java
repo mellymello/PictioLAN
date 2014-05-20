@@ -31,11 +31,8 @@ import dictionary.Dictionary;
 public class Server {
 	
 	//Modèle Listener et vue des joueurs actifs
-	private Thread threadListener;
 	private ServerListener listener;
 	
-	//Modèle et vue pour la configuration
-	int port;
 	private JConfiguration viewConfig;
 	
 	private ManageGamer managGamers;
@@ -46,25 +43,15 @@ public class Server {
 	private JDictionary viewDictionary;
 	
 	//TODO Modèle et vue pour la gestion des parties actives
-	
-	
-	//TODO Modèle et vue pour la gestion des joueurs (inscrits)
-	
+	private ManageGamer gamers_bd;
 	
 	//Vue pricipale
 	JServer viewServer;
 	
-	public Server(int port ) {
+	public Server() {
 
-		this.port = port;
-		
 		//Création Listener
-		try {
-			listener = new ServerListener(port);
-		
-		} catch (IOException e) {
-			e.printStackTrace(); 
-		}
+		listener = new ServerListener();
 		
 		//Création configuration
 		viewConfig = new JConfiguration(this);
@@ -72,25 +59,22 @@ public class Server {
 		dictionary = new Dictionary();
 		viewDictionary = new JDictionary(dictionary);
 		
-		//Gamers
 		managGamers= new ManageGamer();
-		viewGamers = new JGamer(managGamers);
-		
 		//TODO Création éléments pour la gestion des joueurs
+		//gamers_bd = new ManageGamer();
+		viewGamers = new JGamer();
 		
 		//TODO Création éléments pour la gestion des parties en cours
 		
-		viewServer = new JServer(viewConfig, viewDictionary,viewGamers);
+		//Création de la vue
+		viewServer = new JServer(viewConfig, viewDictionary, viewGamers);
 	}
 	
 	//Modèle pour la configuration
-	public void setPort(int p) { port = p; }
-	public int getPort(int p) { return port; }
 	
 	//Lance le thread qui permet d'écouter le socket
 	public void startListener() {
-		threadListener = new Thread(listener);
-		threadListener.start();
+		
 	}
 	
 	//TODO arrête le thread qui permet d'écouter le socket
@@ -99,6 +83,7 @@ public class Server {
 	}
 	
 	public static void main (String[] args) {
-		Server server = new Server(3333);
+		Server server = new Server();
+		//new Test();
 	}
 }
