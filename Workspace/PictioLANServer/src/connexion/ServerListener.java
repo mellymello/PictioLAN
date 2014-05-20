@@ -19,7 +19,7 @@ public class ServerListener {
 	//Modèle et vue pour la configuration
 	int chat_port = 3333;
 	int drawing_port = 3334;
-	int connexion_port = 3335;
+	int connexion_port = 3336;
 	
 	ChatListener chat;
 	DrawingListener drawing;

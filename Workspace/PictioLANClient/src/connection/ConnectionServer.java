@@ -14,7 +14,7 @@ public class ConnectionServer {
 	String email;
 	
 	String IPserver = "";
-	int portConnexion = 3335;
+	int portConnexion = 3336;
 	
 	ConnexionListener connexion;
 	Thread threadConnexion;
