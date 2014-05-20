@@ -25,7 +25,7 @@ public class JSubscribe extends Observable{
 	/**
 	 * Create the application.
 	 */
-	public JSubscribe(JWelcome w) {
+	public JSubscribe(JConnect w) {
 		initialize();
 		
 

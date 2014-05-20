@@ -1,176 +1,204 @@
 package gui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class JWelcome implements Observer{
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
-	private JFrame frame;
-	private JTextField txtAdresseIp;
-    private Pattern pattern;
-    private Matcher matcher;
+public class JWelcome extends JFrame{
+
+
+	private WelcomePanel basePanel;
+	private ServerInput inputPanel;
+
+	private JPanel exitPanel;
+
+	private JButton exitButton;
     
-	private boolean enable = false;
 
-	public void setEnable(boolean enable) {
-		this.enable = enable;
-	}
-	 
-
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JWelcome window = new JWelcome();
-					window.frame.setVisible(true);
-					window.frame.pack();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		
+		JWelcome mainWindow = new JWelcome();
 	}
+	
+
+	 
 
 	/**
 	 * Create the application.
 	 */
 	public JWelcome() {
 		initialize();
+		this.setVisible(true);
+		this.pack();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		frame.setTitle("Welcome - PictioLan");
-		
-		JPanel pButton = new JPanel();
-		frame.getContentPane().add(pButton, BorderLayout.CENTER);
-		pButton.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JButton btnConnect = new JButton("Connect");
-		pButton.add(btnConnect);
-		btnConnect.addActionListener(new ActionListener() {
-			
+
+		this.setPreferredSize(new Dimension(600, 300));
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		this.setUndecorated(true);
+		this.setLayout(new BorderLayout());
+
+		this.setTitle("Connect to our db");
+
+		basePanel = new WelcomePanel();
+		inputPanel = new ServerInput();
+
+		exitPanel = new JPanel();
+		exitPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
+
+		exitButton = new JButton("X");
+		exitButton.addActionListener(new ActionListener() {
+
 			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				String text = txtAdresseIp.getText();
-				boolean isIpValide = true;
-				try
-				{
-					InetAddress ip = InetAddress.getByName(text);
-				}
-				catch (UnknownHostException uhe)
-				{
-				
-					txtAdresseIp.setText("");
-					isIpValide = false;
-				}
-				if (isIpValide == true && ! text.equals(""))
-				{
-					JConnect connect = new JConnect();
-					frame.dispose();
-				}
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
 
 			}
 		});
-		
-		JButton btnAnonymous = new JButton("Anonymous");
-		pButton.add(btnAnonymous);
-		btnAnonymous.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Client client = new Client("Client PictioLan");
-				
-			}
-		});
-		
-		JButton btnSubscribe = new JButton("Subscribe");
-		pButton.add(btnSubscribe);
-		btnSubscribe.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JSubscribe subscribe = new JSubscribe(JWelcome.this);
-				frame.setEnabled(false);
-			}
-		});
-		
-		JPanel pText = new JPanel();
-		frame.getContentPane().add(pText, BorderLayout.SOUTH);
-		pText.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		txtAdresseIp = new JTextField();
-		txtAdresseIp.setText("Adresse IP");
-		pText.add(txtAdresseIp);
-		txtAdresseIp.setColumns(10);
-		txtAdresseIp.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				txtAdresseIp.setText("");
-				
-			}
-		});
+		exitPanel.add(exitButton);
+
+		this.getContentPane().add(exitPanel, BorderLayout.NORTH);
+
+		MoveMouseListener mml = new MoveMouseListener(basePanel);
+		this.addMouseMotionListener(mml);
+		this.addMouseListener(mml);
+
+		this.getContentPane().add(basePanel, BorderLayout.CENTER);
+		basePanel.setLayout(new BorderLayout());
+
+		basePanel.add(inputPanel, BorderLayout.EAST);
 		
 	}
+	
+	
+	class WelcomePanel extends JPanel {
+		Image bg = new ImageIcon(getClass()
+				.getResource("/img/welcome.jpg")).getImage();
 
+		@Override
+		public void paintComponent(Graphics g) {
+			g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+		}
+	}
 
-	@Override
-	public void update(Observable arg0, Object arg1) 
-	{
-		frame.setEnabled(true);
+	class ServerInput extends JPanel {
+
+		
+		private JLabel ipLabel;
+		private JTextField ipField;
+		
+		private JCheckBox anonymousCheck;
+
+		private JButton connect;
+
+		public ServerInput() {
+			
+			setOpaque(false);
+			setLayout(new GridBagLayout());
+
+			ipLabel = new JLabel("Server IP : ");
+			ipLabel.setForeground(Color.WHITE);
+
+			ipField = new JTextField();
+			ipField.setColumns(12);
+			ipField.setText("127.0.0.1");
+
+			anonymousCheck = new JCheckBox("Anonymous Login");
+			anonymousCheck.setOpaque(false);
+			
+			connect = new JButton("Connect");
+
+			connect.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String text = ipField.getText();
+					boolean isIpValide = true;
+					try
+					{
+						InetAddress ip = InetAddress.getByName(text);
+					}
+					catch (UnknownHostException uhe)
+					{
+					
+						ipField.setText("");
+						isIpValide = false;
+					}
+					if (isIpValide == true && ! text.equals(""))
+					{
+						if(anonymousCheck.isSelected()){
+							System.out.println("ANONYMOUS we are LEGION");
+						}
+						else{
+						JConnect connect = new JConnect();
+						}
+						JWelcome.this.dispose();
+					}
+
+				}
+			});
+
+			GridBagConstraints c = new GridBagConstraints();
+
+			c.insets = new Insets(10, 0, 0, 10);
+			c.gridx = 0;
+			c.gridy = 0;
+			add(ipLabel, c);
+
+			c.insets = new Insets(10, 0, 0, 80);
+			c.gridx = 1;
+			c.gridy = 0;
+			add(ipField, c);
+
+			c.insets = new Insets(10, 0, 0, 80);
+			c.gridx = 1;
+			c.gridy = 1;
+			add(anonymousCheck, c);
+			
+
+			c.insets = new Insets(10, 0, 0, 80);
+			c.gridx = 1;
+			c.gridy = 2;
+			add(connect, c);
+			
+
+		}
 	}
 
 }
+
+
+
+
+
+
