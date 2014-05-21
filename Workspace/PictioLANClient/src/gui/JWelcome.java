@@ -155,6 +155,7 @@ public class JWelcome extends JFrame{
 					{
 						if(anonymousCheck.isSelected()){
 							System.out.println("ANONYMOUS we are LEGION");
+							JListGame listGame = new JListGame("Liste des parties");
 						}
 						else{
 						JConnect connect = new JConnect(connServer);
@@ -163,6 +164,7 @@ public class JWelcome extends JFrame{
 					}
 
 				}
+				
 			});
 
 			GridBagConstraints c = new GridBagConstraints();

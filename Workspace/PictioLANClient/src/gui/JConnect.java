@@ -136,7 +136,7 @@ public class JConnect extends JFrame implements Observer {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					Client client = new Client("Client PictioLan");
+					JListGame listGame = new JListGame("Liste des parties");
 					JConnect.this.dispose();
 				}
 			});

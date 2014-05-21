@@ -16,6 +16,7 @@ import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import gui_Client.InfoConnexion;
 import configuration.Configuration;
 
 
@@ -28,6 +29,7 @@ public class Client extends JFrame implements Configuration
 	private Proposition proposition = new Proposition();
 	private ListePartie listePartie = new ListePartie();
 	private Information info = new Information();
+	private InfoConnexion infoConnect = new InfoConnexion();
 	
 	private JPanel pCentreHaut = new JPanel();
 	private JButton btnClearEcran = new JButton("Effacer écran");
@@ -52,7 +54,8 @@ public class Client extends JFrame implements Configuration
 	}
 	private void createLeft()
 	{
-		left.setLayout(new GridLayout(2,1));
+		left.setLayout(new GridLayout(3,1));
+		left.add(infoConnect);
 		left.add(listePartie);
 		left.add(info);
 	}

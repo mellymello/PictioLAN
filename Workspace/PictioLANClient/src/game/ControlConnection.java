@@ -1,6 +1,7 @@
 package game;
 
 import connection.ConnectionServer;
+import gui.Client;
 import gui.JWelcome;
 
 public class ControlConnection {
@@ -15,5 +16,6 @@ public class ControlConnection {
 	
 	public static void main (String[] args) {
 		ControlConnection c = new ControlConnection();
+		Client cli = new Client("test");
 	}
 }
