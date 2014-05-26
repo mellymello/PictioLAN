@@ -13,91 +13,63 @@ import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-public class JGamer extends JPanel implements ItemListener{
+public class JGamer extends JPanel {
 
-	//private ManageGamer manager;
-	private LinkedList<String> activesGamers;
-	
-	private LinkedList<JCheckBox> gamersCheckboxes;
-	
-	private JButton activateDesactivateAll;
-	private boolean allSelected;
-	
+	// private ManageGamer manager;
+
+	private JList<String> activesGamers;
+	private JScrollPane  gamerListPanel;
+
 	private JPanel buttonPanel;
-	private JPanel checkBoxPanel;
 	
-	public JGamer(){
-		//manager = g;
-		
+	private JButton deleteButton;
+	
+	public JGamer() {
+		// manager = g;
+
 		this.setLayout(new BorderLayout());
-		activesGamers= new LinkedList<String>();
+		activesGamers = new JList<String>();
+
+		setGamerList();
 		
-		//just for testing
-		activesGamers.add("player1");
-		activesGamers.add("player2");
-		activesGamers.add("player3");
-		activesGamers.add("player4");
+		gamerListPanel = new JScrollPane(activesGamers);
 		
-		gamersCheckboxes=new LinkedList<JCheckBox>();
-		for (int i = 0; i < activesGamers.size(); i++) {
-			gamersCheckboxes.add(new JCheckBox(activesGamers.get(i)));
-			gamersCheckboxes.get(i).addItemListener(this);
-		}
-		
-		allSelected=true;
-		selectAll();
-		activateDesactivateAll= new JButton("Activate / Desactivate ALL");
-		activateDesactivateAll.addActionListener(new ActionListener() {
+		buttonPanel = new JPanel(new FlowLayout());
+		deleteButton=new JButton("Delete Player");
+		deleteButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(allSelected){
-					deselectAll();
-					allSelected=false;
-				}
-				else{
-					selectAll();
-					allSelected=true;
-				}
-			}
-		});
-		buttonPanel=new JPanel(new FlowLayout());
-		buttonPanel.add(activateDesactivateAll);
-		
-		checkBoxPanel= new JPanel(new GridLayout(activesGamers.size(), 0));
-		setGamerCheckBoxes();
-		
-		this.add(checkBoxPanel,BorderLayout.CENTER);
-		this.add(buttonPanel,BorderLayout.SOUTH);
-	}
-	
-	private void setGamerCheckBoxes( ){
-		for (int i = 0; i < gamersCheckboxes.size(); i++) {
-			checkBoxPanel.add(gamersCheckboxes.get(i));
-		}
-	}
-	
-	private void selectAll(){
-		for (int i = 0; i < gamersCheckboxes.size(); i++) {
-			gamersCheckboxes.get(i).setSelected(true);
-		}
-	}
-	
-	private void deselectAll(){
-		for (int i = 0; i < gamersCheckboxes.size(); i++) {
-			gamersCheckboxes.get(i).setSelected(false);
-		}
-	}
 
-	@Override
-	public void itemStateChanged(ItemEvent e) {
+				if ((activesGamers.getSelectedValue()) != null) {
+					ManageGamer.deleteGamer(activesGamers.getSelectedValue());
+					setGamerList();
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"You have to select a gamer !", "Warning",
+							JOptionPane.WARNING_MESSAGE);
+				}
 
-		for (int i = 0; i < gamersCheckboxes.size(); i++) {
-			if(gamersCheckboxes.get(i).equals(e.getItem())){
 				
 			}
-		}
+		});
+		
+		buttonPanel.add(deleteButton);
+
+
+
+		this.add(gamerListPanel, BorderLayout.CENTER);
+		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
+
+	private void setGamerList() {
+		String[] tmp = ManageGamer.getGamers().toArray(new String[0]);
+		activesGamers.setListData(tmp);
+	}
+
 }

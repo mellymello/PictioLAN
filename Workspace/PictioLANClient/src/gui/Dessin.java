@@ -16,6 +16,13 @@ import javax.swing.JPanel;
 import configuration.Configuration;
 
 
+/*
+ * C'est pas plus simple d'envoyer le Jpanel directement au lieu de faire: 
+ * 
+ * 	panel.addPoint(new Rectangle(x1, y1, e.getX(), e.getY()));
+ *	client.sendPoint(new Rectangle(x1, y1, e.getX(), e.getY()));
+ */
+
 public class Dessin extends JPanel implements Configuration
 {
 	private Vector<Rectangle> point = new Vector<Rectangle>();

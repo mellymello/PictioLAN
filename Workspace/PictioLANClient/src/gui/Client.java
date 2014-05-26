@@ -10,19 +10,21 @@ import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.text.AbstractDocument.BranchElement;
 
 import gui_Client.InfoConnexion;
 import configuration.Configuration;
 
-
-
-public class Client extends JFrame implements Configuration
-{
+public class Client extends JFrame implements Configuration {
 	private Dessin dessin;
 	private JPanel left = new JPanel();
 	private JPanel pCentre = new JPanel();
@@ -30,70 +32,272 @@ public class Client extends JFrame implements Configuration
 	private ListePartie listePartie = new ListePartie();
 	private Information info = new Information();
 	private InfoConnexion infoConnect = new InfoConnexion();
-	
+
 	private JPanel pCentreHaut = new JPanel();
+	private JPanel pCentreHaut_buttons = new JPanel();
+	private JPanel pCentreHaut_colors = new JPanel();
 	private JButton btnClearEcran = new JButton("Effacer écran");
 	private JButton btnPret = new JButton("Prêt");
-	private JButton btnSelectColor = new JButton("Couleurs");
-	
-	public Client (String titre)
-	{
+	// private JButton btnSelectColor = new JButton("Couleurs");
+
+	// colors
+	private JButton black;
+	private JButton blue;
+	private JButton brown;
+	private JButton cyan;
+	private JButton darkGreen;
+	private JButton gray;
+	private JButton green;
+	private JButton magenta;
+	private JButton orange;
+	private JButton red;
+	private JButton white;
+	private JButton yellow;
+
+	public Client(String titre) {
 		super(titre);
 		this.getContentPane().setLayout(new BorderLayout());
-		
-		this.setSize(LARGEUR_CLIENT,HAUTEUR_CLIENT);
+
+		this.setSize(LARGEUR_CLIENT, HAUTEUR_CLIENT);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		createLeft();
 		createCenter();
-		
+
 		this.getContentPane().add(left, BorderLayout.WEST);
 		this.getContentPane().add(pCentre, BorderLayout.CENTER);
 		this.getContentPane().add(proposition, BorderLayout.SOUTH);
 		this.setVisible(true);
 	}
-	private void createLeft()
-	{
-		left.setLayout(new GridLayout(3,1));
+
+	private void createLeft() {
+		left.setLayout(new GridLayout(3, 1));
 		left.add(infoConnect);
 		left.add(listePartie);
 		left.add(info);
 	}
-	
-	private void createCenter()
-	{
+
+	private void createCenter() {
 		dessin = new Dessin(this);
+
+		pCentreHaut.setLayout(new GridLayout(2, 1));
+		pCentreHaut_buttons.setLayout(new GridLayout(1, 2));
+		pCentreHaut_colors.setLayout(new GridLayout(2, 6));
+		pCentreHaut_buttons.add(btnClearEcran);
+		pCentreHaut_buttons.add(btnPret);
+		// pCentreHaut_buttons.add(btnSelectColor);
+
+		pCentreHaut.add(pCentreHaut_buttons);
 		
-		pCentreHaut.setLayout(new GridLayout(1,2));
-		pCentreHaut.add(btnClearEcran);
-		pCentreHaut.add(btnPret);
-		pCentreHaut.add(btnSelectColor);
-		
+		colorButtons();
+		pCentreHaut.add(pCentreHaut_colors);
+
 		pCentre.setLayout(new BorderLayout());
-		pCentre.add(pCentreHaut,BorderLayout.NORTH);
-		pCentre.add(dessin,BorderLayout.CENTER);
+		pCentre.add(pCentreHaut, BorderLayout.NORTH);
+		pCentre.add(dessin, BorderLayout.CENTER);
 		btnClearEcran.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				dessin.effacerDessin();
+
+			}
+		});
+
+//		btnSelectColor.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Color trait = JColorChooser.showDialog(null,
+//						"JColorChooser Sample", null);
+//				dessin.setColor(trait);
+//
+//			}
+//		});
+	}
+
+	private void loadColorsImages() {
+
+		try {
+			black = new JButton(new ImageIcon(ImageIO.read(getClass().getResource("/img/colors/black.png"))));
+			blue = new JButton(new ImageIcon(ImageIO.read(getClass().getResource("/img/colors/blue.png"))));
+			brown = new JButton(new ImageIcon(ImageIO.read(getClass().getResource("/img/colors/brown.png"))));
+			cyan = new JButton(new ImageIcon(ImageIO.read(getClass().getResource("/img/colors/cyan.png"))));
+			darkGreen = new JButton(new ImageIcon(ImageIO.read(getClass().getResource("/img/colors/darkGreen.png"))));
+			gray = new JButton(new ImageIcon(ImageIO.read(getClass().getResource("/img/colors/gray.png"))));
+			green = new JButton(new ImageIcon(ImageIO.read(getClass().getResource("/img/colors/green.png"))));
+			magenta = new JButton(new ImageIcon(ImageIO.read(getClass().getResource("/img/colors/magenta.png"))));
+			orange = new JButton(new ImageIcon(ImageIO.read(getClass().getResource("/img/colors/orange.png"))));
+			red = new JButton(new ImageIcon(ImageIO.read(getClass().getResource("/img/colors/red.png"))));
+			white = new JButton(new ImageIcon(ImageIO.read(getClass().getResource("/img/colors/white.png"))));
+			yellow = new JButton(new ImageIcon(ImageIO.read(getClass().getResource("/img/colors/yellow.png"))));
+			
+			
+		} catch (IOException e) {
+			// the image is not found...do a simple button
+
+			black = new JButton("black");
+			blue = new JButton("blue");
+			brown= new JButton("brown");
+			cyan = new JButton("cyan");
+			darkGreen =new JButton("darkGreen");
+			gray =new JButton("gray");
+			green =new JButton("green");
+			magenta =new JButton("magenta");
+			orange = new JButton("orange");
+			red = new JButton("red");
+			white =new JButton("white");
+			yellow =new JButton("yellow");
+		}
+	}
+	
+	private void colorButtons(){
+		loadColorsImages();
+		
+		black.setBorder(BorderFactory.createEmptyBorder());
+		black.setContentAreaFilled(false);
+		blue.setBorder(BorderFactory.createEmptyBorder());
+		blue.setContentAreaFilled(false);
+		brown.setBorder(BorderFactory.createEmptyBorder());
+		brown.setContentAreaFilled(false);
+		cyan.setBorder(BorderFactory.createEmptyBorder());
+		cyan.setContentAreaFilled(false);
+		darkGreen.setBorder(BorderFactory.createEmptyBorder());
+		darkGreen.setContentAreaFilled(false);
+		gray.setBorder(BorderFactory.createEmptyBorder());
+		gray.setContentAreaFilled(false);
+		green.setBorder(BorderFactory.createEmptyBorder());
+		green.setContentAreaFilled(false);
+		magenta.setBorder(BorderFactory.createEmptyBorder());
+		magenta.setContentAreaFilled(false);
+		orange.setBorder(BorderFactory.createEmptyBorder());
+		orange.setContentAreaFilled(false);
+		red.setBorder(BorderFactory.createEmptyBorder());
+		red.setContentAreaFilled(false);
+		white.setBorder(BorderFactory.createEmptyBorder());
+		white.setContentAreaFilled(false);
+		yellow.setBorder(BorderFactory.createEmptyBorder());
+		yellow.setContentAreaFilled(false);
+		
+		
+		black.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				dessin.setColor(Color.BLACK);
 				
 			}
 		});
-		
-		btnSelectColor.addActionListener(new ActionListener() {
+
+
+		blue.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Color trait = JColorChooser.showDialog(null,
-                        "JColorChooser Sample", null);
-				dessin.setColor(trait);
+				dessin.setColor(Color.BLUE);
 				
 			}
 		});
-	}
-	public void sendPoint(Rectangle rectangle) {
-		// TODO Auto-generated method stub
+		brown.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dessin.setColor(new Color(0xb12a01));
+				
+			}
+		});
+		cyan.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dessin.setColor(Color.CYAN);
+				
+			}
+		});
+		darkGreen.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dessin.setColor(new Color(0x286a0e));
+				
+			}
+		});
+		gray.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dessin.setColor(Color.GRAY);
+				
+			}
+		});
+		green.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dessin.setColor(Color.GREEN);
+				
+			}
+		});
+		magenta.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dessin.setColor(Color.MAGENTA);
+				
+			}
+		});
+		orange.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dessin.setColor(Color.ORANGE);
+				
+			}
+		});
+		red.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dessin.setColor(Color.RED);
+				
+			}
+		});
+		white.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dessin.setColor(Color.WHITE);
+				
+			}
+		});
+		yellow.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dessin.setColor(Color.YELLOW);
+				
+			}
+		});
+		
+		
+		pCentreHaut_colors.add(black);
+		pCentreHaut_colors.add(blue);
+		pCentreHaut_colors.add(brown);
+		pCentreHaut_colors.add(cyan);
+		pCentreHaut_colors.add(darkGreen);
+		pCentreHaut_colors.add(gray);
+		pCentreHaut_colors.add(white);
+		pCentreHaut_colors.add(magenta);
+		pCentreHaut_colors.add(orange);
+		pCentreHaut_colors.add(red);
+		pCentreHaut_colors.add(green);
+		pCentreHaut_colors.add(yellow);
 		
 	}
+
+	public void sendPoint(Rectangle rectangle) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
