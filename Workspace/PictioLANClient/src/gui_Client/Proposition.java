@@ -1,6 +1,7 @@
 package gui_Client;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
@@ -25,9 +26,12 @@ public class Proposition extends JPanel
 	
 	public Proposition()
 	{
+		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		proposition.setLayout(new FlowLayout());
+		proposition.setOpaque(false);
 		
+		titre.setForeground(Color.WHITE);
 		proposition.add(titre);
 		proposition.add(txtProp);
 		proposition.add(envoyer);

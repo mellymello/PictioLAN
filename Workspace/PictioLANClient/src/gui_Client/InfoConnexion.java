@@ -18,10 +18,20 @@ public class InfoConnexion extends JPanel implements configuration.Configuration
 	
 	public InfoConnexion()
 	{
+		this.setOpaque(false);
 		this.setLayout(new FlowLayout());
 		
 		pEquipe.setLayout(new FlowLayout(FlowLayout.LEFT));
-	    equipe1.setSelected(true);
+	    pEquipe.setOpaque(false);
+	    
+	    equipe1.setOpaque(false);
+	    equipe1.setForeground(Color.WHITE);
+	    equipe2.setOpaque(false);
+	    equipe2.setForeground(Color.WHITE);
+	    
+		equipe1.setSelected(true);
+	    
+	    lblEquipe.setForeground(Color.WHITE);
 	    
 	    pEquipe.add(lblEquipe);
 		pEquipe.add(equipe1);

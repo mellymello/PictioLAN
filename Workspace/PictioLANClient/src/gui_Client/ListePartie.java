@@ -1,6 +1,7 @@
 package gui_Client;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JLabel;
@@ -16,7 +17,9 @@ public class ListePartie extends JPanel
 	
 	public ListePartie()
 	{
+		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
+		titre.setForeground(Color.WHITE);
 		this.add(titre,BorderLayout.NORTH);
 		
 		affichage.setFont(new Font("Courier",Font.PLAIN,12));
