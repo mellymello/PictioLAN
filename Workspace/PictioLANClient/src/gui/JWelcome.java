@@ -155,9 +155,10 @@ public class JWelcome extends JFrame{
 					{
 						if(anonymousCheck.isSelected()){
 							System.out.println("ANONYMOUS we are LEGION");
-							JListGame listGame = new JListGame("Liste des parties");
+							JListGame listGame = new JListGame("Liste des parties",connServer);
 						}
 						else{
+						connServer.launchConnexion();
 						JConnect connect = new JConnect(connServer);
 						}
 						JWelcome.this.dispose();

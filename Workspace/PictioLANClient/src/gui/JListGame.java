@@ -1,5 +1,7 @@
 package gui;
 
+import game.Game;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -12,16 +14,40 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import configuration.Configuration;
+import connection.ConnectionServer;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 public class JListGame extends JFrame{
 
-
-	public JListGame (String title)
+	LinkedList<Game> games;
+	LinkedList<String> listGameTitre;
+	
+	ConnectionServer conn;
+	
+	JList list;
+	
+	public JListGame (String title, ConnectionServer conn)
 	{
+		this.conn = conn;
+//		games = conn.listGame();
+		
+//		listGameTitre = new LinkedList<String>();
+//		
+//		for(Game g : games) {
+//			String s = g.getPseudoCreator() + " ";
+//			
+//			if(g.isModeEquipe())
+//				s += "Jeu en équipe";
+//			else
+//				s += "Jeu solo";
+//			
+//			listGameTitre.add(s);
+//		}
+		
 		this.setSize(Configuration.LARGEUR_CLIENT,Configuration.HAUTEUR_CLIENT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
@@ -33,7 +59,11 @@ public class JListGame extends JFrame{
 		getContentPane().add(pList, BorderLayout.CENTER);
 		pList.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JList list = new JList();
+//		if(listGameTitre != null)
+//			list = new JList(listGameTitre.toArray());
+//		else
+			list = new JList();
+		
 		pList.add(list);
 		
 
@@ -49,6 +79,16 @@ public class JListGame extends JFrame{
 		
 		JButton btnJoinGame = new JButton("Join Game");
 		pGame.add(btnJoinGame);
+		btnJoinGame.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(list.isSelectionEmpty()) {
+					JListGame.this.conn.joinGame(games.get(list.getSelectedIndex()));
+				}
+			}
+		});
 		
 		JButton btnCreateGame = new JButton("Create Game");
 		pGame.add(btnCreateGame);
@@ -57,7 +97,7 @@ public class JListGame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				JCreateGame createGame = new JCreateGame("Create the game");
+				JCreateGame createGame = new JCreateGame("Create the game",JListGame.this.conn);
 			}
 		});
 		

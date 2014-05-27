@@ -15,7 +15,12 @@ import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 
+import connection.ConnectionServer;
+
 public class JCreateGame extends JFrame{
+	
+	private ConnectionServer conn;
+	
 	private JTextField txtNombreDeJoueurs;
 
     private ButtonGroup  groupe  = new ButtonGroup();
@@ -25,7 +30,10 @@ public class JCreateGame extends JFrame{
 	 * 
 	 * Create the application.
 	 */
-	public JCreateGame(String title) {
+	public JCreateGame(String title, ConnectionServer conn) {
+		
+		this.conn = conn;
+		
 		this.setBounds(100, 100, 450, 300);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle(title);
@@ -51,7 +59,7 @@ public class JCreateGame extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Client client = new Client("Client PictioLan");
+				JCreateGame.this.conn.createGame(Integer.parseInt(txtNombreDeJoueurs.getText()), rdbtnMulti.isSelected());
 			}
 		});
 		

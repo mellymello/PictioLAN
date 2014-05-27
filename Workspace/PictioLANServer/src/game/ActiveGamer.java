@@ -17,13 +17,11 @@ import server.BDConnexion;
 public class ActiveGamer {
 	
 	String pseudo;
-	boolean gameCreator;
 	
 	public ActiveGamer() {}
 
-	public ActiveGamer(String p, boolean c) {
+	public ActiveGamer(String p) {
 		pseudo = p;
-		gameCreator = c;
 	}
 	
 	public void setPseudo(String p) {
@@ -33,13 +31,5 @@ public class ActiveGamer {
 	public String getPseudo(){
 		return pseudo;
 	}
-	
-	public void setCreateurPartie(boolean isCreator) {
-		gameCreator = isCreator;
-	}
-	
-	public boolean isCreateurPartie() {
-		return gameCreator;
-	}	
 	
 }

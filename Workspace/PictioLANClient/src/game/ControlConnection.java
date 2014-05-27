@@ -2,6 +2,8 @@ package game;
 
 import connection.ConnectionServer;
 import gui.Client;
+import gui.JCreateGame;
+import gui.JListGame;
 import gui.JWelcome;
 
 public class ControlConnection {
@@ -15,7 +17,7 @@ public class ControlConnection {
 	}
 	
 	public static void main (String[] args) {
-		ControlConnection c = new ControlConnection();
-		Client cli = new Client("test");
+		//ControlConnection c = new ControlConnection();
+		Test t = new Test();
 	}
 }

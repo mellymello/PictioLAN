@@ -136,8 +136,14 @@ public class JConnect extends JFrame implements Observer {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					JListGame listGame = new JListGame("Liste des parties");
-					JConnect.this.dispose();
+					connServer.setPseudo(txtPseudo.getText());
+					connServer.setPassword(passField.getText());
+					connServer.authentification("AUTH_CONNECT");
+					if(connServer.getPseudo() != null) {
+						JListGame listGame = new JListGame("Liste des parties", connServer);
+						listGame.setVisible(true);
+						//JConnect.this.dispose();
+					}
 				}
 			});
 
