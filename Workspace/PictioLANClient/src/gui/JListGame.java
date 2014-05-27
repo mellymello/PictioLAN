@@ -32,6 +32,8 @@ public class JListGame extends JFrame{
 	
 	public JListGame (String title, ConnectionServer conn)
 	{
+		this.setVisible(true);
+		
 		this.conn = conn;
 //		games = conn.listGame();
 		
@@ -97,11 +99,12 @@ public class JListGame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+//				conn.createGame(nbGamer, mode);
 				JCreateGame createGame = new JCreateGame("Create the game",JListGame.this.conn);
 			}
 		});
 		
-		this.setVisible(true);
+		
 	}
 
 }

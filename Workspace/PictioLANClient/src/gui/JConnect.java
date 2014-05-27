@@ -137,12 +137,13 @@ public class JConnect extends JFrame implements Observer {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					connServer.setPseudo(txtPseudo.getText());
-					connServer.setPassword(passField.getText());
+					connServer.setPassword(new String(passField.getPassword()));
 					connServer.authentification("AUTH_CONNECT");
-					if(connServer.getPseudo() != null) {
-						JListGame listGame = new JListGame("Liste des parties", connServer);
-						listGame.setVisible(true);
-						//JConnect.this.dispose();
+					if (connServer.getPseudo() != null) {
+						JListGame listGame = new JListGame("Liste des parties",
+								connServer);
+						
+						JConnect.this.dispose();
 					}
 				}
 			});
@@ -183,7 +184,8 @@ public class JConnect extends JFrame implements Observer {
 			subscribeLabel.addMouseListener(new MouseAdapter() {
 
 				public void mouseClicked(MouseEvent e) {
-					JSubscribe subscribe = new JSubscribe(JConnect.this,connServer);
+					JSubscribe subscribe = new JSubscribe(JConnect.this,
+							connServer);
 					JConnect.this.setEnabled(false);
 
 				}

@@ -32,7 +32,23 @@ public class ServerListener {
 	public ServerListener () {
 		
 		System.out.println("DEBUG - new ServerListener");
-		connexion = new ConnexionListener();
+		
+		try {
+			//chat = new ChatListener();
+			//drawing = new DrawingListener();
+			connexion = new ConnexionListener();
+			
+			//threadChat = new Thread(chat);
+			//threadDrawing = new Thread(drawing);
+			
+			//threadChat.start();
+			//threadDrawing.start();
+			
+			
+		} catch (IOException e) {
+			System.out.println("Error : ServerListener");
+			e.printStackTrace();
+		}
 	}
 	
 	//Socket ChatListener
@@ -86,36 +102,31 @@ public class ServerListener {
 		ServerSocket socketConnexionListener = null;
 		Socket s = null;
 		
-		public ConnexionListener () {
+		public ConnexionListener () throws IOException {
 			threadConnexion = new Thread(this);
 			threadConnexion.start();
-		}
-		
-		public void closeConnexion() { 
-			
-			try {
-				socketConnexionListener.close();
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
 		}
 		
 		public void run() {
 			
 			try {
-				System.out.println("DEBUG - run listener");
 				socketConnexionListener = new ServerSocket(connexion_port);
 				s = socketConnexionListener.accept();
 				client = new ConnexionHandler(s);
-				System.out.println("DEBUG - client socket");
-				closeConnexion();
 				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
+			finally {
+				
+				try {
+					if(socketConnexionListener != null)
+						socketConnexionListener.close();
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }

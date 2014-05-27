@@ -1,12 +1,17 @@
 package gui;
 
+import gui.JConnect.ConnectPanel;
 import gui_Client.Information;
 import gui_Client.ListePartie;
 import gui_Client.Proposition;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,7 +45,11 @@ public class Client extends JFrame implements Configuration {
 	private JButton btnPret = new JButton("Prêt");
 	// private JButton btnSelectColor = new JButton("Couleurs");
 
-	// colors
+	private BasePanel basePanel;
+	private LogoPanel logoPanel;
+	
+	
+	// colors chooser
 	private JButton black;
 	private JButton blue;
 	private JButton brown;
@@ -60,17 +69,46 @@ public class Client extends JFrame implements Configuration {
 
 		this.setSize(LARGEUR_CLIENT, HAUTEUR_CLIENT);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+		
+		initializate();
+		
 		createLeft();
 		createCenter();
 
-		this.getContentPane().add(left, BorderLayout.WEST);
-		this.getContentPane().add(pCentre, BorderLayout.CENTER);
-		this.getContentPane().add(proposition, BorderLayout.SOUTH);
+//		this.getContentPane().add(left, BorderLayout.WEST);
+//		this.getContentPane().add(pCentre, BorderLayout.CENTER);
+//		this.getContentPane().add(proposition, BorderLayout.SOUTH);
+
+		basePanel.add(left, BorderLayout.WEST);
+		basePanel.add(pCentre, BorderLayout.CENTER);
+		basePanel.add(proposition, BorderLayout.SOUTH);
 		this.setVisible(true);
 	}
 
+	private void initializate(){
+		
+		this.setPreferredSize(new Dimension(800, 600));
+		this.setMinimumSize(new Dimension(500,400));
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(true);
+		this.setTitle("PictioLAN Client");
+		this.setLayout(new BorderLayout());
+
+
+		
+		basePanel = new BasePanel();
+		basePanel.setLayout(new BorderLayout());
+
+		logoPanel = new LogoPanel();
+		logoPanel.setPreferredSize(new Dimension(800,60));
+		this.getContentPane().add(basePanel, BorderLayout.CENTER);
+		this.getContentPane().add(logoPanel, BorderLayout.SOUTH);
+		
+
+	}
+	
 	private void createLeft() {
+		left.setOpaque(false);
 		left.setLayout(new GridLayout(3, 1));
 		left.add(infoConnect);
 		left.add(listePartie);
@@ -81,8 +119,11 @@ public class Client extends JFrame implements Configuration {
 		dessin = new Dessin(this);
 
 		pCentreHaut.setLayout(new GridLayout(2, 1));
+		pCentreHaut.setOpaque(false);
 		pCentreHaut_buttons.setLayout(new GridLayout(1, 2));
 		pCentreHaut_colors.setLayout(new GridLayout(2, 6));
+		pCentreHaut_colors.setOpaque(false);
+		
 		pCentreHaut_buttons.add(btnClearEcran);
 		pCentreHaut_buttons.add(btnPret);
 		// pCentreHaut_buttons.add(btnSelectColor);
@@ -92,6 +133,7 @@ public class Client extends JFrame implements Configuration {
 		colorButtons();
 		pCentreHaut.add(pCentreHaut_colors);
 
+		pCentre.setOpaque(false);
 		pCentre.setLayout(new BorderLayout());
 		pCentre.add(pCentreHaut, BorderLayout.NORTH);
 		pCentre.add(dessin, BorderLayout.CENTER);
@@ -299,5 +341,29 @@ public class Client extends JFrame implements Configuration {
 		// TODO Auto-generated method stub
 
 	}
+	
+	
+	
+	
+	class BasePanel extends JPanel {
+		Image bg = new ImageIcon(getClass().getResource(
+				"/img/blueBackground.jpg")).getImage();
 
+		@Override
+		public void paintComponent(Graphics g) {
+			g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+
+		}
+	}
+	
+	class LogoPanel extends JPanel {
+		Image bg = new ImageIcon(getClass().getResource(
+				"/img/pictioLAN_logo.png")).getImage();
+		
+		@Override
+		public void paintComponent(Graphics g) {
+			g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+
+		}
+	}
 }
