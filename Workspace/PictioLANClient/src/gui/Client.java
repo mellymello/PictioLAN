@@ -1,6 +1,5 @@
 package gui;
 
-import gui.JConnect.ConnectPanel;
 import gui_Client.Information;
 import gui_Client.ListePartie;
 import gui_Client.Proposition;
@@ -8,11 +7,10 @@ import gui_Client.Proposition;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Rectangle;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -21,10 +19,8 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.text.AbstractDocument.BranchElement;
 
 import gui_Client.InfoConnexion;
 import configuration.Configuration;
@@ -152,7 +148,7 @@ public class Client extends JFrame implements Configuration {
 //			public void actionPerformed(ActionEvent e) {
 //				Color trait = JColorChooser.showDialog(null,
 //						"JColorChooser Sample", null);
-//				dessin.setColor(trait);
+//				dessin.setCurrentColor(trait);
 //
 //			}
 //		});
@@ -226,7 +222,7 @@ public class Client extends JFrame implements Configuration {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				dessin.setColor(Color.BLACK);
+				dessin.setCurrentColor(Color.BLACK);
 				
 			}
 		});
@@ -236,7 +232,7 @@ public class Client extends JFrame implements Configuration {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dessin.setColor(Color.BLUE);
+				dessin.setCurrentColor(Color.BLUE);
 				
 			}
 		});
@@ -244,7 +240,7 @@ public class Client extends JFrame implements Configuration {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dessin.setColor(new Color(0xb12a01));
+				dessin.setCurrentColor(new Color(0xb12a01));
 				
 			}
 		});
@@ -252,7 +248,7 @@ public class Client extends JFrame implements Configuration {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dessin.setColor(Color.CYAN);
+				dessin.setCurrentColor(Color.CYAN);
 				
 			}
 		});
@@ -260,7 +256,7 @@ public class Client extends JFrame implements Configuration {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dessin.setColor(new Color(0x286a0e));
+				dessin.setCurrentColor(new Color(0x286a0e));
 				
 			}
 		});
@@ -268,7 +264,7 @@ public class Client extends JFrame implements Configuration {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dessin.setColor(Color.GRAY);
+				dessin.setCurrentColor(Color.GRAY);
 				
 			}
 		});
@@ -276,7 +272,7 @@ public class Client extends JFrame implements Configuration {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dessin.setColor(Color.GREEN);
+				dessin.setCurrentColor(Color.GREEN);
 				
 			}
 		});
@@ -284,7 +280,7 @@ public class Client extends JFrame implements Configuration {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dessin.setColor(Color.MAGENTA);
+				dessin.setCurrentColor(Color.MAGENTA);
 				
 			}
 		});
@@ -292,7 +288,7 @@ public class Client extends JFrame implements Configuration {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dessin.setColor(Color.ORANGE);
+				dessin.setCurrentColor(Color.ORANGE);
 				
 			}
 		});
@@ -300,7 +296,7 @@ public class Client extends JFrame implements Configuration {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dessin.setColor(Color.RED);
+				dessin.setCurrentColor(Color.RED);
 				
 			}
 		});
@@ -308,7 +304,7 @@ public class Client extends JFrame implements Configuration {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dessin.setColor(Color.WHITE);
+				dessin.setCurrentColor(Color.WHITE);
 				
 			}
 		});
@@ -316,7 +312,7 @@ public class Client extends JFrame implements Configuration {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dessin.setColor(Color.YELLOW);
+				dessin.setCurrentColor(Color.YELLOW);
 				
 			}
 		});
@@ -336,14 +332,11 @@ public class Client extends JFrame implements Configuration {
 		pCentreHaut_colors.add(yellow);
 		
 	}
-
-	public void sendPoint(Rectangle rectangle) {
+	
+	public void sendPoint(Point point) {
 		// TODO Auto-generated method stub
-
+		//METHODE POUR ENVOYER LES POINTS
 	}
-	
-	
-	
 	
 	class BasePanel extends JPanel {
 		Image bg = new ImageIcon(getClass().getResource(

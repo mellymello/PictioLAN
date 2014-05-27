@@ -1,36 +1,34 @@
+/*************************************************************
+ *Projet: Dessinary  GEN 2006
+ *Fichier: Dessin.java
+ *Auteur: Marazzi Laurent, Reymondin Louis, Carrupt Etienne
+ *		  Scalfo Christophe, Melly Jonathan, Sauvin Anthony
+ *Dernière modification: 10 mai 2006
+ *Description: Interface de la zone de dessin
+ *
+ *Compilateur: java 1.5
+ *
+ ************************************************************/
 package gui;
-
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.util.Vector;
-
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import configuration.Configuration;
 
-
-/*
- * C'est pas plus simple d'envoyer le Jpanel directement au lieu de faire: 
- * 
- * 	panel.addPoint(new Rectangle(x1, y1, e.getX(), e.getY()));
- *	client.sendPoint(new Rectangle(x1, y1, e.getX(), e.getY()));
- */
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.awt.*;
+import java.util.*;
 
 public class Dessin extends JPanel implements Configuration
 {
-	private Vector<Rectangle> point = new Vector<Rectangle>();
+	protected Vector<Point> points = new Vector<Point>();
 	
 	private DessinEcouteur ecouteur;
 	
 	private boolean enabled = true;
-	private Color color = Color.black;
+	private Color currentColor = Color.BLACK;
+	BufferedImage bImage = new BufferedImage(700, 500, BufferedImage.TYPE_INT_RGB);
+
 	
 	
 	public Dessin(Client client)
@@ -38,41 +36,66 @@ public class Dessin extends JPanel implements Configuration
 		ecouteur = new DessinEcouteur(this,client);
 		this.addMouseListener(ecouteur);
 		this.addMouseMotionListener(ecouteur);
+		
+        Graphics g2d = bImage.getGraphics();
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, 700, 500);
+        g2d.dispose();
 	}
 	
-	public void addPoint(Rectangle p)
+	public void addPoint(Point p)
 	{
-		point.addElement(p);
-		repaint();
+		points.addElement(p);
 	}
 	
 	public void effacerDessin()
 	{
-		point.clear();
-		
-		repaint();
+        points.clear();
+        Graphics g = bImage.getGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 700, 500);
+        g.dispose();
+        repaint();
 	}
 	
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		
     	g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2d.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_SPEED);
-    
-    	g2d.setColor(Color.white);
-		g2d.fillRect(0,0,this.getWidth(),this.getHeight());
-		g2d.setColor(color);
 		g2d.setStroke(new BasicStroke(RAYON,BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
-		Rectangle p;
 		
-		for(int i = 1; i<point.size(); i++)
-		{
-      		p = (Rectangle)point.elementAt(i);
-			g2d.drawLine(p.x,p.y,p.width,p.height);
-		}
+        drawImage();
+        g.drawImage(bImage,0,0,null);
+        drawLines(g);
 	}
 	
+	
+   public void drawImage()
+    {
+        Graphics g = bImage.getGraphics();
+        drawLines(g);
+        g.dispose();
+    }
+
+    public void drawLines(Graphics g)
+    {
+         if(points != null && points.size() > 1)
+         {
+
+             g.setColor(getCurrentColor());
+              for(int i = 0; i < points.size()-1;i++)
+               {
+                   int x1 = points.get(i).x;
+                   int y1 = points.get(i).y;
+                   int x2 = points.get(i+1).x;
+                   int y2 = points.get(i+1).y;
+                   g.drawLine(x1, y1, x2, y2);
+               }
+         }
+    }
 	public boolean getEnabled()
 	{
 		return enabled;
@@ -82,18 +105,21 @@ public class Dessin extends JPanel implements Configuration
 	{
 		enabled = isEnabled;
 	}
-	
-
-	public void setColor (Color c)
+	public void setCurrentColor (Color c)
 	{
-		this.color = c;
+		currentColor = c;
 	}
+	public Color getCurrentColor()
+	{
+		return currentColor;
+	}
+	
+	
 }
 
 class DessinEcouteur implements MouseListener, MouseMotionListener
 {
   private Dessin panel;
-  private int x1=0,y1=0;
   private Client client;
 	
 	DessinEcouteur(Dessin panel, Client client)
@@ -106,10 +132,9 @@ class DessinEcouteur implements MouseListener, MouseMotionListener
 	{
 		if(panel.getEnabled())
 		{
-			panel.addPoint(new Rectangle(x1, y1, e.getX(), e.getY()));
-			client.sendPoint(new Rectangle(x1, y1, e.getX(), e.getY()));
-	    	x1=e.getX();
-	    	y1=e.getY();
+			panel.addPoint(new Point(e.getPoint()));
+			panel.repaint();
+			//client.sendPoint(new Point(e.getPoint()));
 		}
 	}
 
@@ -117,15 +142,9 @@ class DessinEcouteur implements MouseListener, MouseMotionListener
 	{
 		if(panel.getEnabled())
 		{
-		    if(x1==-1)
-		    {
-		      x1=e.getX();
-		      y1=e.getY();
-		    }
-		    panel.addPoint(new Rectangle(x1, y1, e.getX(), e.getY()));
-		    client.sendPoint(new Rectangle(x1, y1, e.getX(), e.getY()));
-		    x1=e.getX();
-		    y1=e.getY();
+			panel.points.clear();
+			panel.addPoint(new Point(e.getPoint()));
+		    //client.sendPoint(new Rectangle(new Point(e.getPoint()));
 		}
 	}
 	
@@ -133,10 +152,10 @@ class DessinEcouteur implements MouseListener, MouseMotionListener
 	{
 		if(panel.getEnabled())
 		{
-		    panel.addPoint(new Rectangle(x1, y1, e.getX(), e.getY()));
-		    client.sendPoint(new Rectangle(x1, y1, e.getX(), e.getY()));
-		    x1=-1;
-		    y1=-1;
+			panel.addPoint(new Point(e.getPoint()));
+			panel.points.clear();
+		    //client.sendPoint(new Point(e.getPoint()));
+			panel.repaint();
 		}
 	}
 	
