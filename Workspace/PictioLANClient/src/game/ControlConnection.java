@@ -2,6 +2,7 @@ package game;
 
 import connection.ConnectionServer;
 import gui.Client;
+import gui.Dessin;
 import gui.JCreateGame;
 import gui.JListGame;
 import gui.JWelcome;
@@ -18,6 +19,6 @@ public class ControlConnection {
 	
 	public static void main (String[] args) {
 		//ControlConnection c = new ControlConnection();
-		Test t = new Test();
+		//Test t = new Test();
 	}
 }
