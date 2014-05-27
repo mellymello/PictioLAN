@@ -11,18 +11,18 @@ import javax.swing.JOptionPane;
 import server.BDConnexion;
 
 public class ManageGamer {
-	
 
 	//Liste static des joueurs connectés et/ou authentifiés !!!
 	static LinkedList<ActiveGamer> listActiveGamer = new LinkedList<ActiveGamer>();
 	
-	public ManageGamer() {
-		
-	}
+	public static int idAnonyme = 0;
+	
+	public ManageGamer() { }
 		
 	public static ActiveGamer authentification_BD(String pseudo, String pass) {
 		
 		String requete = "SELECT password FROM player WHERE pseudo = \"" + pseudo + "\"";
+		System.out.println(requete);
 		ResultSet res;
 		
 		try {
@@ -31,7 +31,7 @@ public class ManageGamer {
 			if(res != null) {
 				res.next();
 				if(res.getString(1).equals(pass)) {
-					ActiveGamer temp = new ActiveGamer(pseudo, false);
+					ActiveGamer temp = new ActiveGamer(pseudo);
 					listActiveGamer.add(temp);
 					return temp;
 				}
@@ -71,7 +71,7 @@ public class ManageGamer {
 				String requete = "INSERT INTO player(Pseudo, Password, Email) VALUES (\""+pseudo+"\",\""+pass+"\",\""+email+"\")";
 				BDConnexion.bd.stmt.executeUpdate(requete);
 				
-				return new ActiveGamer(pseudo,true);
+				return new ActiveGamer(pseudo);
 
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, "Impossible to add player !",
