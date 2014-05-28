@@ -16,6 +16,6 @@ public class ControlConnection {
 	
 	public static void main (String[] args) {
 		ControlConnection c = new ControlConnection();
-		Client cli = new Client("test");
+//		Client cli = new Client("test");
 	}
 }

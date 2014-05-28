@@ -142,7 +142,7 @@ public class JConnect extends JFrame implements Observer {
 					if (connServer.getPseudo() != null) {
 						JListGame listGame = new JListGame("Liste des parties",
 								connServer);
-						
+//						listGame.setVisible(true);
 						JConnect.this.dispose();
 					}
 				}
