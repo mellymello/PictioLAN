@@ -2,6 +2,9 @@ package gamer;
 
 import game.ActiveGamer;
 import server.BDConnexion;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -30,7 +33,16 @@ public class ManageGamer {
 			
 			if(res != null) {
 				res.next();
-				if(res.getString(1).equals(pass)) {
+				MessageDigest md = null;
+				try {
+					 md = MessageDigest.getInstance("SHA-1");
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				}
+				
+				byte[] passSHA1 = md.digest(pass.getBytes());
+				
+				if(res.getBytes(1).equals(passSHA1)) {
 					ActiveGamer temp = new ActiveGamer(pseudo);
 					listActiveGamer.add(temp);
 					return temp;
@@ -68,7 +80,7 @@ public class ManageGamer {
 		if(notExist) {
 			try {
 
-				String requete = "INSERT INTO player(Pseudo, Password, Email) VALUES (\""+pseudo+"\",\""+pass+"\",\""+email+"\")";
+				String requete = "INSERT INTO player(Pseudo, Password, Email) VALUES (\""+pseudo+"\",SHA1(\""+pass+"\"),\""+email+"\")";
 				BDConnexion.bd.stmt.executeUpdate(requete);
 				
 				return new ActiveGamer(pseudo);
