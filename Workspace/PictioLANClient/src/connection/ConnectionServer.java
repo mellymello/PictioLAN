@@ -29,6 +29,8 @@ public class ConnectionServer {
 	String password = null;
 	String email = null;
 	
+	Boolean connexionDone = false;
+	
 	public ConnectionServer() { }
 
 	public void setIP(String ip) { IPserver = ip; }
@@ -44,6 +46,14 @@ public class ConnectionServer {
 
 	public void launchConnexion() {
 		connexion = new ConnexionListener();
+		connexionDone = true;
+	}
+	
+	public Gamer getGamer () {
+		return gamer;
+	}
+	public Boolean getConnexionDone() {
+		return connexionDone;
 	}
 	
 	public void authentification(String msg){

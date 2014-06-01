@@ -1,5 +1,6 @@
 package gui;
 
+import game.Gamer;
 import gui.JConnect.ConnectPanel;
 import gui.JConnect.InputPanel;
 
@@ -191,19 +192,26 @@ public class JSubscribe extends Observable {
 								errorLabel.setText("give a valid email");
 							} else {
 								// Connexion au serveur !!
-								connServer.setIP("127.0.0.1");
-								connServer.launchConnexion();
+								if (connServer.getConnexionDone() == false) {
+									connServer.setIP("127.0.0.1");
+									connServer.launchConnexion();
+								}
 								// Connexion au serveur !!
 								// Subscribe
 								connServer.setPseudo(pseudo);
 								connServer.setPassword(pass);
 								connServer.setEmail(email);
 								connServer.authentification("AUTH_SUBSCRIBE");
-
-								setChanged();
-								notifyObservers();
-								frame.dispose();
-
+								
+								Gamer gamerTest = connServer.getGamer();
+								if (gamerTest == null) {
+									errorLabel.setText("Pseudo already in use.");
+								}
+								else {
+									setChanged();
+									notifyObservers();
+									frame.dispose();
+								}
 							}
 						}
 					}
