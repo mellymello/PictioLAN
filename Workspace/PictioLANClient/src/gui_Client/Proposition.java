@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -42,6 +46,37 @@ public class Proposition extends JPanel
 		
 		this.add(proposition, BorderLayout.NORTH);
 		this.add(msgScroll, BorderLayout.CENTER);
+		
+		envoyer.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				addText(txtProp);
+			}
+		});
+		envoyer.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode()==KeyEvent.VK_ENTER){
+			        addText(txtProp);
+			    }
+
+				
+			}
+		});
     
 	}
 	
@@ -52,41 +87,25 @@ public class Proposition extends JPanel
 		envoyer.setEnabled(actif);
 	}
 	
-	public void addMessage(String message)
-	{
-    //affichage a l'envers
-		affichage.setText(message+"\n" + affichage.getText());
-	}
-	
 	public void setEnabled(boolean isEnabled)
 	{
 		txtProp.setEnabled(isEnabled);
 		envoyer.setEnabled(isEnabled);
 	}
 	
-	public JButton getEnvoyer()
+	public void addText(JTextField message)
 	{
-		return envoyer;
+		affichage.setText(affichage.getText()+ message.getText()+"\n");
+		txtProp.setText("");
 	}
 	
 	public String getProposition()
 	{
 		return txtProp.getText();
 	}
-  
-  public JTextField getJProposition()
-  {
-    return txtProp;
-  }
-	
-	public void viderText()
+	public JButton getEnvoyer ()
 	{
-		txtProp.setText("");
+		return envoyer;
 	}
-  
-  public void setProp(String prop)
-  {
-    txtProp.setText(prop);
-  }
   
 }

@@ -1,13 +1,5 @@
 /*************************************************************
- *Projet: Dessinary  GEN 2006
- *Fichier: Dessin.java
- *Auteur: Marazzi Laurent, Reymondin Louis, Carrupt Etienne
- *		  Scalfo Christophe, Melly Jonathan, Sauvin Anthony
- *Dernière modification: 10 mai 2006
- *Description: Interface de la zone de dessin
- *
- *Compilateur: java 1.5
- *
+
  ************************************************************/
 package gui;
 import javax.swing.*;
@@ -61,11 +53,6 @@ public class Dessin extends JPanel implements Configuration
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D) g;
-		
-    	g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2d.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_SPEED);
-		g2d.setStroke(new BasicStroke(RAYON,BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
 		
         drawImage();
         g.drawImage(bImage,0,0,null);
@@ -82,10 +69,15 @@ public class Dessin extends JPanel implements Configuration
 
     public void drawLines(Graphics g)
     {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_SPEED);
+		g2d.setStroke(new BasicStroke(RAYON,BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
+		
          if(points != null && points.size() > 1)
          {
 
-             g.setColor(getCurrentColor());
+             g.setColor(currentColor);
               for(int i = 0; i < points.size()-1;i++)
                {
                    int x1 = points.get(i).x;
@@ -108,10 +100,6 @@ public class Dessin extends JPanel implements Configuration
 	public void setCurrentColor (Color c)
 	{
 		currentColor = c;
-	}
-	public Color getCurrentColor()
-	{
-		return currentColor;
 	}
 	
 	

@@ -79,6 +79,8 @@ public class Client extends JFrame implements Configuration {
 		basePanel.add(pCentre, BorderLayout.CENTER);
 		basePanel.add(proposition, BorderLayout.SOUTH);
 		this.setVisible(true);
+		
+		this.getRootPane().setDefaultButton(proposition.getEnvoyer());
 	}
 
 	private void initializate(){
