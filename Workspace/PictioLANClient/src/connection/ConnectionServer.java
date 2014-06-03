@@ -87,6 +87,7 @@ public class ConnectionServer {
 	
 	public void closeConnexion() {
 		connexion.closeConnexion();
+		connexionDone = false;
 	}
 	
 	//Socket ChatListener

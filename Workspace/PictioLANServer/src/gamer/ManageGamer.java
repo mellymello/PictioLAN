@@ -33,16 +33,8 @@ public class ManageGamer {
 			
 			if(res != null) {
 				res.next();
-				MessageDigest md = null;
-				try {
-					 md = MessageDigest.getInstance("SHA-1");
-				} catch (NoSuchAlgorithmException e) {
-					e.printStackTrace();
-				}
-				
-				byte[] passSHA1 = md.digest(pass.getBytes());
-				
-				if(res.getBytes(1).equals(passSHA1)) {
+				String passSHA1 = sha1(pass);
+				if(res.getString(1).equals(passSHA1)) {
 					ActiveGamer temp = new ActiveGamer(pseudo);
 					listActiveGamer.add(temp);
 					return temp;
@@ -62,6 +54,21 @@ public class ManageGamer {
 		
 	}
 	
+	private static String sha1(String input) {
+		MessageDigest mDigest = null;
+		try {
+			mDigest = MessageDigest.getInstance("SHA1");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+        byte[] result = mDigest.digest(input.getBytes());
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < result.length; i++) {
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
+         
+        return sb.toString();
+    }
 	
 	public static ActiveGamer addGamer(String pseudo, String pass, String email){
 	
@@ -80,7 +87,7 @@ public class ManageGamer {
 		if(notExist) {
 			try {
 
-				String requete = "INSERT INTO player(Pseudo, Password, Email) VALUES (\""+pseudo+"\",SHA1(\""+pass+"\"),\""+email+"\")";
+				String requete = "INSERT INTO player(Pseudo, Password, Email, SubscribeDate) VALUES (\""+pseudo+"\",SHA1(\""+pass+"\"),\""+email+"\", NOW())";
 				BDConnexion.bd.stmt.executeUpdate(requete);
 				
 				return new ActiveGamer(pseudo);
