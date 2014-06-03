@@ -73,7 +73,6 @@ public class Proposition extends JPanel
 				if (e.getKeyCode()==KeyEvent.VK_ENTER){
 			        addText(txtProp);
 			    }
-
 				
 			}
 		});

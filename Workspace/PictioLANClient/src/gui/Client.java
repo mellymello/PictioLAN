@@ -81,6 +81,7 @@ public class Client extends JFrame implements Configuration {
 		this.setVisible(true);
 		
 		this.getRootPane().setDefaultButton(proposition.getEnvoyer());
+		this.setResizable(false);
 	}
 
 	private void initializate(){

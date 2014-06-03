@@ -19,7 +19,7 @@ public class Dessin extends JPanel implements Configuration
 	
 	private boolean enabled = true;
 	private Color currentColor = Color.BLACK;
-	BufferedImage bImage = new BufferedImage(700, 500, BufferedImage.TYPE_INT_RGB);
+	BufferedImage bImage = new BufferedImage(LARGEUR_DESSIN, HAUTEUR_DESSIN, BufferedImage.TYPE_INT_RGB);
 
 	
 	
@@ -31,7 +31,7 @@ public class Dessin extends JPanel implements Configuration
 		
         Graphics g2d = bImage.getGraphics();
         g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, 700, 500);
+        g2d.fillRect(0, 0, LARGEUR_DESSIN, HAUTEUR_DESSIN);
         g2d.dispose();
 	}
 	
@@ -45,7 +45,7 @@ public class Dessin extends JPanel implements Configuration
         points.clear();
         Graphics g = bImage.getGraphics();
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 700, 500);
+        g.fillRect(0, 0, LARGEUR_DESSIN, HAUTEUR_DESSIN);
         g.dispose();
         repaint();
 	}
