@@ -138,6 +138,10 @@ public class JConnect extends JFrame implements Observer {
 				public void actionPerformed(ActionEvent e) {
 					connServer.setPseudo(txtPseudo.getText());
 					connServer.setPassword(new String(passField.getPassword()));
+					
+					if (!connServer.getConnexionDone())
+						connServer.launchConnexion();
+					
 					connServer.authentification("AUTH_CONNECT");
 					if (connServer.getPseudo() != null) {
 						JListGame listGame = new JListGame("Liste des parties",

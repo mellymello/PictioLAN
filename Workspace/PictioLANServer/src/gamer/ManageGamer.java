@@ -80,7 +80,7 @@ public class ManageGamer {
 		if(notExist) {
 			try {
 
-				String requete = "INSERT INTO player(Pseudo, Password, Email) VALUES (\""+pseudo+"\",SHA1(\""+pass+"\"),\""+email+"\")";
+				String requete = "INSERT INTO player(Pseudo, Password, Email, SubscribeDate) VALUES (\""+pseudo+"\",SHA1(\""+pass+"\"),\""+email+"\", NOW())";
 				BDConnexion.bd.stmt.executeUpdate(requete);
 				
 				return new ActiveGamer(pseudo);
