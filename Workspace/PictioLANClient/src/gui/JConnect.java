@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -113,6 +114,8 @@ public class JConnect extends JFrame implements Observer {
 		private JLabel subscribeLabel;
 
 		private JButton loginButton;
+		
+		private JLabel errorLabel;
 
 		public InputPanel() {
 			setOpaque(false);
@@ -131,6 +134,10 @@ public class JConnect extends JFrame implements Observer {
 			passField.setColumns(12);
 
 			loginButton = new JButton("Login");
+			
+			errorLabel = new JLabel(" ");
+			errorLabel.setFont(new Font(errorLabel.getFont().getName(),Font.BOLD,14));
+			errorLabel.setForeground(Color.YELLOW);
 
 			loginButton.addActionListener(new ActionListener() {
 
@@ -148,6 +155,9 @@ public class JConnect extends JFrame implements Observer {
 								connServer);
 //						listGame.setVisible(true);
 						JConnect.this.dispose();
+					}
+					else {
+						errorLabel.setText("Wrong login/password");
 					}
 				}
 			});
@@ -200,6 +210,11 @@ public class JConnect extends JFrame implements Observer {
 			c.gridx = 1;
 			c.gridy = 2;
 			add(subscribeLabel, c);
+			
+			c.insets = new Insets(5, 0, 0, 0);
+			c.gridx = 0;
+			c.gridy = 2;
+			add(errorLabel, c);
 
 		}
 	}
