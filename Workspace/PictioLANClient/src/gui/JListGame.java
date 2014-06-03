@@ -100,7 +100,7 @@ public class JListGame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 //				conn.createGame(nbGamer, mode);
-				JCreateGame createGame = new JCreateGame("Create the game",JListGame.this.conn);
+				JCreateGame createGame = new JCreateGame(JListGame.this.conn);
 			}
 		});
 		
