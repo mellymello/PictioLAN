@@ -46,6 +46,12 @@ public class JWelcome extends JFrame{
 		connServer = conn;
 		initialize();
 
+		/////////////////////////////////////////////////////////////////////
+//		testing
+		JListGame listGame = new JListGame(connServer);
+
+		////////////////////
+		
 		this.setVisible(true);
 		this.pack();
 
@@ -156,7 +162,7 @@ public class JWelcome extends JFrame{
 						if(anonymousCheck.isSelected()){
 							System.out.println("ANONYMOUS we are LEGION");
 							connServer.authentification("AUTH_ANONYMOUS");
-							JListGame listGame = new JListGame("Liste des parties",connServer);
+							JListGame listGame = new JListGame(connServer);
 						}
 						else{
 						JConnect connect = new JConnect(connServer);

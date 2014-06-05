@@ -151,7 +151,7 @@ public class JConnect extends JFrame implements Observer {
 					
 					connServer.authentification("AUTH_CONNECT");
 					if (connServer.getPseudo() != null) {
-						JListGame listGame = new JListGame("Liste des parties",
+						JListGame listGame = new JListGame(
 								connServer);
 //						listGame.setVisible(true);
 						JConnect.this.dispose();
