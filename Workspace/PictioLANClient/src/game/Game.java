@@ -4,6 +4,10 @@ import java.util.LinkedList;
 
 public class Game {
 	
+
+	private String name;
+	private String category;
+	
 	int idGame; //Fournit par le serveur car unique !
 	
 	boolean modeEquipe;
@@ -18,8 +22,22 @@ public class Game {
 	
 	public Game(int id, boolean mode, String pseudo) {
 		idGame = id;
+		name= "";
+		category= "";
 		modeEquipe = mode;
 		pseudoCreator = pseudo;
+		rounds = new LinkedList<Round>();
+		gamers  = new LinkedList<String>();
+	}
+	
+	public Game(int id, String name, String category, boolean mode, String pseudo) {
+		idGame = id;
+		this.name=name;
+		this.category=category;
+		modeEquipe = mode;
+		pseudoCreator = pseudo;
+		rounds = new LinkedList<Round>();
+		gamers  = new LinkedList<String>();
 	}
 	
 	public LinkedList<String> getGamers() {
@@ -49,7 +67,25 @@ public class Game {
 	public void setPseudoCreator(String pseudoCreator) {
 		this.pseudoCreator = pseudoCreator;
 	}
+	
+	
 
+	public String getName() {
+		return name;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+	
+	public int getNbrPlayers(){
+		return gamers.size();
+	}
+
+	public int getNbrRound(){
+		return rounds.size();
+	}
+	
 	public void launchGame() {
 		draw = new Drawing();
 		chat = new Chat();

@@ -1,8 +1,7 @@
 package gui;
 
 import game.Game;
-import gui.JConnect.ConnectPanel;
-import gui.JConnect.InputPanel;
+
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,6 +11,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -26,52 +26,45 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+
 
 import connection.ConnectionServer;
 
-
-
-public class JListGame extends JFrame{
+public class JListGame extends JFrame {
 
 	private LinkedList<Game> games;
-	
-	
+
 	private ListGamePanel basePanel;
 	private GameInfoPanel infoPanel;
 	private JPanel buttonPanel;
 
-	private JButton join;
-	private JButton refresh;
-	
 	private JPanel exitPanel;
 
 	private JButton exitButton;
 
 	private ConnectionServer connServer;
-	
-	public JListGame (ConnectionServer conn)
-	{
+
+	public JListGame(ConnectionServer conn) {
 		connServer = conn;
-//		games=connServer.listGame();
-		
-		//for testing.......................................................
-		
-		games=new LinkedList<Game>();
-		games.add(new Game(1, true, "test1"));
-		games.add(new Game(2, false, "aaa"));
-		games.add(new Game(3, false, "JKLJ"));
-		games.add(new Game(4, true, "long name test AAAbbbbcccd"));
-		
-		//.......................
-		
+		// games=connServer.listGame();
+
+		// for testing.......................................................
+
+		games = new LinkedList<Game>();
+		games.add(new Game(1, "abc", "Animal", true, "test1"));
+		games.add(new Game(2, "test", "Fruit", false, "aaa"));
+		games.add(new Game(3, "fff", "Car", false, "JKLJ"));
+		games.add(new Game(4, "abcasdasdasdasdasdasdasdasda", "Animal", true,
+				"long name test AAAbbbbcccd"));
+
+		// .......................
+
 		initialize();
 		this.setVisible(true);
 		this.pack();
 	}
-	
+
 	private void initialize() {
 
 		this.setPreferredSize(new Dimension(700, 500));
@@ -82,9 +75,9 @@ public class JListGame extends JFrame{
 
 		basePanel = new ListGamePanel();
 		basePanel.setLayout(new BorderLayout());
-		
+
 		infoPanel = new GameInfoPanel();
-		buttonPanel= new JPanel();
+		buttonPanel = new JPanel();
 		buttonPanel.setOpaque(false);
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
@@ -108,26 +101,13 @@ public class JListGame extends JFrame{
 		this.addMouseMotionListener(mml);
 		this.addMouseListener(mml);
 
-		join= new JButton("JOIN");
-		refresh= new JButton("Refresh");
-		
-		buttonPanel.add(refresh);
-		buttonPanel.add(join);
-		
+		basePanel.add(infoPanel, BorderLayout.CENTER);
+		basePanel.add(buttonPanel, BorderLayout.PAGE_END);
 
-
-		
-		basePanel.add(infoPanel,BorderLayout.CENTER);
-		basePanel.add(buttonPanel,BorderLayout.PAGE_END);
-		
 		this.getContentPane().add(basePanel, BorderLayout.CENTER);
 
 	}
-	
-	
-	
-	
-	
+
 	class ListGamePanel extends JPanel {
 		Image bg = new ImageIcon(getClass().getResource(
 				"/img/wille_join_BackGround.png")).getImage();
@@ -138,72 +118,182 @@ public class JListGame extends JFrame{
 
 		}
 	}
-	
+
 	class GameInfoPanel extends JPanel {
 
-
-		
 		private JList<String> gamesNameList;
-		private JScrollPane  gamesNameScroll;
-		
+		private JScrollPane gamesNameScroll;
+
+		private Game selectetGame;
+
+		private JButton join;
+		private JButton refresh;
+
 		private JPanel rigthP;
-		private JLabel test = new JLabel("TEEESSST");
-		
+		private JLabel gameCreator;
+		private JLabel gameMode;
+		private JLabel gameRound;
+		private JLabel nbrPlayer;
+		private JLabel gameCategory;
+
+		private JLabel gameCreatorValue;
+		private JLabel gameModeValue;
+		private JLabel gameRoundValue;
+		private JLabel nbrPlayerValue;
+		private JLabel gameCategoryValue;
+
 		public GameInfoPanel() {
-//			setOpaque(false);
+			setOpaque(false);
 			setLayout(new GridBagLayout());
 
-			
-			gamesNameList= new JList<String>();
-			gamesNameScroll= new JScrollPane(gamesNameList);		
+			gamesNameList = new JList<String>();
+			gamesNameScroll = new JScrollPane(gamesNameList);
 			setGameNameList();
-			
-			rigthP= new JPanel();
-			rigthP.add(test);
-			
+
+			gamesNameList.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					String selected = gamesNameList.getSelectedValue();
+
+					for (int i = 0; i < games.size(); i++) {
+						if (games.get(i).getName().compareTo(selected) == 0) {
+							selectetGame = games.get(i);
+							break;
+						}
+					}
+
+					refreshGameInfo();
+
+				}
+			});
+
+			join = new JButton("JOIN !");
+			refresh = new JButton("Refresh");
+
+			gameCreator = new JLabel("Created by : ");
+			gameMode = new JLabel("Game mode : ");
+			gameRound = new JLabel("Round : ");
+			nbrPlayer = new JLabel("Players : ");
+			gameCategory = new JLabel("Category :");
+
+			gameCreator.setFont(new Font(gameCreator.getFont().getName(),
+					Font.BOLD, 17));
+			gameCreator.setForeground(Color.WHITE);
+
+			gameMode.setFont(new Font(gameMode.getFont().getName(), Font.BOLD,
+					17));
+			gameMode.setForeground(Color.WHITE);
+
+			gameRound.setFont(new Font(gameRound.getFont().getName(),
+					Font.BOLD, 17));
+			gameRound.setForeground(Color.WHITE);
+
+			nbrPlayer.setFont(new Font(nbrPlayer.getFont().getName(),
+					Font.BOLD, 17));
+			nbrPlayer.setForeground(Color.WHITE);
+
+			gameCategory.setFont(new Font(gameCategory.getFont().getName(),
+					Font.BOLD, 17));
+			gameCategory.setForeground(Color.WHITE);
+
+			gameCreatorValue = new JLabel(" ");
+			gameModeValue = new JLabel(" ");
+			gameRoundValue = new JLabel(" ");
+			nbrPlayerValue = new JLabel(" ");
+			gameCategoryValue = new JLabel(" ");
+
+			gameCreatorValue.setFont(new Font(gameCreatorValue.getFont()
+					.getName(), Font.BOLD, 17));
+			gameCreatorValue.setForeground(Color.WHITE);
+
+			gameModeValue.setFont(new Font(gameModeValue.getFont().getName(),
+					Font.BOLD, 17));
+			gameModeValue.setForeground(Color.WHITE);
+
+			gameRoundValue.setFont(new Font(gameRoundValue.getFont().getName(),
+					Font.BOLD, 17));
+			gameRoundValue.setForeground(Color.WHITE);
+
+			nbrPlayerValue.setFont(new Font(nbrPlayerValue.getFont().getName(),
+					Font.BOLD, 17));
+			nbrPlayerValue.setForeground(Color.WHITE);
+
+			gameCategoryValue.setFont(new Font(gameCategoryValue.getFont()
+					.getName(), Font.BOLD, 17));
+			gameCategoryValue.setForeground(Color.WHITE);
+
+			rigthP = new JPanel();
+			rigthP.setLayout(new GridLayout(6, 2, 15, 25));
+			rigthP.setOpaque(false);
+
+			rigthP.add(gameCreator);
+			rigthP.add(gameCreatorValue);
+			rigthP.add(gameMode);
+			rigthP.add(gameModeValue);
+			rigthP.add(gameRound);
+			rigthP.add(gameRoundValue);
+			rigthP.add(nbrPlayer);
+			rigthP.add(nbrPlayerValue);
+			rigthP.add(gameCategory);
+			rigthP.add(gameCategoryValue);
+
+			rigthP.add(refresh);
+			rigthP.add(join);
 
 			GridBagConstraints c = new GridBagConstraints();
 
-			c.insets = new Insets(0, 0, 0, 0);
-			c.weighty = 1;
-//			c.gridwidth = 5;
-			c.anchor = GridBagConstraints.FIRST_LINE_START;
-//			c.fill=GridBagConstraints.HORIZONTAL;
+			c.insets = new Insets(90, 20, 10, 150);
+			c.gridheight = 3;
+			c.gridwidth = 3;
 			c.gridx = 0;
-			c.gridy = 0;
+			c.gridy = 2;
+			c.anchor = GridBagConstraints.CENTER;
+			c.ipadx = 200;
+			c.ipady = 80;
 			add(gamesNameScroll, c);
-			
 
-			c.insets = new Insets(0, 0, 0, 0);
-//			c.weighty = 1;
-//			c.gridwidth = 5;
-//			c.anchor = GridBagConstraints.FIRST_LINE_START;
-//			c.fill=GridBagConstraints.HORIZONTAL;
-			c.gridx = 1;
-			c.gridy = 0;
+			c.insets = new Insets(90, 0, 0, 50);
+			c.gridheight = 4;
+			c.gridwidth = 2;
+			c.gridx = 3;
+			c.gridy = 1;
+			c.anchor = GridBagConstraints.NORTHWEST;
+			c.weighty = GridBagConstraints.VERTICAL;
+			c.weightx= GridBagConstraints.WEST;
+			c.ipadx = 20;
+			c.ipady = 10;
 			add(rigthP, c);
-			
-
 
 		}
-		
-		
-		
-		//////////////////////////////
-		//////////////////////////////////////////////////////////////////////////////////
-		//here we have to set NAME and not the PseudoCreator !
-		///
+
 		private void setGameNameList() {
-			String [] tmp = new String [games.size()];
-			
-			for(int i=0; i< games.size(); i++){
-				tmp[i]= games.get(i).getPseudoCreator();
+			String[] tmp = new String[games.size()];
+
+			for (int i = 0; i < games.size(); i++) {
+				tmp[i] = games.get(i).getName();
 			}
-			
+
 			gamesNameList.setListData(tmp);
 		}
+
+		private void refreshGameInfo() {
+			if (selectetGame != null) {
+				gameCreatorValue.setText(selectetGame.getPseudoCreator());
+				gameCreatorValue.setToolTipText(gameCreatorValue.getText());
+
+				if (selectetGame.isModeEquipe()) {
+					gameModeValue.setText("Team game");
+				} else {
+					gameModeValue.setText("Solo game");
+				}
+				gameRoundValue.setText(String.valueOf(selectetGame
+						.getNbrRound()));
+				nbrPlayerValue.setText(String.valueOf(selectetGame
+						.getNbrPlayers()));
+				gameCategoryValue.setText(selectetGame.getCategory());
+			}
+		}
 	}
-	
-	
 
 }
