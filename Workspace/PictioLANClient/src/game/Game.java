@@ -30,7 +30,7 @@ public class Game {
 		gamers  = new LinkedList<String>();
 	}
 	
-	public Game(int id, String name, String category, boolean mode, String pseudo) {
+	public Game(int id, String name, String category, int nbRound,  boolean mode, String pseudo) {
 		idGame = id;
 		this.name=name;
 		this.category=category;

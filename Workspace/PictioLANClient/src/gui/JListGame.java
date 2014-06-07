@@ -48,14 +48,15 @@ public class JListGame extends JFrame {
 	public JListGame(ConnectionServer conn) {
 		connServer = conn;
 		// games=connServer.listGame();
+		
 
 		// for testing.......................................................
 
 		games = new LinkedList<Game>();
-		games.add(new Game(1, "abc", "Animal", true, "test1"));
-		games.add(new Game(2, "test", "Fruit", false, "aaa"));
-		games.add(new Game(3, "fff", "Car", false, "JKLJ"));
-		games.add(new Game(4, "abcasdasdasdasdasdasdasdasda", "Animal", true,
+		games.add(new Game(1, "abc", "Animal",2, true, "test1"));
+		games.add(new Game(2, "test", "Fruit",3, false, "aaa"));
+		games.add(new Game(3, "fff", "Car",4, false, "JKLJ"));
+		games.add(new Game(4, "abcasdasdasdasdasdasdasdasda", "Animal",6, true,
 				"long name test AAAbbbbcccd"));
 
 		// .......................
@@ -128,6 +129,8 @@ public class JListGame extends JFrame {
 
 		private JButton join;
 		private JButton refresh;
+		
+		private JButton createGame;
 
 		private JPanel rigthP;
 		private JLabel gameCreator;
@@ -170,6 +173,36 @@ public class JListGame extends JFrame {
 
 			join = new JButton("JOIN !");
 			refresh = new JButton("Refresh");
+			createGame= new JButton("Create Game");
+			
+			join.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					if(selectetGame!=null) {
+						connServer.joinGame(selectetGame);
+					}
+				}
+			});
+			
+			refresh.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					games=connServer.listGame();
+					
+				}
+			});
+			
+			createGame.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JCreateGame createGame = new JCreateGame(connServer);
+				}
+			});
 
 			gameCreator = new JLabel("Created by : ");
 			gameMode = new JLabel("Game mode : ");
@@ -243,7 +276,7 @@ public class JListGame extends JFrame {
 
 			GridBagConstraints c = new GridBagConstraints();
 
-			c.insets = new Insets(90, 20, 10, 150);
+			c.insets = new Insets(220, 20, 0, 150);
 			c.gridheight = 3;
 			c.gridwidth = 3;
 			c.gridx = 0;
@@ -252,9 +285,19 @@ public class JListGame extends JFrame {
 			c.ipadx = 200;
 			c.ipady = 80;
 			add(gamesNameScroll, c);
+			
+			c.insets = new Insets(30, 50, 0, 0);
+			c.gridheight = 1;
+			c.gridwidth = 1;
+			c.gridx = 0;
+			c.gridy = 5;
+			c.anchor = GridBagConstraints.NORTH;
+			c.ipadx = 0;
+			c.ipady = 0;
+			add(createGame,c);
 
 			c.insets = new Insets(90, 0, 0, 50);
-			c.gridheight = 4;
+			c.gridheight = 5;
 			c.gridwidth = 2;
 			c.gridx = 3;
 			c.gridy = 1;
@@ -276,7 +319,8 @@ public class JListGame extends JFrame {
 
 			gamesNameList.setListData(tmp);
 		}
-
+	
+		
 		private void refreshGameInfo() {
 			if (selectetGame != null) {
 				gameCreatorValue.setText(selectetGame.getPseudoCreator());

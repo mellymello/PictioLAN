@@ -15,10 +15,12 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 
@@ -102,11 +104,17 @@ public class JCreateGame extends JFrame {
 
 	class InputPanel extends JPanel {
 
-		private JComboBox<Integer> txtNombreDeJoueurs;
-		private JLabel nbrGamers = new JLabel("Number of Players");
+		private JComboBox<Integer> nbrPlayers;
+		private JLabel nbrPlayerLabel = new JLabel("Number of Players");
 		private ButtonGroup groupe = new ButtonGroup();
 		private JRadioButton rdbtnSingle = new JRadioButton("Single");
 		private JRadioButton rdbtnMulti = new JRadioButton("Multi");
+		
+		private JLabel nbrRoundsLabel = new JLabel("Number of Rounds");
+		private JComboBox<Integer> nbrRounds;
+		
+		private JLabel categoryLabel = new JLabel("Category");
+		private JComboBox<String> category;
 
 		private JLabel errorLabel;
 
@@ -119,13 +127,29 @@ public class JCreateGame extends JFrame {
 					Font.BOLD, 14));
 			errorLabel.setForeground(Color.YELLOW);
 
-			nbrGamers.setForeground(Color.WHITE);
-			nbrGamers.setFont(new Font(nbrGamers.getFont().getName(),
+			nbrPlayerLabel.setForeground(Color.WHITE);
+			nbrPlayerLabel.setFont(new Font(nbrPlayerLabel.getFont().getName(),
 					Font.BOLD, 14));
-			txtNombreDeJoueurs = new JComboBox<Integer>(new Integer[] { 1, 2,
+			nbrPlayers = new JComboBox<Integer>(new Integer[] { 1, 2,
 					3, 4, 5, 6, 7, 8 });
-			txtNombreDeJoueurs.setSelectedIndex(3);
-			txtNombreDeJoueurs.setEditable(true);
+			nbrPlayers.setSelectedIndex(3);
+			nbrPlayers.setEditable(true);
+			
+			nbrRoundsLabel.setForeground(Color.WHITE);
+			nbrRoundsLabel.setFont(new Font(nbrRoundsLabel.getFont().getName(),
+					Font.BOLD, 14));
+			nbrRounds = new JComboBox<Integer>(new Integer[] { 1, 2,
+					3, 4, 5, 6, 7, 8 });
+			nbrRounds.setSelectedIndex(3);
+			nbrRounds.setEditable(true);
+	
+			
+			
+			categoryLabel.setForeground(Color.WHITE);
+			categoryLabel.setFont(new Font(categoryLabel.getFont().getName(),
+					Font.BOLD, 14));
+			category = new JComboBox<String>(conn.listCategory());
+			category.setEditable(false);
 
 			rdbtnMulti.setOpaque(false);
 			rdbtnMulti.setForeground(Color.WHITE);
@@ -146,14 +170,20 @@ public class JCreateGame extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					Integer val = 1;
+					Integer valPlayer = 1;
+					Integer valRound = 1;
+					String valCat="";
 					try {
-						val = (Integer) txtNombreDeJoueurs.getSelectedItem();
-
-						JCreateGame.this.conn.createGame(val,
-								rdbtnMulti.isSelected());
+						valPlayer = (Integer) nbrPlayers.getSelectedItem();
+						valRound = (Integer) nbrRounds.getSelectedItem();
+						valCat = (String) category.getSelectedItem();
+						
+//						JCreateGame.this.conn.createGame(valPlayer,
+//								rdbtnMulti.isSelected(),valRound, valCat);
 					} catch (ClassCastException e) {
 						errorLabel.setText("Give a number !");
+						nbrPlayers.setSelectedIndex(3);
+						nbrRounds.setSelectedIndex(3);
 					}
 
 				}
@@ -161,40 +191,64 @@ public class JCreateGame extends JFrame {
 
 			GridBagConstraints c = new GridBagConstraints();
 
-			c.insets = new Insets(10, 80, 0, 10);
-			c.gridx = 0;
+			c.insets = new Insets(55, 20, 0, 10);
+			c.gridx = 1;
 			c.gridy = 0;
-			add(nbrGamers, c);
+			add(nbrPlayerLabel, c);
 
-			c.insets = new Insets(10, 80, 0, 10);
-			c.gridx = 0;
+			c.insets = new Insets(15, 20, 0, 10);
+			c.gridx = 1;
 			c.gridy = 1;
-			add(txtNombreDeJoueurs, c);
+			add(nbrPlayers, c);
+			
+			
+			
+			c.insets = new Insets(55, 20, 0, 10);
+			c.gridx = 2;
+			c.gridy = 0;
+			add(nbrRoundsLabel, c);
+
+			c.insets = new Insets(15, 20, 0, 10);
+			c.gridx = 2;
+			c.gridy = 1;
+			add(nbrRounds, c);
+			
+			c.insets = new Insets(55, 20, 0, 10);
+			c.gridx = 3;
+			c.gridy = 0;
+			add(categoryLabel, c);
+
+			c.insets = new Insets(15, 20, 0, 10);
+			c.gridx = 3;
+			c.gridy = 1;
+			add(category, c);
+			
+			
 
 			c.insets = new Insets(10, 0, 0, 0);
 			c.gridwidth = 1;
 			c.gridx = 1;
-			c.gridy = 1;
+			c.gridy = 2;
 			add(rdbtnSingle, c);
 
 			c.insets = new Insets(10, 0, 0, 0);
 			c.gridwidth = 1;
 			c.gridx = 2;
-			c.gridy = 1;
+			c.gridy = 2;
 			add(rdbtnMulti, c);
 
 			c.insets = new Insets(10, 10, 0, 0);
 			c.gridwidth = 1;
-			c.gridx = 4;
-			c.gridy = 1;
+			c.gridx = 3;
+			c.gridy = 2;
 			add(btnStart, c);
 
-			c.insets = new Insets(5, 80, 0, 0);
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.anchor = GridBagConstraints.PAGE_END; // bottom of space
-			c.gridwidth = 2;
-			c.gridx = 0;
-			c.gridy = 2;
+			c.insets = new Insets(15, 0, 0, 0);
+			c.fill = GridBagConstraints.WEST;
+//			c.anchor = GridBagConstraints.LINE_START; // bottom of space
+			c.gridwidth = 1;
+			c.gridx = 1;
+			c.gridy = 3;
 			add(errorLabel, c);
 
 		}

@@ -77,8 +77,24 @@ public class ConnectionServer {
 			game = new Game(id,mode,pseudo);
 	}
 	
+	public void createGame(int nbGamer, boolean mode, int nbRound,String category) {
+		int id = connexion.createGame_protocole(nbGamer, mode);
+		
+		if(id != -1)
+			game = new Game(id,mode,pseudo);
+	}
+	
 	public LinkedList<Game> listGame() {
 		return connexion.listGame_protocole();
+	}
+	
+	public String[] listCategory() {
+//		return connexion.listGame_protocole();
+		
+		String[] testCateg = {"testCat1", "testCat2", "aaaaaaaaa"};
+		
+		return testCateg;
+		
 	}
 	
 	public void joinGame(Game g) {
