@@ -22,6 +22,10 @@ public class Game {
 		pseudoCreator = pseudo;
 	}
 	
+	public LinkedList<String> getGamers() {
+		return gamers;
+	}
+
 	public int getIdGame() {
 		return idGame;
 	}

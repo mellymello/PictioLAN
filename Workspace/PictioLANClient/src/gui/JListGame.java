@@ -18,13 +18,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import connection.ConnectionServer;
@@ -33,16 +36,16 @@ import connection.ConnectionServer;
 
 public class JListGame extends JFrame{
 
-//	private LinkedList<Game> games;
-//	private LinkedList<String> listGameTitre;
-//	
-//	private ConnectionServer conn;
-//	
-//	JList list;
+	private LinkedList<Game> games;
+	
 	
 	private ListGamePanel basePanel;
-	private GameNamePanel namePanel;
+	private GameInfoPanel infoPanel;
+	private JPanel buttonPanel;
 
+	private JButton join;
+	private JButton refresh;
+	
 	private JPanel exitPanel;
 
 	private JButton exitButton;
@@ -52,6 +55,18 @@ public class JListGame extends JFrame{
 	public JListGame (ConnectionServer conn)
 	{
 		connServer = conn;
+//		games=connServer.listGame();
+		
+		//for testing.......................................................
+		
+		games=new LinkedList<Game>();
+		games.add(new Game(1, true, "test1"));
+		games.add(new Game(2, false, "aaa"));
+		games.add(new Game(3, false, "JKLJ"));
+		games.add(new Game(4, true, "long name test AAAbbbbcccd"));
+		
+		//.......................
+		
 		initialize();
 		this.setVisible(true);
 		this.pack();
@@ -66,7 +81,12 @@ public class JListGame extends JFrame{
 		this.setLayout(new BorderLayout());
 
 		basePanel = new ListGamePanel();
-		namePanel = new GameNamePanel();
+		basePanel.setLayout(new BorderLayout());
+		
+		infoPanel = new GameInfoPanel();
+		buttonPanel= new JPanel();
+		buttonPanel.setOpaque(false);
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
 		exitPanel = new JPanel();
 		exitPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -88,10 +108,19 @@ public class JListGame extends JFrame{
 		this.addMouseMotionListener(mml);
 		this.addMouseListener(mml);
 
-		this.getContentPane().add(basePanel, BorderLayout.CENTER);
-		basePanel.setLayout(new BorderLayout());
+		join= new JButton("JOIN");
+		refresh= new JButton("Refresh");
+		
+		buttonPanel.add(refresh);
+		buttonPanel.add(join);
+		
 
-		basePanel.add(namePanel, BorderLayout.CENTER);
+
+		
+		basePanel.add(infoPanel,BorderLayout.CENTER);
+		basePanel.add(buttonPanel,BorderLayout.PAGE_END);
+		
+		this.getContentPane().add(basePanel, BorderLayout.CENTER);
 
 	}
 	
@@ -110,119 +139,71 @@ public class JListGame extends JFrame{
 		}
 	}
 	
-	class GameNamePanel extends JPanel {
+	class GameInfoPanel extends JPanel {
 
-//		private JLabel pseudoLabel;
-//		private JLabel passLabel;
-//		private JTextField txtPseudo;
-//		private JPasswordField passField;
-//
-//		private JLabel subscribeLabel;
-//
-//		private JButton loginButton;
-//		
-//		private JLabel errorLabel;
-//
-		public GameNamePanel() {
-			setOpaque(false);
+
+		
+		private JList<String> gamesNameList;
+		private JScrollPane  gamesNameScroll;
+		
+		private JPanel rigthP;
+		private JLabel test = new JLabel("TEEESSST");
+		
+		public GameInfoPanel() {
+//			setOpaque(false);
 			setLayout(new GridBagLayout());
 
-//			pseudoLabel = new JLabel("Pseudo : ");
-//			pseudoLabel.setForeground(Color.WHITE);
-//
-//			txtPseudo = new JTextField();
-//			txtPseudo.setColumns(12);
-//
-//			passLabel = new JLabel("Password : ");
-//			passLabel.setForeground(Color.WHITE);
-//
-//			passField = new JPasswordField();
-//			passField.setColumns(12);
-//
-//			loginButton = new JButton("Login");
-//			
-//			errorLabel = new JLabel(" ");
-//			errorLabel.setFont(new Font(errorLabel.getFont().getName(),Font.BOLD,14));
-//			errorLabel.setForeground(Color.YELLOW);
-//
-//			loginButton.addActionListener(new ActionListener() {
-//
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					connServer.setPseudo(txtPseudo.getText());
-//					connServer.setPassword(new String(passField.getPassword()));
-//					
-//					if (!connServer.getConnexionDone())
-//						connServer.launchConnexion();
-//					
-//					connServer.authentification("AUTH_CONNECT");
-//					if (connServer.getPseudo() != null) {
-//						JListGame listGame = new JListGame(
-//								connServer);
-////						listGame.setVisible(true);
-//						JConnect.this.dispose();
-//					}
-//					else {
-//						errorLabel.setText("Wrong login/password");
-//					}
-//				}
-//			});
-//
-//			GridBagConstraints c = new GridBagConstraints();
-//
-//			c.insets = new Insets(10, 80, 0, 10);
-//			c.gridx = 0;
-//			c.gridy = 0;
-//			add(pseudoLabel, c);
-//
-//			c.insets = new Insets(10, 0, 0, 0);
-//			c.gridwidth = 2;
-//			c.gridx = 1;
-//			c.gridy = 0;
-//			add(txtPseudo, c);
-//
-//			c.insets = new Insets(10, 80, 0, 10);
-//			c.gridx = 0;
-//			c.gridy = 1;
-//			add(passLabel, c);
-//
-//			c.insets = new Insets(10, 0, 0, 0);
-//			c.gridwidth = 2;
-//			c.gridx = 1;
-//			c.gridy = 1;
-//			add(passField, c);
-//
-//			c.insets = new Insets(10, 80, 0, 0);
-//			c.gridx = 2;
-//			c.gridy = 2;
-//			add(loginButton, c);
-//
-//			subscribeLabel = new JLabel("<HTML><U>Subscribe<U><HTML>");
-//
-//			subscribeLabel.setForeground(Color.BLUE);
-//
-//			subscribeLabel.addMouseListener(new MouseAdapter() {
-//
-//				public void mouseClicked(MouseEvent e) {
-//					JSubscribe subscribe = new JSubscribe(JConnect.this,
-//							connServer);
-//					JConnect.this.setEnabled(false);
-//
-//				}
-//			});
-//
-//			c.insets = new Insets(10, 0, 0, 40);
-//
-//			c.gridx = 1;
-//			c.gridy = 2;
-//			add(subscribeLabel, c);
-//			
-//			c.insets = new Insets(5, 0, 0, 0);
-//			c.gridx = 0;
-//			c.gridy = 2;
-//			add(errorLabel, c);
-//
+			
+			gamesNameList= new JList<String>();
+			gamesNameScroll= new JScrollPane(gamesNameList);		
+			setGameNameList();
+			
+			rigthP= new JPanel();
+			rigthP.add(test);
+			
+
+			GridBagConstraints c = new GridBagConstraints();
+
+			c.insets = new Insets(0, 0, 0, 0);
+			c.weighty = 1;
+//			c.gridwidth = 5;
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+//			c.fill=GridBagConstraints.HORIZONTAL;
+			c.gridx = 0;
+			c.gridy = 0;
+			add(gamesNameScroll, c);
+			
+
+			c.insets = new Insets(0, 0, 0, 0);
+//			c.weighty = 1;
+//			c.gridwidth = 5;
+//			c.anchor = GridBagConstraints.FIRST_LINE_START;
+//			c.fill=GridBagConstraints.HORIZONTAL;
+			c.gridx = 1;
+			c.gridy = 0;
+			add(rigthP, c);
+			
+
+
+		}
+		
+		
+		
+		//////////////////////////////
+		//////////////////////////////////////////////////////////////////////////////////
+		//here we have to set NAME and not the PseudoCreator !
+		///
+		private void setGameNameList() {
+			String [] tmp = new String [games.size()];
+			
+			for(int i=0; i< games.size(); i++){
+				tmp[i]= games.get(i).getPseudoCreator();
+			}
+			
+			gamesNameList.setListData(tmp);
 		}
 	}
+	
+	
 
 }
