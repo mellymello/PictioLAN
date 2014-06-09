@@ -108,12 +108,29 @@ public class ManageGamer {
 		
 		String requete = "SELECT pseudo FROM `player`";
 		ResultSet res;
+		boolean isPlayerActive = false;
 		
 		try {
 			res = BDConnexion.bd.stmt.executeQuery(requete);
 
 			while (res.next()) {
-				gamers.add(res.getString("Pseudo"));
+				
+				for (ActiveGamer ag : listActiveGamer)
+				{
+					if(res.getString("Pseudo") == ag.getPseudo())
+					{
+						isPlayerActive = true;
+					}
+				}
+				if(isPlayerActive == true)
+				{
+					gamers.add(res.getString("Pseudo")+"	Actif");
+				}
+				else{
+					gamers.add(res.getString("Pseudo"));
+				}
+
+				
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null,

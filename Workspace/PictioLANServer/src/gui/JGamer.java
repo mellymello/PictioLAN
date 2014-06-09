@@ -4,15 +4,10 @@ import gamer.ManageGamer;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.LinkedList;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,6 +23,7 @@ public class JGamer extends JPanel {
 	private JPanel buttonPanel;
 	
 	private JButton deleteButton;
+	private JButton refreshButton;
 	
 	public JGamer() {
 		// manager = g;
@@ -58,8 +54,17 @@ public class JGamer extends JPanel {
 				
 			}
 		});
-		
+		refreshButton = new JButton("Refresh Gamer");
+		refreshButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				setGamerList();
+				
+			}
+		});
 		buttonPanel.add(deleteButton);
+		buttonPanel.add(refreshButton);
 
 
 

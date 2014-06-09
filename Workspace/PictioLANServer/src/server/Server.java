@@ -22,6 +22,7 @@ import gui.JConfiguration;
 import gui.JGamer;
 import gui.JServer;
 import gui.JDictionary;
+import gui.JStatistic;
 
 import java.io.IOException;
 
@@ -45,6 +46,8 @@ public class Server {
 	//TODO Modèle et vue pour la gestion des parties actives
 	private ManageGamer gamers_bd;
 	
+	private JStatistic viewStat;
+	
 	//Vue pricipale
 	JServer viewServer;
 	
@@ -64,10 +67,12 @@ public class Server {
 		//gamers_bd = new ManageGamer();
 		viewGamers = new JGamer();
 		
+		viewStat = new JStatistic();
+		
 		//TODO Création éléments pour la gestion des parties en cours
 		
 		//Création de la vue
-		viewServer = new JServer(viewConfig, viewDictionary, viewGamers);
+		viewServer = new JServer(viewConfig, viewDictionary, viewGamers, viewStat);
 	}
 	
 	//Modèle pour la configuration
