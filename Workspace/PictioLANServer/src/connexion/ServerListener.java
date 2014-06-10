@@ -13,6 +13,7 @@ package connexion;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.LinkedList;
 
 public class ServerListener {
 	
@@ -33,23 +34,30 @@ public class ServerListener {
 		
 		System.out.println("DEBUG - new ServerListener");
 		connexion = new ConnexionListener();
+		chat = new ChatListener();
 	}
 	
 	//Socket ChatListener
 	class ChatListener implements Runnable {
 		
-		ChatHandler client;
+		LinkedList<ChatHandler> client = new LinkedList<ChatHandler>();
 		ServerSocket socketChatListener;
 		
-		public ChatListener () throws IOException {
-			socketChatListener = new ServerSocket(chat_port);
+		public ChatListener ()  {
+			threadChat = new Thread(this);
+			threadChat.start();
 		}
 		
 		public void run() {
 			
 			try {
-				Socket s = socketChatListener.accept();
-				client = new ChatHandler(s);
+				
+				socketChatListener = new ServerSocket(chat_port);
+				
+				while(true) {
+					Socket s = socketChatListener.accept();
+					client.add(new ChatHandler(s));
+				}
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -60,18 +68,24 @@ public class ServerListener {
 	//Socket ChatListener
 	class DrawingListener implements Runnable {
 		
-		DrawingHandler client;
+		LinkedList<DrawingHandler> client = new LinkedList<DrawingHandler>();
 		ServerSocket socketChatListener;
 		
-		public DrawingListener() throws IOException {
-			socketChatListener = new ServerSocket(drawing_port);
+		public DrawingListener() {
+			threadDrawing = new Thread(this);
+			threadDrawing.start();
 		}
 		
 		public void run() {
 			
 			try {
-				Socket s = socketChatListener.accept();
-				client = new DrawingHandler(s);
+				
+				socketChatListener = new ServerSocket(drawing_port);
+				
+				while(true) {
+					Socket s = socketChatListener.accept();
+					client.add(new DrawingHandler(s));
+				}
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -80,9 +94,9 @@ public class ServerListener {
 	}
 	
 	//Socket ConnexionListener
-	class ConnexionListener implements Runnable {
+	public class ConnexionListener implements Runnable {
 		
-		ConnexionHandler client;
+		LinkedList<ConnexionHandler> client = new LinkedList<ConnexionHandler>();
 		ServerSocket socketConnexionListener = null;
 		Socket s = null;
 		
@@ -105,15 +119,22 @@ public class ServerListener {
 		public void run() {
 			
 			try {
+
 				System.out.println("DEBUG - run listener");
 				socketConnexionListener = new ServerSocket(connexion_port);
-				s = socketConnexionListener.accept();
-				client = new ConnexionHandler(s);
-				System.out.println("DEBUG - client socket");
-				closeConnexion();
+				
+				while(true) {
+					s = socketConnexionListener.accept();
+					client.add(new ConnexionHandler(s));
+					System.out.println("DEBUG - client socket");
+					//closeConnexion();
+				}
 				
 			} catch (IOException e) {
 				e.printStackTrace();
+			}
+			finally {
+				closeConnexion();
 			}
 
 		}

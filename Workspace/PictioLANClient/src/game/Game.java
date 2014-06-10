@@ -14,20 +14,11 @@ public class Game {
 	Drawing draw;
 	Chat chat;
 	LinkedList<Round> rounds;
-//	LinkedList<String> gamers;
+
 	
 	String pseudoCreator;
 	private int nbrMaxGamers;
 	
-//	public Game(int id, boolean mode, String pseudo) {
-//		idGame = id;
-//		name= "";
-//		category= "";
-//		modeEquipe = mode;
-//		pseudoCreator = pseudo;
-//		rounds = new LinkedList<Round>();
-//		gamers  = new LinkedList<String>();
-//	}
 	
 	public Game(int id ,String category, int nbRound,  boolean mode, String pseudo, int nbrMaxGamers) {
 		this.idGame=id;
