@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 public class Dictionary {
 
 	private Connection conn;
-	private Statement stmt;
+	private static Statement stmt;
 
 	/*
 	 * TODO Connexion avec la base de donnée
@@ -116,7 +116,7 @@ public class Dictionary {
 	 * TODO Utiliser la connexion à la base de donnée pour récupérer la liste
 	 * des catégories enregistrées dans la BD.
 	 */
-	public LinkedList<String> getListCategory() {
+	public static LinkedList<String> getListCategory() {
 		String requete = "SELECT * FROM `Category`";
 		LinkedList<String> listeCat = new LinkedList<String>();
 

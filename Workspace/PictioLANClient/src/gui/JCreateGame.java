@@ -117,6 +117,7 @@ public class JCreateGame extends JFrame {
 		private JComboBox<String> category;
 
 		private JLabel errorLabel;
+		private JButton btnStart ;
 
 		public InputPanel() {
 			setOpaque(false);
@@ -165,7 +166,7 @@ public class JCreateGame extends JFrame {
 			groupe.add(rdbtnMulti);
 			rdbtnSingle.setSelected(true);
 
-			JButton btnStart = new JButton("Start");
+			btnStart = new JButton("Start");
 			btnStart.addActionListener(new ActionListener() {
 
 				@Override
@@ -180,6 +181,9 @@ public class JCreateGame extends JFrame {
 						
 						JCreateGame.this.conn.createGame(valPlayer,
 								rdbtnMulti.isSelected(),valRound, valCat);
+						
+						JCreateGame.this.dispose();
+						
 					} catch (ClassCastException e) {
 						errorLabel.setText("Give a number !");
 						nbrPlayers.setSelectedIndex(3);

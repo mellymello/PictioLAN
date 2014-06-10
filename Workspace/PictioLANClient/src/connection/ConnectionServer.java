@@ -105,9 +105,8 @@ public class ConnectionServer {
 	}
 
 	public String[] listCategory() {
-		// return connexion.listGame_protocole();
-
-		String[] testCateg = { "testCat1", "testCat2", "aaaaaaaaa" };
+		
+		String[] testCateg = connexion.listCategory_protocol();
 
 		return testCateg;
 
@@ -327,6 +326,34 @@ public class ConnectionServer {
 				e.printStackTrace();
 			}
 
+		}
+
+		public String[] listCategory_protocol() {
+
+			String[] cat=new String[0];
+
+			try {
+				System.out.println("CATEGORY_LIST");
+				outConnexion.write("CATEGORY_LIST\n");
+				outConnexion.flush();
+
+				int nbrCat = inConnexion.read();
+				// System.out.println("nb="+nb);
+				if (nbrCat > 0) {
+					cat = new String[nbrCat];
+
+					for (int i = 0; i < nbrCat; i++) {
+
+						cat[i] = inConnexion.readLine();
+
+					}
+				} 
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			return cat;
 		}
 
 	} // Fin de la class ConnexionListener

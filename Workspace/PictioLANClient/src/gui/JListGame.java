@@ -194,6 +194,7 @@ public class JListGame extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 
 					games=connServer.listGame();
+					setGameNameList();
 					
 				}
 			});
@@ -203,6 +204,7 @@ public class JListGame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JCreateGame createGame = new JCreateGame(connServer);
+					setGameNameList();
 				}
 			});
 

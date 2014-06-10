@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.LinkedList;
 
+import dictionary.Dictionary;
 import game.*;
 import gamer.ManageGamer;
 
@@ -85,10 +87,6 @@ public class ConnexionHandler implements Runnable {
 		
 		if (type_game.equals("GAME_CREATE")) {
 			
-			
-			
-			
-			
 			int nbRound = in.read();
 			int nbrGamers = in.read();
 			String category = in.readLine();
@@ -124,11 +122,20 @@ public class ConnexionHandler implements Runnable {
 				out.write(g.getGameID());
 				out.write(g.getCreator().getPseudo() + "\n");
 				out.write(new Boolean(g.isTeamGame()).toString() + "\n");
-				out.write(g.getNbrRounds() + "\n");
-				out.write(g.getNbrMaxGamers() + "\n");
-				out.write(g.getListGamer().size() + "\n");
+				out.write(g.getNbrRounds());
+				out.write(g.getNbrMaxGamers());
+				out.write(g.getListGamer().size());
 				out.write(g.getCategory() + "\n");
 			
+				out.flush();
+			}
+		}
+		else if(type_game.equals("CATEGORY_LIST")) {
+			LinkedList<String> cat = Dictionary.getListCategory();
+			out.write(cat.size());
+			out.flush();
+			for(String s : cat) {
+				out.write(s+"\n");
 				out.flush();
 			}
 		}
@@ -154,7 +161,7 @@ public class ConnexionHandler implements Runnable {
 				if(protocole.equals("AUTH_CONNECT") || protocole.equals("AUTH_SUBSCRIBE") || protocole.equals("AUTH_ANONYMOUS")) {
 					auth_protocole(protocole);
 				}
-				else if (protocole.equals("GAME_CREATE") || protocole.equals("GAME_JOIN") || protocole.equals("GAME_LIST")) { 
+				else if (protocole.equals("GAME_CREATE") || protocole.equals("GAME_JOIN") || protocole.equals("GAME_LIST")|| protocole.equals("CATEGORY_LIST")) { 
 					game_protocole(protocole);
 				}
 					
