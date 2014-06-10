@@ -19,7 +19,7 @@ public class ConnectionServer {
 	String IPserver = "";
 	int portConnexion = 3336;
 	
-	ConnexionListener connexion;
+	public ConnexionListener connexion;
 	Thread threadConnexion;
 	
 	Game game = null;
@@ -70,18 +70,13 @@ public class ConnectionServer {
 		System.out.println("gamer=" + gamer);
 	}
 	
-	public void createGame(int nbGamer, boolean mode) {
-		int id = connexion.createGame_protocole(nbGamer, mode);
-		
-		if(id != -1)
-			game = new Game(id,mode,pseudo);
-	}
-	
+
 	public void createGame(int nbGamer, boolean mode, int nbRound,String category) {
-		int id = connexion.createGame_protocole(nbGamer, mode);
+		int id = connexion.createGame_protocole(nbGamer, mode,nbRound,category);
 		
 		if(id != -1)
-			game = new Game(id,mode,pseudo);
+			game = new Game(id,category, nbRound, mode, pseudo,nbGamer);
+		
 	}
 	
 	public LinkedList<Game> listGame() {
@@ -222,25 +217,19 @@ public class ConnectionServer {
 			
 		}
 		
-		public int createGame_protocole(int nb, boolean m)  {
+		public int createGame_protocole(int nbGamer, boolean mode, int nbRound,String category)  {
 			
 			try {
-				System.out.println("DEBUG client 1");
+				
 				outConnexion.write("GAME_CREATE\n");
 				
+				outConnexion.write(nbRound);
+				outConnexion.write(nbGamer);
+				outConnexion.write(category+"\n");
+				outConnexion.write(new Boolean(mode).toString() + "\n");
 				outConnexion.flush();
 				
-				System.out.println("DEBUG client 2");
 				int id = inConnexion.read();
-				
-				System.out.println("DEBUG client 3");
-				outConnexion.write(nb);
-				
-				System.out.println("DEBUG client 4");
-				outConnexion.write(new Boolean(m).toString() + "\n");
-				outConnexion.flush();
-				
-				//outConnexion.write("GAME_READY\n");
 				
 				return id;
 				
@@ -260,15 +249,27 @@ public class ConnectionServer {
 				outConnexion.write("GAME_LIST\n");
 				outConnexion.flush();
 				System.out.println("envoie passe");
-				int nb = inConnexion.read();
-				System.out.println("nb="+nb);
-				for(int i=0; i < nb; i++) {
+				int nbrGames = inConnexion.read();
+//				System.out.println("nb="+nb);
+				
+				int id;
+				String creatorPseudo;
+				boolean mode;
+				int nbrRounds;
+				int nbrMaxGamers;
+				int nbrActivesGamers;
+				String category;
+				for(int i=0; i < nbrGames; i++) {
 					
-					int id = inConnexion.read();
-					boolean mode = Boolean.parseBoolean(inConnexion.readLine());
-					String pseudo = inConnexion.readLine();
-					System.out.println("game = " + id+mode+pseudo);
-					games.add(new Game(id,mode,pseudo));
+					id = inConnexion.read();
+					creatorPseudo= inConnexion.readLine();
+					mode = Boolean.parseBoolean(inConnexion.readLine());
+					nbrRounds= inConnexion.read();
+					nbrMaxGamers= inConnexion.read();
+					nbrActivesGamers = inConnexion.read();
+					category=inConnexion.readLine();
+					
+					games.add(new Game(id, category, nbrRounds, mode, creatorPseudo,nbrMaxGamers));
 				}
 				
 				return games;
@@ -289,8 +290,9 @@ public class ConnectionServer {
 				
 				String rep = inConnexion.readLine();
 				
-				if(rep.equals("GAME_JOIN_SUCCESS"))
+				if(rep.equals("JOIN_SUCCESS")){
 					return g;
+				}
 				
 			} catch (IOException e) {
 				e.printStackTrace();

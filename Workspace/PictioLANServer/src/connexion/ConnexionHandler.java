@@ -15,7 +15,7 @@ public class ConnexionHandler implements Runnable {
 	Socket connexion = null;
 	
 	ActiveGamer gamer;
-	ControlGame ctrGame;
+	
 	
 	Thread threadConnexion;
 
@@ -85,38 +85,50 @@ public class ConnexionHandler implements Runnable {
 		
 		if (type_game.equals("GAME_CREATE")) {
 			
-			ctrGame = new ControlGame(gamer);
 			
-			out.write(ctrGame.getIDGame());
-			out.flush();
 			
-			int nb = in.read();
+			
+			
+			int nbRound = in.read();
+			int nbrGamers = in.read();
+			String category = in.readLine();
 			
 			boolean mode = Boolean.parseBoolean(in.readLine());
 			
-			//Recevoir READY
-			ctrGame.setModeEquipe(mode);
-			ctrGame.setNbGamers(nb);
+				
+			
+			gamer.setCtrGame(new Game(nbrGamers,nbRound,category,mode,gamer));
+			
+			out.write(gamer.getCtrGame().getGameID());
+			out.flush();
 		}
 		else if(type_game.equals("GAME_JOIN")) {
 			
 			int id_game = in.read();
 			
-			for(ControlGame g : ControlGame.listActiveGame) {
-				if(g.getIDGame() == id_game)
-					ctrGame = g;
+			for(Game g : Game.getGamesList()) {
+				if(g.getGameID() == id_game){
+					gamer.setCtrGame(g);
+					g.addGamer(gamer);
+				}
 			}
 			
-			out.write("JOIN_SUCCESS");
+			out.write("JOIN_SUCCESS\n");
+			out.flush();
 			
 		}
 		else if(type_game.equals("GAME_LIST")) {
-			out.write(ControlGame.listActiveGame.size());
+			out.write(Game.getGamesList().size());
 			out.flush();
-			for(ControlGame g : ControlGame.listActiveGame) {
-				out.write(g.getIDGame());
-				out.write(new Boolean(g.isModeEquipe()).toString() + "\n");
-				out.write(g.creatorPseudo() + "\n");
+			for(Game g : Game.getGamesList()) {
+				out.write(g.getGameID());
+				out.write(g.getCreator().getPseudo() + "\n");
+				out.write(new Boolean(g.isTeamGame()).toString() + "\n");
+				out.write(g.getNbrRounds() + "\n");
+				out.write(g.getNbrMaxGamers() + "\n");
+				out.write(g.getListGamer().size() + "\n");
+				out.write(g.getCategory() + "\n");
+			
 				out.flush();
 			}
 		}

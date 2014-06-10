@@ -3,6 +3,7 @@ package gui;
 import game.Game;
 
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 
+
 import connection.ConnectionServer;
 
 public class JListGame extends JFrame {
@@ -52,12 +54,7 @@ public class JListGame extends JFrame {
 
 		// for testing.......................................................
 
-		games = new LinkedList<Game>();
-		games.add(new Game(1, "abc", "Animal",2, true, "test1"));
-		games.add(new Game(2, "test", "Fruit",3, false, "aaa"));
-		games.add(new Game(3, "fff", "Car",4, false, "JKLJ"));
-		games.add(new Game(4, "abcasdasdasdasdasdasdasdasda", "Animal",6, true,
-				"long name test AAAbbbbcccd"));
+		games = connServer.listGame();
 
 		// .......................
 
@@ -157,10 +154,11 @@ public class JListGame extends JFrame {
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					String selected = gamesNameList.getSelectedValue();
+					try{
+					int selected = Integer.valueOf(gamesNameList.getSelectedValue());
 
 					for (int i = 0; i < games.size(); i++) {
-						if (games.get(i).getName().compareTo(selected) == 0) {
+						if (games.get(i).getIdGame() == selected) {
 							selectetGame = games.get(i);
 							break;
 						}
@@ -168,7 +166,11 @@ public class JListGame extends JFrame {
 
 					refreshGameInfo();
 
+				}catch(NumberFormatException nfe){
+					
 				}
+				}
+				
 			});
 
 			join = new JButton("JOIN !");
@@ -314,7 +316,7 @@ public class JListGame extends JFrame {
 			String[] tmp = new String[games.size()];
 
 			for (int i = 0; i < games.size(); i++) {
-				tmp[i] = games.get(i).getName();
+				tmp[i] = String.valueOf(games.get(i).getIdGame());
 			}
 
 			gamesNameList.setListData(tmp);
@@ -333,8 +335,7 @@ public class JListGame extends JFrame {
 				}
 				gameRoundValue.setText(String.valueOf(selectetGame
 						.getNbrRound()));
-				nbrPlayerValue.setText(String.valueOf(selectetGame
-						.getNbrPlayers()));
+				nbrPlayerValue.setText(String.valueOf(selectetGame.getNbrMaxGamers()));
 				gameCategoryValue.setText(selectetGame.getCategory());
 			}
 		}

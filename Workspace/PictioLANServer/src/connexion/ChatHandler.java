@@ -14,7 +14,7 @@ public class ChatHandler implements Runnable {
 	Socket connexion = null;
 	
 	ActiveGamer gamer;
-	ControlGame ctrGame;
+	
 
 	BufferedReader in;
 	BufferedWriter out;

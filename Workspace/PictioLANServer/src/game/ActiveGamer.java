@@ -3,6 +3,8 @@ package game;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
+
+
 import server.BDConnexion;
 
 /*
@@ -17,6 +19,7 @@ import server.BDConnexion;
 public class ActiveGamer {
 	
 	String pseudo;
+	Game ctrGame;
 	
 	public ActiveGamer() {}
 
@@ -31,5 +34,16 @@ public class ActiveGamer {
 	public String getPseudo(){
 		return pseudo;
 	}
+
+	public Game getCtrGame() {
+		return ctrGame;
+	}
+
+	public void setCtrGame(Game ctrGame) {
+		this.ctrGame = ctrGame;
+		
+		
+	}
+	
 	
 }

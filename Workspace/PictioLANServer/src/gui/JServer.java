@@ -15,9 +15,10 @@ public class JServer extends JFrame{
    private JDictionary jp2;
    private JGamer jp3;
    private JStatistic jp4;
+   private JActivesGames jp5;
 
    
-   public JServer(JConfiguration config, JDictionary dic, JGamer gamers, JStatistic stat){
+   public JServer(JConfiguration config, JDictionary dic, JGamer gamers, JStatistic stat, JActivesGames activesGames){
 	   
 	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	   setPreferredSize(new Dimension(275,350));
@@ -25,6 +26,7 @@ public class JServer extends JFrame{
 	  jp2 = dic;
 	  jp3= gamers;
 	  jp4 = stat;
+	  jp5= activesGames;
 	  
       panelOnglet = new JTabbedPane();
 
@@ -33,6 +35,7 @@ public class JServer extends JFrame{
       panelOnglet.addTab("Dictionary", null, jp2);
       panelOnglet.addTab("Gamers", null, jp3);
       panelOnglet.addTab("Statistic", null, jp4);
+      panelOnglet.addTab("Actives Games", null ,jp5);
       
       
       

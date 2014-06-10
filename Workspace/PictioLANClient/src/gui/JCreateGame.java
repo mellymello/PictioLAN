@@ -178,8 +178,8 @@ public class JCreateGame extends JFrame {
 						valRound = (Integer) nbrRounds.getSelectedItem();
 						valCat = (String) category.getSelectedItem();
 						
-//						JCreateGame.this.conn.createGame(valPlayer,
-//								rdbtnMulti.isSelected(),valRound, valCat);
+						JCreateGame.this.conn.createGame(valPlayer,
+								rdbtnMulti.isSelected(),valRound, valCat);
 					} catch (ClassCastException e) {
 						errorLabel.setText("Give a number !");
 						nbrPlayers.setSelectedIndex(3);

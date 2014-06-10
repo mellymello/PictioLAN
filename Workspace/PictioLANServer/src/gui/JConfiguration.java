@@ -45,7 +45,7 @@ public class JConfiguration extends JPanel{
 		config = c;
 
 		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout());
+		buttonPanel.setLayout(new GridLayout(2,0));
 		buttonPanel.setOpaque(false);
 
 		this.setLayout(new BorderLayout());

@@ -18,6 +18,7 @@ package server;
  */
 
 import gamer.ManageGamer;
+import gui.JActivesGames;
 import gui.JConfiguration;
 import gui.JGamer;
 import gui.JServer;
@@ -48,6 +49,8 @@ public class Server {
 	
 	private JStatistic viewStat;
 	
+	private JActivesGames activesGames;
+	
 	//Vue pricipale
 	JServer viewServer;
 	
@@ -69,10 +72,12 @@ public class Server {
 		
 		viewStat = new JStatistic();
 		
+		activesGames = new JActivesGames();
+		
 		//TODO Création éléments pour la gestion des parties en cours
 		
 		//Création de la vue
-		viewServer = new JServer(viewConfig, viewDictionary, viewGamers, viewStat);
+		viewServer = new JServer(viewConfig, viewDictionary, viewGamers, viewStat,activesGames);
 	}
 	
 	//Modèle pour la configuration

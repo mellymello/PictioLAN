@@ -14,7 +14,7 @@ public class DrawingHandler implements Runnable {
 	Socket connexion = null;
 	
 	ActiveGamer gamer;
-	ControlGame ctrGame;
+ 
 
 	InputStreamReader in;
 	OutputStreamWriter out;

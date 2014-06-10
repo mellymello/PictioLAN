@@ -5,7 +5,6 @@ import java.util.LinkedList;
 public class Game {
 	
 
-	private String name;
 	private String category;
 	
 	int idGame; //Fournit par le serveur car unique !
@@ -15,34 +14,35 @@ public class Game {
 	Drawing draw;
 	Chat chat;
 	LinkedList<Round> rounds;
-	
-	LinkedList<String> gamers;
+//	LinkedList<String> gamers;
 	
 	String pseudoCreator;
+	private int nbrMaxGamers;
 	
-	public Game(int id, boolean mode, String pseudo) {
-		idGame = id;
-		name= "";
-		category= "";
-		modeEquipe = mode;
-		pseudoCreator = pseudo;
-		rounds = new LinkedList<Round>();
-		gamers  = new LinkedList<String>();
-	}
+//	public Game(int id, boolean mode, String pseudo) {
+//		idGame = id;
+//		name= "";
+//		category= "";
+//		modeEquipe = mode;
+//		pseudoCreator = pseudo;
+//		rounds = new LinkedList<Round>();
+//		gamers  = new LinkedList<String>();
+//	}
 	
-	public Game(int id, String name, String category, int nbRound,  boolean mode, String pseudo) {
-		idGame = id;
-		this.name=name;
+	public Game(int id ,String category, int nbRound,  boolean mode, String pseudo, int nbrMaxGamers) {
+		this.idGame=id;
+	
 		this.category=category;
 		modeEquipe = mode;
 		pseudoCreator = pseudo;
 		rounds = new LinkedList<Round>();
-		gamers  = new LinkedList<String>();
+//		gamers  = new LinkedList<String>();
+		this.nbrMaxGamers=nbrMaxGamers;
 	}
 	
-	public LinkedList<String> getGamers() {
-		return gamers;
-	}
+//	public LinkedList<String> getGamers() {
+//		return gamers;
+//	}
 
 	public int getIdGame() {
 		return idGame;
@@ -70,22 +70,27 @@ public class Game {
 	
 	
 
-	public String getName() {
-		return name;
-	}
-
 	public String getCategory() {
 		return category;
 	}
 	
-	public int getNbrPlayers(){
-		return gamers.size();
-	}
+//	public int getNbrPlayers(){
+//		return gamers.size();
+//	}
 
+	
 	public int getNbrRound(){
 		return rounds.size();
 	}
 	
+	public int getNbrMaxGamers() {
+		return nbrMaxGamers;
+	}
+
+	public void setNbrMaxGamers(int nbrMaxGamers) {
+		this.nbrMaxGamers = nbrMaxGamers;
+	}
+
 	public void launchGame() {
 		draw = new Drawing();
 		chat = new Chat();
