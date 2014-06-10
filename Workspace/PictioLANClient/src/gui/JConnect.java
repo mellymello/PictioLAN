@@ -3,6 +3,7 @@ package gui;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
@@ -20,6 +21,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -114,7 +117,7 @@ public class JConnect extends JFrame implements Observer {
 		private JLabel subscribeLabel;
 
 		private JButton loginButton;
-		
+
 		private JLabel errorLabel;
 
 		public InputPanel() {
@@ -134,9 +137,10 @@ public class JConnect extends JFrame implements Observer {
 			passField.setColumns(12);
 
 			loginButton = new JButton("Login");
-			
+
 			errorLabel = new JLabel(" ");
-			errorLabel.setFont(new Font(errorLabel.getFont().getName(),Font.BOLD,14));
+			errorLabel.setFont(new Font(errorLabel.getFont().getName(),
+					Font.BOLD, 14));
 			errorLabel.setForeground(Color.YELLOW);
 
 			loginButton.addActionListener(new ActionListener() {
@@ -145,19 +149,27 @@ public class JConnect extends JFrame implements Observer {
 				public void actionPerformed(ActionEvent e) {
 					connServer.setPseudo(txtPseudo.getText());
 					connServer.setPassword(new String(passField.getPassword()));
-					
-					if (!connServer.getConnexionDone())
+
+					try {
+
 						connServer.launchConnexion();
-					
-					connServer.authentification("AUTH_CONNECT");
-					if (connServer.getPseudo() != null) {
-						JListGame listGame = new JListGame(
-								connServer);
-//						listGame.setVisible(true);
-						JConnect.this.dispose();
-					}
-					else {
-						errorLabel.setText("Wrong login/password");
+
+						connServer.authentification("AUTH_CONNECT");
+						if (connServer.getPseudo() != null) {
+							JListGame listGame = new JListGame(connServer);
+							// listGame.setVisible(true);
+							JConnect.this.dispose();
+						} else {
+							errorLabel.setText("Wrong login/password");
+						}
+					} catch (UnknownHostException ue) {
+						JOptionPane.showMessageDialog(null,
+								"Unknown PictioLan server !", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					} catch (IOException ioe) {
+						JOptionPane.showMessageDialog(null,
+								"PictioLan server not responding !", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -210,7 +222,7 @@ public class JConnect extends JFrame implements Observer {
 			c.gridx = 1;
 			c.gridy = 2;
 			add(subscribeLabel, c);
-			
+
 			c.insets = new Insets(5, 0, 0, 0);
 			c.gridx = 0;
 			c.gridy = 2;

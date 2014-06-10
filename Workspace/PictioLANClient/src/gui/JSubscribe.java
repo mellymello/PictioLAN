@@ -7,6 +7,7 @@ import gui.JConnect.InputPanel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
@@ -24,6 +25,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.Observable;
 
 import javax.swing.JTextField;
@@ -130,7 +133,7 @@ public class JSubscribe extends Observable {
 		private JTextField emailField;
 
 		private JButton okButton;
-		
+
 		private JLabel errorLabel;
 
 		public UserDataPanel() {
@@ -162,9 +165,10 @@ public class JSubscribe extends Observable {
 			emailField.setColumns(12);
 
 			errorLabel = new JLabel(" ");
-			errorLabel.setFont(new Font(errorLabel.getFont().getName(),Font.BOLD,14));
+			errorLabel.setFont(new Font(errorLabel.getFont().getName(),
+					Font.BOLD, 14));
 			errorLabel.setForeground(Color.YELLOW);
-			
+
 			okButton = new JButton("OK !");
 
 			okButton.addActionListener(new ActionListener() {
@@ -180,37 +184,50 @@ public class JSubscribe extends Observable {
 						String pass = new String(passField.getPassword());
 						String confirmPass = new String(passConfirmField
 								.getPassword());
-						if(pass.isEmpty()){
+						if (pass.isEmpty()) {
 							errorLabel.setText("give a password");
-						}
-						else if (pass.compareTo(confirmPass) != 0) {
+						} else if (pass.compareTo(confirmPass) != 0) {
 							errorLabel.setText("passwords not matching");
 						} else {
 							email = emailField.getText();
 
-							if (email.isEmpty() || (!email.contains("@") || !email.contains("."))) {
+							if (email.isEmpty()
+									|| (!email.contains("@") || !email
+											.contains("."))) {
 								errorLabel.setText("give a valid email");
 							} else {
-								// Connexion au serveur !!
-								if (connServer.getConnexionDone() == false) {
-									connServer.setIP("127.0.0.1");
+
+								try {
 									connServer.launchConnexion();
-								}
-								// Connexion au serveur !!
-								// Subscribe
-								connServer.setPseudo(pseudo);
-								connServer.setPassword(pass);
-								connServer.setEmail(email);
-								connServer.authentification("AUTH_SUBSCRIBE");
-								
-								Gamer gamerTest = connServer.getGamer();
-								if (gamerTest == null) {
-									errorLabel.setText("Pseudo already in use.");
-								}
-								else {
-									setChanged();
-									notifyObservers();
-									frame.dispose();
+
+									// Subscribe
+									connServer.setPseudo(pseudo);
+									connServer.setPassword(pass);
+									connServer.setEmail(email);
+									connServer
+											.authentification("AUTH_SUBSCRIBE");
+
+									Gamer gamerTest = connServer.getGamer();
+									if (gamerTest == null) {
+										errorLabel
+												.setText("Pseudo already in use.");
+									} else {
+										setChanged();
+										notifyObservers();
+										frame.dispose();
+									}
+								} catch (UnknownHostException ue) {
+									JOptionPane.showMessageDialog(null,
+											"Unknown PictioLan server !",
+											"Error", JOptionPane.ERROR_MESSAGE);
+								} catch (IOException ioe) {
+									JOptionPane
+											.showMessageDialog(
+													null,
+													"PictioLan server not responding !",
+													"Error",
+													JOptionPane.ERROR_MESSAGE);
+
 								}
 							}
 						}
@@ -258,11 +275,11 @@ public class JSubscribe extends Observable {
 			c.gridx = 2;
 			c.gridy = 1;
 			add(okButton, c);
-			
+
 			c.insets = new Insets(5, 0, 0, 0);
 			c.fill = GridBagConstraints.HORIZONTAL;
-			c.anchor = GridBagConstraints.PAGE_END; //bottom of space
-			c.gridwidth=2;
+			c.anchor = GridBagConstraints.PAGE_END; // bottom of space
+			c.gridwidth = 2;
 			c.gridx = 1;
 			c.gridy = 4;
 			add(errorLabel, c);

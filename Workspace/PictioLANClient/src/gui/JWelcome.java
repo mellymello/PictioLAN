@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -24,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -159,16 +161,29 @@ public class JWelcome extends JFrame{
 					}
 					if (isIpValide == true && ! text.equals(""))
 					{
+						
 						if(anonymousCheck.isSelected()){
 							System.out.println("ANONYMOUS we are LEGION");
+							try{
 							connServer.launchConnexion();
+							
 							connServer.authentification("AUTH_ANONYMOUS");
 							JListGame listGame = new JListGame(connServer);
+							JWelcome.this.dispose();
+							} catch (UnknownHostException ue) {
+								JOptionPane.showMessageDialog(null, "Unknown PictioLan server !",
+										"Error", JOptionPane.ERROR_MESSAGE);
+							} catch (IOException ioe) {
+								JOptionPane.showMessageDialog(null,
+										"PictioLan server not responding !", "Error",
+										JOptionPane.ERROR_MESSAGE);
+							}
 						}
 						else{
 						JConnect connect = new JConnect(connServer);
-						}
 						JWelcome.this.dispose();
+						}
+						
 					}
 
 				}
