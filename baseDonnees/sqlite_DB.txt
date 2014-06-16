@@ -15,16 +15,16 @@ CREATE TABLE IF NOT EXISTS `player` (
   `Pseudo` varchar(50) NOT NULL,
   `Password` char(40) NOT NULL,
   `Email` varchar(255) DEFAULT NULL,
-  `SubscribeDate` datetime DEFAULT NULL
+  `SubscribeDate` datetime DEFAULT (datetime('now','localtime'))
 )  ;
 
 --
 -- Contenu de la table `player`
 --
 
-INSERT INTO `player` (`ID_Player`, `Pseudo`, `Password`, `Email`, `SubscribeDate`) VALUES
-(1, 'Player1', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', NULL, NULL),
-(3, 'Player2', '3da541559918a808c2402bba5012f6c60b27661c', 'asdf@asdf.asdf', NULL);
+INSERT INTO `player` (`ID_Player`, `Pseudo`, `Password`, `Email`) VALUES
+(1, 'Player1', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', NULL),
+(3, 'Player2', '3da541559918a808c2402bba5012f6c60b27661c', 'asdf@asdf.asdf');
 
 -- --------------------------------------------------------
 
