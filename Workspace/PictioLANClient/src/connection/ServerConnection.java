@@ -107,7 +107,7 @@ public class ServerConnection implements Runnable {
 			outConnexion.flush();
 			
 			String rep = inConnexion.readLine();
-			
+			System.out.println(rep);
 			return rep.equals("AUTH_SUCCESSFUL");
 			
 		} catch (IOException e) {

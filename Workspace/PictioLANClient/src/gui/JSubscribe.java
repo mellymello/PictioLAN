@@ -182,7 +182,7 @@ public class JSubscribe extends Observable {
 						return;
 					} 
 					
-					if (PictioLan.modele_gamer.getConnection().auth_subscribe_protocole(pseudo, confirmPass, email)) {
+					if (PictioLan.modele_gamer.getConnection().auth_subscribe_protocole(pseudo, confirmPass, email)==false) {
 						errorLabel.setText("Pseudo already in use.");
 					}
 					else {
