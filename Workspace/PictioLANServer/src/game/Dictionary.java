@@ -139,7 +139,7 @@ public class Dictionary {
 
 	static public void addCategory(String category) {
 
-		String requete = "INSERT INTO Category VALUES (DEFAULT, \"" + category
+		String requete = "INSERT INTO Category(name) VALUES (\"" + category
 				+ "\")";
 
 		try {
@@ -157,7 +157,7 @@ public class Dictionary {
 		try {
 			categoryID = getCategoryID(category);
 
-			String requete = "INSERT INTO Word VALUES (DEFAULT, '" + word
+			String requete = "INSERT INTO Word(Word, ID_Category) VALUES ('" + word
 					+ "', '" + categoryID + "')";
 
 			BDConnection.getBD().executeUpdate(requete);

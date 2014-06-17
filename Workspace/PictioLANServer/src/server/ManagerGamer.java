@@ -96,8 +96,8 @@ public class ManagerGamer {
 		
 		if(notExist) {
 			try {
-
-				String requete = "INSERT INTO player(Pseudo, Password, Email, SubscribeDate) VALUES (\""+pseudo+"\",SHA1(\""+pass+"\"),\""+email+"\", NOW())";
+				String sha1Pass = sha1(pass);
+				String requete = "INSERT INTO player(Pseudo, Password, Email) VALUES (\""+pseudo+"\",\""+sha1Pass+"\",\""+email+"\")";
 				BDConnection.getBD().executeUpdate(requete);
 				
 				return new Gamer(pseudo);

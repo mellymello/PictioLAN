@@ -16,12 +16,16 @@ public class BDConnection {
 	private BDConnection()
 	{
 		try {
-			conn = (Connection)DriverManager.getConnection("jdbc:mysql://localhost:3306/pictiolan","root","");
+			Class.forName("org.sqlite.JDBC");
+			conn = DriverManager.getConnection("jdbc:sqlite:PictioLan.sqlite");
 			stmt = (Statement) conn.createStatement();
 			
 		} catch (SQLException ex) {
 			System.out.println("Impossible to connect to the database !\nTurn the server on and retry");
 			ex.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.out.println("Impossible to connect to the database !\nTurn the server on and retry");
+			e.printStackTrace();
 		}
 	}
 	
