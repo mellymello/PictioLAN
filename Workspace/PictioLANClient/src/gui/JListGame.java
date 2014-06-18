@@ -171,6 +171,7 @@ public class JListGame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					games=PictioLan.modele_gamer.getConnection().list_game_protocole();
+					setGameNameList();
 				}
 			});
 			
@@ -179,6 +180,7 @@ public class JListGame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JCreateGame createGame = new JCreateGame();
+					setGameNameList();
 				}
 			});
 

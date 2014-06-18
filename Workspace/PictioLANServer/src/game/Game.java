@@ -33,6 +33,7 @@ public class Game implements Runnable {
 	}
 	
 	public Game(int nbrGamers, int nbRound, String category, boolean mode, Gamer gamer) {
+		id_game = id_generator++;
 		nb_max_gamers = nbrGamers;
 		nb_max_round= nbRound;
 		this.category = category;
@@ -64,10 +65,14 @@ public class Game implements Runnable {
 		return round.size();
 	}
 	
+	public int getNbrMaxRound(){
+		return nb_max_round;
+	}
+	
 	public int getNbrMaxGamers() {
 		return nb_max_gamers;
 	}
-	
+
 	public LinkedList<Gamer> getListGamer() {
 		return gamers;
 	}

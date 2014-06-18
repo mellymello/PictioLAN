@@ -161,10 +161,10 @@ public class ConnectionHandler implements Runnable {
 				
 				out.write(g.getID());
 				out.write(g.getCreator().getPseudo() + "\n");
-				out.write(new Boolean(g.isTeamGame()).toString() + "\n");
-				out.write(g.getNbrRounds() + "\n");
-				out.write(g.getNbrMaxGamers() + "\n");
-				out.write(g.getListGamer().size() + "\n");
+				out.write(new Boolean(g.isTeamGame()).toString()+"\n");
+				out.write(g.getNbrMaxRound());
+				out.write(g.getNbrMaxGamers());
+				out.write(g.getListGamer().size());
 				out.write(g.getCategory() + "\n");
 			
 				out.flush();

@@ -165,7 +165,7 @@ public class JCreateGame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					
-					JClient client = new JClient("PictionLAN");
+			
 					Integer valPlayer = 1;
 					Integer valRound = 1;
 					String valCat="";
@@ -175,6 +175,8 @@ public class JCreateGame extends JFrame {
 						valCat = (String) category.getSelectedItem();
 						
 						PictioLan.modele_gamer.getConnection().create_game_protocole(valPlayer, rdbtnMulti.isSelected(), valRound, valCat);
+						JClient client = new JClient("PictionLAN");
+						dispose();
 					} catch (ClassCastException e) {
 						errorLabel.setText("Give a number !");
 						nbrPlayers.setSelectedIndex(3);
