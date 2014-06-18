@@ -159,9 +159,11 @@ public class JListGame extends JFrame {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					JClient client = new JClient("PictioLAN");
+					
 					if(selectetGame!=null) {
 						PictioLan.modele_gamer.getConnection().join_game_protocole(selectetGame, selectetGame.getID());
+						JClient client = new JClient("PictioLAN");
+						dispose();
 					}
 				}
 			});
@@ -180,7 +182,8 @@ public class JListGame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JCreateGame createGame = new JCreateGame();
-					setGameNameList();
+//					setGameNameList();
+					dispose();
 				}
 			});
 
