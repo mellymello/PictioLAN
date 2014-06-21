@@ -16,6 +16,9 @@ public class ChatConnection implements Runnable {
 	
 	Gamer gamer;
 	
+	//Test
+	int test;
+	
 	Thread chatThread;
 	
 	JProposition vue;
