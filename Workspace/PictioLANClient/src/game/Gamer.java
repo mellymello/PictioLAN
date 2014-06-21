@@ -63,10 +63,16 @@ public class Gamer {
 		server = new ServerConnection(this);
 	}
 	
-	public void launchChatDraw(JProposition pro, JClient cli){
+	public void launchChatDraw(){
 		try {
-			chat = new ChatConnection(this, pro);
-//			draw = new DrawingConnnection(this, cli);
+			chat = new ChatConnection();
+			draw = new DrawingConnnection();
+			
+			if(chat.auth_protcole() && draw.auth_protcole()) {
+				chat.startChat();
+				draw.startDraw();
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

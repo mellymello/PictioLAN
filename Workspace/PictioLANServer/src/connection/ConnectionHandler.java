@@ -24,6 +24,7 @@ public class ConnectionHandler implements Runnable {
 	boolean endConnection = false;
 
 	Gamer gamer = null;
+	//Game game = null;
 	
 	public ConnectionHandler(Socket s) {
 		connexion = s;
@@ -68,7 +69,6 @@ public class ConnectionHandler implements Runnable {
 		
 		String pseudo = "";
 		String pass = "";
-		String email = "";
 		
 		pseudo = in.readLine();
 		pass = in.readLine();
@@ -88,9 +88,12 @@ public class ConnectionHandler implements Runnable {
 	public void list_category_protocole() throws IOException {
 		
 		LinkedList<String> list = Dictionary.getListCategory();
+		
 		System.out.println("List cat = " + list.size());
+		
 		out.write(list.size());
 		out.flush();
+		
 		for(int i=0; i < list.size(); i++)
 			out.write(list.get(i) + "\n");
 		
@@ -108,46 +111,44 @@ public class ConnectionHandler implements Runnable {
 		Game g = new Game(nbrGamers,nbRound,category,mode,gamer);
 		Game.addGameActive(g);
 		gamer.setGame(g);
+		gamer.getGame().getListGamer().add(gamer);
 		
 		out.write(gamer.getGame().getID());
 		out.flush();
-		
+
+		System.out.println("creator = " + gamer.getPseudo());
+		System.out.println("nb joueurs = " + gamer.getGame().getGameActiveList().size());		
 	}
 
 	public void game_join_protocole() throws IOException {
 		
-		System.out.println("OK1");
 		int id_game = in.read();
-		System.out.println("OK2");
+
 		for(Game g : Game.getGameActiveList()) {
-			System.out.println("OK3");
+			
 			if(g.getID() == id_game){
-				System.out.println("OK4");
-				if(g.isStarting())
-				{
-					System.out.println("OK5");
+
+				if(g.isStarting() || g.getListGamer().size() >= g.getNbrMaxGamers()) {
+					
 					out.write("JOIN_FAILED\n");
 					out.flush();
 					return;
 				}
-				else
-				{
-					System.out.println("OK6");
+				else {
+					
 					gamer.setGame(g);
 					g.addGamer(gamer);
-					System.out.println("OK7");
+					
 					out.write("JOIN_SUCCESS\n");
 					out.flush();
+					return;
 				}
 				
-				break;
 			}
 		}
 		
-		if(gamer.getGame().getListGamer().size() == gamer.getGame().getNbrMaxGamers()) {
-			game_start_protocole();
-			gamer.getGame().startGame();
-		}
+		out.write("JOIN_FAILED\n");
+		out.flush();
 	}
 	
 	public void game_list_protocole() throws IOException {
@@ -172,70 +173,124 @@ public class ConnectionHandler implements Runnable {
 		}
 	}
 
-	public void game_start_protocole() {
-		try{
-			
-			out.write("GAME_START\n");
-			out.flush();
-			
-			out.write(gamer.getGame().getListGamer().size());
-			out.flush();
-			for(int i=0; i < gamer.getGame().getListGamer().size(); i++) {
+	public void game_start_protocole() throws IOException{
+		
+		String msg = in.readLine();
+		
+		gamer.setIsReady(true);
+		
+		boolean everyoneIsReady = true;
+		
+		if(gamer.getGame().getNbrMaxGamers() == gamer.getGame().getListGamer().size()) {
+		
+			for(Gamer g : gamer.getGame().getListGamer()) {
 				
-				out.write(gamer.getGame().getListGamer().get(i).getPseudo() + "\n");
-				out.flush();
+				if(!g.isReady()) {
+					everyoneIsReady = false;
+					break;
+				}
+			}
+		}
+		else
+			everyoneIsReady = false;
+		
+		if(everyoneIsReady) {
+			
+			//BROADCAST
+			for(Gamer g : gamer.getGame().getListGamer()) {
+				g.getConnection().out.write("GAME_START\n");
+				g.getConnection().out.flush();
 			}
 			
-		} catch (IOException e) {
-			e.printStackTrace();
+			gamer.getGame().startGame();
+			//game = gamer.getGame();
 		}
 	}
 	
-	public void round_start_protocole(boolean isDrawer) {
+//	public void round_start_protocole(boolean isDrawer) {
+//		
+//		try{
+//			out.write("ROUND_START\n");
+//			
+//			if(isDrawer)
+//				out.write("DRAWER\n");
+//			else
+//				out.write("GUESSER\n");
+//			
+//			out.flush();
+//			
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	public void round_word_protocole(String word) {
+//		
+//		try{
+//			out.write("ROUND_WORD\n");
+//			out.write(word + "\n");
+//			out.flush();
+//			
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	public void round_end_protocole(String pseudo, String word) {
+//		try{
+//			
+//			out.write("ROUND_END\n");
+//			
+//			out.write(pseudo + "\n");
+//			out.write(word + "\n");
+//			
+//			out.flush();
+//			
+//			System.out.println();
+//			
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+
+	public void send_list_gamer_protocole() throws IOException {
 		
-		try{
-			out.write("ROUND_START\n");
-			
-			if(isDrawer)
-				out.write("DRAWER\n");
-			else
-				out.write("GUESSER\n");
-			
-			out.flush();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void round_word_protocole(String word) {
+		out.write(gamer.getGame().getListGamer().size());
+		out.flush();
 		
-		try{
-			out.write("ROUND_WORD\n");
-			out.write(word + "\n");
+		for(int i=0; i < gamer.getGame().getListGamer().size(); i++) {
+			out.write(gamer.getGame().getListGamer().get(i).getPseudo() + "\n");
 			out.flush();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
-	public void round_end_protocole(String pseudo, String word) {
-		try{
-			
-			out.write("ROUND_END\n");
-			
+	public void send_gamer_role_protocole(boolean isDrawer) throws IOException{
+		
+		if(isDrawer) {
+			out.write("DRAWER\n");
+			out.flush();
+		} 
+		else {
+			out.write("GAMER\n");
+			out.flush();			
+		}
+	}
+	
+	public void send_word_gamer_protocole(String word) throws IOException {
+		out.write(word + "\n");
+		out.flush();
+	}
+	
+	public void send_winner_protocole(String pseudo) throws IOException {
 			out.write(pseudo + "\n");
-			out.write(word + "\n");
-			
 			out.flush();
-			
-			System.out.println();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
+	
+	public void end_protocole() throws IOException {
+			out.write("END_GAME\n");
+			out.flush();
+//			threadConnexion.notify();
+	}		
 	
 	public void close() {
 		endConnection = true;
@@ -280,6 +335,22 @@ public class ConnectionHandler implements Runnable {
 				else if(protocole.equals("GAME_LIST")) {
 					game_list_protocole();
 				}
+				else if(protocole.equals("GAMER_READY")) {
+					game_start_protocole();
+//					threadConnexion.interrupt();
+				}
+//				else if(protocole.equals("GAME_LIST_GAMER")) {
+//					send_list_gamer_protocole();
+//				}
+//				else if(protocole.equals("GAME_SEND_ROLE")) {
+//					send_gamer_role_protocole();
+//				}
+//				else if(protocole.equals("GAME_SEND_WORD")) {
+//					send_word_gamer_protocole();
+//				}
+//				else if(protocole.equals("GAME_SEND_WINNER")) {
+//					send_winner_protocole();
+//				}
 				else if(protocole.equals("CLOSE_CONNEXION")) {
 					break;
 				}
@@ -292,6 +363,12 @@ public class ConnectionHandler implements Runnable {
 		finally {
 			
 			try {
+				if(out != null)
+					out.close();
+
+				if(in != null)
+					in.close();
+				
 				if(connexion != null)
 					connexion.close();
 			}

@@ -57,9 +57,12 @@ public class JProposition extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					
 					System.out.println("Vue1 = " + txtProp.getText());
-					PictioLan.modele_gamer.getChat().sendMessage(txtProp.getText());
-				} catch (IOException e) {
+					
+					if(PictioLan.modele_gamer.getChat().isConnect())
+						PictioLan.modele_gamer.getChat().sendMessage(txtProp.getText());				
+					} catch (IOException e) {
 					e.printStackTrace();
 				}
 				

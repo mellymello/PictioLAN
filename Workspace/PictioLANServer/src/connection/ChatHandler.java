@@ -33,11 +33,33 @@ public class ChatHandler implements Runnable {
 		threadChat.start();
 	}
 	
+	public void auth_protocole() throws IOException { 
+		
+		String pseudo = in.readLine();
+		String pass = in.readLine();
+		
+		gamer = ManagerGamer.authentification_BD(pseudo, pass);
+		
+		if(gamer != null) {
+			out.write("AUTH_SUCCESS\n");
+			out.flush();
+			
+			gamer.setChat(this);
+		}
+		else {
+			out.write("AUTH_FAILED\n");
+			out.flush();
+		}
+	}
+	
 	public void send(String s) { 
+		
 		try {
+			
 			out.write(s+"\n");
 			out.flush();
 			System.out.println("TRANSMI : " + s);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -47,41 +69,47 @@ public class ChatHandler implements Runnable {
 		endConnection = true;
 	}
 	
+	@Override
 	public void run() {
 
 		System.out.println("SERVER CHAT DEM");
 	
 		try {
 			
-			String pseudo = in.readLine();
-			String pass = in.readLine();
-			
-			gamer = ManagerGamer.authentification_BD(pseudo, pass);
-			
-			if(gamer != null) {
-				out.write("AUTH_SUCCESSFUL\n");
-				gamer.setChat(this);
-			}
-			else
-				out.write("AUTH_FAILED\n");
-			
 			while(!endConnection) {
 				
 				String tmp = in.readLine();
 				
-				if(gamer.getGame() != null && gamer.getGame().getWord() == tmp) {
+				if(tmp.equals("AUTH")) {
+					auth_protocole();
 					
-					gamer.getGame().winWord(gamer);
 				}
-				
-				System.out.println("RECU SERVEUR: " + tmp);
-				
-				if(gamer.getGame() != null) {
-					for(ChatHandler c : gamer.getGame().getListChat()) {
-						if(this != c)
-							c.send(tmp);
+				else if(tmp.equals("CHAT_MESSAGE")) {
+					
+					String message = in.readLine();
+					
+					if(gamer.getGame() != null && gamer.getGame().getWord() == message) {
+						
+						gamer.getGame().winWord(gamer);
 					}
+					
+					System.out.println("RECU SERVEUR: " + message);
+					
+					if(gamer.getGame() != null) {
+						
+						for(ChatHandler c : gamer.getGame().getListChat()) {
+							
+							if(this != c) 
+								c.send(message);
+						}
+					}
+				
 				}
+				else if(tmp.equals("CLOSE")) {
+					endConnection = true;
+					break;
+				}
+				
 			} // fin de la boucle
 			
 		} catch (IOException e) {
@@ -90,7 +118,10 @@ public class ChatHandler implements Runnable {
 		finally {
 			
 			try {
-				
+				if(in != null)
+					in.close();
+				if(out != null)
+					out.close();
 				if(connexion != null)
 					connexion.close();
 			}

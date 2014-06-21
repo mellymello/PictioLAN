@@ -181,7 +181,7 @@ public class JListGame extends JFrame {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					JCreateGame createGame = new JCreateGame();
+					JCreateGame createGame = new JCreateGame(JListGame.this);
 //					setGameNameList();
 					dispose();
 				}

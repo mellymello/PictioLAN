@@ -1,10 +1,13 @@
 package game;
 
+import gui.JClient;
+
 import java.util.LinkedList;
 
 import connection.ChatConnection;
+import connection.PictioLan;
 
-public class Game {
+public class Game implements Runnable {
 	
 	int id_game;
 	String category;
@@ -18,6 +21,10 @@ public class Game {
 	LinkedList<Round> rounds = new LinkedList<Round>();
 	
 	int indice_round = 0;
+	
+	JClient client;
+	
+	Thread threadGaming;
 	
 	public Game(int id, String category, int nbrRounds, boolean mode, String creatorPseudo, int nbrMaxGamers, int nbrActivesGamers) {
 		
@@ -70,4 +77,64 @@ public class Game {
 	
 	public Round getRoundActive(){ return rounds.get(indice_round); }
 	
+	public JClient getClient() { 
+		return client;
+	}
+	
+	public void setClient(JClient c) {
+		client = c;
+	}
+	
+	public void startGame() {
+		threadGaming = new Thread(this);
+		threadGaming.start();
+	}
+	
+	@Override
+	public void run() {
+		
+		System.out.println("OK");
+		
+		PictioLan.modele_gamer.server.ready_protocole();
+		System.out.println("ready_protocole");
+		
+		PictioLan.modele_gamer.server.get_liste_gamer_protocole();
+		System.out.println("get_liste_gamer");
+
+		System.out.println("round = 0");
+		
+		if(PictioLan.modele_gamer.server.get_role_gamer_protocole()){
+			
+			if(PictioLan.modele_gamer.getGame().getClient() != null) {
+				PictioLan.modele_gamer.getGame().getClient().setEnableChat(false);
+				PictioLan.modele_gamer.getGame().getClient().setEnableDraw(true);
+			}
+			
+			System.out.println("DRAWER !");
+			String w = PictioLan.modele_gamer.server.get_word_protocole();
+			
+			System.out.println("WORD " + w);
+			
+			if(PictioLan.modele_gamer.getGame().getClient() != null) {
+				PictioLan.modele_gamer.getGame().getClient().printRandomWord(w);
+			}
+			
+		}
+		else {
+			
+			if(PictioLan.modele_gamer.getGame().getClient() != null) {
+				PictioLan.modele_gamer.getGame().getClient().setEnableChat(true);
+				PictioLan.modele_gamer.getGame().getClient().setEnableDraw(false);
+			}
+			
+			System.out.println("GESSER !");
+		}
+		
+		//SYNCRO ICI
+		
+		PictioLan.modele_gamer.server.end_game_protocole();
+		
+		System.out.println("END");
+		
+	}
 }

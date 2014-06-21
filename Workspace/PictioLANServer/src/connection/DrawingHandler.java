@@ -1,5 +1,6 @@
 package connection;
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -11,7 +12,9 @@ import server.ManagerGamer;
 import game.*;
 
 public class DrawingHandler implements Runnable {
-		
+	
+	Gamer gamer;
+	
 	Socket connexion = null;
 	Thread threadDrawing;
 	
@@ -22,8 +25,6 @@ public class DrawingHandler implements Runnable {
 	BufferedWriter out;
 	
 	boolean endConnection = false;
-	
-	Gamer gamer = null;
 	
 	public DrawingHandler(Socket s) throws IOException {
 		
@@ -36,15 +37,39 @@ public class DrawingHandler implements Runnable {
 		threadDrawing.start();
 	}
 	
+	public void auth_protocole() throws IOException { 
+		
+		String pseudo = in.readLine();
+		String pass = in.readLine();
+		
+		gamer = ManagerGamer.authentification_BD(pseudo, pass);
+		
+		if(gamer != null) {
+			out.write("AUTH_SUCCESS\n");
+			out.flush();
+			
+			gamer.setDrawing(this);
+		}
+		else {
+			out.write("AUTH_FAILED\n");
+			out.flush();
+		}
+	}
+	
 	public void close() {
 		endConnection = true;
 	}
 	
-	public void send(String s) { 
+	
+	public void send(int x, int y) { 
 		try {
-			out.write(s+"\n");
+			out.write(x);
 			out.flush();
-			System.out.println("TRANSMI : " + s);
+			
+			out.write(y);
+			out.flush();
+			
+			System.out.println("TRANSMI : ");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -52,33 +77,39 @@ public class DrawingHandler implements Runnable {
 	
 	public void run() {
 
-		System.out.println("SERVER CHAT DEM");
+		System.out.println("SERVER Drawing DEM");
 	
 		try {
-			
-			String pseudo = in.readLine();
-			String pass = in.readLine();
-			
-			gamer = ManagerGamer.authentification_BD(pseudo, pass);
-			
-			if(gamer != null) {
-				out.write("AUTH_SUCCESSFUL\n");
-				gamer.setDrawing(this);
-			}
-			else
-				out.write("AUTH_FAILED\n");
 			
 			while(!endConnection) {
 				
 				String tmp = in.readLine();
-				System.out.println("RECU SERVEUR: " + tmp);
 				
-				if(gamer.getGame() != null) {
-					for(DrawingHandler c : gamer.getGame().getListDrawing()) {
-						if(this != c)
-							c.send(tmp);
-					}
+				if(tmp.equals("AUTH")) {
+					auth_protocole();
 				}
+				else if(tmp.equals("DRAW_POINT")) {
+				
+					System.out.println("RECU SERVEUR: " + tmp);
+					
+					int x = in.read();
+					int y = in.read();
+					
+					if(gamer.getGame() != null) {
+						
+						for(DrawingHandler c : gamer.getGame().getListDrawing()) {
+							if(this != c)
+								c.send(x,y);
+						}
+						
+					}
+				
+				}
+				else if(tmp.equals("CLOSE")) {
+					endConnection = true;
+					break;
+				}
+				
 			} // fin de la boucle
 			
 		} catch (IOException e) {
@@ -87,6 +118,11 @@ public class DrawingHandler implements Runnable {
 		finally {
 			
 			try {
+				if(in != null)
+					in.close();
+				
+				if(out != null)
+					out.close();
 				
 				if(connexion != null)
 					connexion.close();

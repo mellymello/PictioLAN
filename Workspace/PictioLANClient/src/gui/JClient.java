@@ -16,6 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import connection.PictioLan;
@@ -79,6 +80,9 @@ public class JClient extends JFrame implements Configuration {
 		
 		this.getRootPane().setDefaultButton(proposition.getEnvoyer());
 		this.setResizable(false);
+		
+		//Attribue la vue au client
+		PictioLan.modele_gamer.getGame().setClient(this);
 	}
 
 	private void initializate(){
@@ -99,6 +103,36 @@ public class JClient extends JFrame implements Configuration {
 		this.getContentPane().add(logoPanel, BorderLayout.SOUTH);
 		
 	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+	/* Méthodes pour gérer le client */
+	
+	public void printRandomWord(String word) {
+	//JOptionPane.showMessageDialog(this, "Word : " + word, "Your are the painter", JOptionPane.PLAIN_MESSAGE);
+	JOptionPane.showMessageDialog(this, "Word : " + word, "Your are the painter", JOptionPane.PLAIN_MESSAGE);
+	System.out.println("PAS BLOCANT");
+	}
+	
+	public void setEnableDraw(boolean e) {
+	//dessin.setEnabled(e);
+	}
+	
+	public void setEnableChat(boolean e) {
+	//proposition.setEnabled(e);
+	//proposition.setActif(e);
+	}
+	
+	public JProposition getChat() {
+	return proposition;
+	}
+	
+	public JDraw getDraw() {
+	return dessin;
+	}
+	
+	/* Fin Méthodes pour gérer le client */
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private void createLeft() {
 		left.setOpaque(false);
@@ -123,8 +157,8 @@ public class JClient extends JFrame implements Configuration {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				PictioLan.modele_gamer.launchChatDraw(proposition, JClient.this);
 				PictioLan.modele_gamer.getConnection().start_game_protocole();
+//				PictioLan.modele_gamer.launchChatDraw();
 			}
 			
 		});
@@ -328,6 +362,11 @@ public class JClient extends JFrame implements Configuration {
 	public void sendPoint(Point point) {
 		// TODO Auto-generated method stub
 		//METHODE POUR ENVOYER LES POINTS
+		try {
+			PictioLan.modele_gamer.getDraw().sendMessage(point);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	class JBasePanel extends JPanel {

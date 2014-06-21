@@ -1,5 +1,6 @@
 package game;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -7,7 +8,7 @@ import server.BDConnection;
 import connection.ChatHandler;
 import connection.DrawingHandler;
 
-public class Game implements Runnable {
+public class Game {
 
 	static LinkedList<Game> game_active = new LinkedList<Game>();
 	static int id_generator = 0;
@@ -102,9 +103,10 @@ public class Game implements Runnable {
 	}
 	
 	public Gamer selectDrawer() { 
-		Random r = new Random();
 		
-		int temp = r.nextInt() % gamers.size();
+		Random r = new Random();
+		int temp = r.nextInt(gamers.size());
+		
 		Gamer g = gamers.get(temp); 
 		
 		if(indice_round > 0 && round.get(indice_round-1).getDrawer() == g)
@@ -125,11 +127,6 @@ public class Game implements Runnable {
 		game_active.add(g);
 	}
 	
-	public void startGame() {
-		execute_game = new Thread(this);
-		execute_game.start();
-	}
-	
 	public String getWord() {
 		return round.get(indice_round).getWord();
 	}
@@ -139,43 +136,87 @@ public class Game implements Runnable {
 		execute_game.notify();
 	}
 	
-	@Override
-	public void run() {
+	public void startGame() {
 		
-		for(int r=0; r < nb_max_round; r++) {
-			
-			Gamer drawer = selectDrawer();
-			String word = Dictionary.getWord(category);
-			round.add(new Round(this,drawer,word));
-
-			//Protocole start round
-			for(Gamer g : gamers) {
-				g.connection.round_start_protocole(g == drawer);
-			}
-			
-			//Protocole word round
-			drawer.connection.round_word_protocole(word);
+		System.out.println("PARTIE COMMENCEEEEE");
 			
 			try {
-				execute_game.sleep(60000);
+				
+				//Envoyer la liste des joueurs
+				for(Gamer g : gamers)
+					g.connection.send_list_gamer_protocole();
 			
-			} catch (InterruptedException e) {
+				//BOUCLE
+				System.out.println("Round 0");
+				
+				Gamer drawer = selectDrawer();
+				String word = "Chat";
+				
+				//Envoyer le round 0
+				for(Gamer g : gamers)
+					g.connection.send_gamer_role_protocole(g==drawer);
+				
+				drawer.connection.send_word_gamer_protocole(word);
+				
+				for(Gamer g : gamers) {
+					g.connection.end_protocole();
+				}
+				
+				try {
+					Thread.currentThread().sleep(180000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				System.out.println("END");
+				
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			
-			String winner;
-			if(round.get(indice_round).getWinner() != null)
-				winner = round.get(indice_round).getWinner().getPseudo();
-			else
-				winner = "NONE";
-			
-			//Protocole end round
-			for(Gamer g : gamers) {
-				g.connection.round_end_protocole(winner,word);
-			}
-			
-			indice_round++;
+//			execute_game = new Thread(this);
+//			execute_game.start();
 		}
-		
-	}
+	
+//
+//	
+//	@Override
+//	public void run() {
+//		
+//		for(int r=0; r < nb_max_round; r++) {
+//			
+//			Gamer drawer = selectDrawer();
+//			String word = Dictionary.getWord(category);
+//			round.add(new Round(this,drawer,word));
+//
+//			//Protocole start round
+//			for(Gamer g : gamers) {
+//				g.connection.round_start_protocole(g == drawer);
+//			}
+//			
+//			//Protocole word round
+//			drawer.connection.round_word_protocole(word);
+//			
+//			try {
+//				execute_game.sleep(60000);
+//			
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			String winner;
+//			if(round.get(indice_round).getWinner() != null)
+//				winner = round.get(indice_round).getWinner().getPseudo();
+//			else
+//				winner = "NONE";
+//			
+//			//Protocole end round
+//			for(Gamer g : gamers) {
+//				g.connection.round_end_protocole(winner,word);
+//			}
+//			
+//			indice_round++;
+//		}
+//		
+//	}
 }

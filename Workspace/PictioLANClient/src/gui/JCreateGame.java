@@ -37,12 +37,15 @@ public class JCreateGame extends JFrame {
 	private JPanel exitPanel;
 	private JButton exitButton;
 
-	public JCreateGame() {
-		System.out.println("hello");
+	private JListGame vue_parente;
+	
+	public JCreateGame(JListGame vue) {
+
+		vue_parente = vue;
+		
 		initialize();
 		this.setVisible(true);
 		this.pack();
-		System.out.println("suite");
 	}
 
 	private void initialize() {

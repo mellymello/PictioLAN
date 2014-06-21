@@ -1,5 +1,12 @@
 package connection;
 
+import java.awt.Frame;
+import java.awt.Point;
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
+import game.Game;
 import game.Gamer;
 import gui.JWelcome;
 
@@ -15,6 +22,24 @@ public class PictioLan {
 	}
 	
 	public static void main (String[] args) {
+		
 		PictioLan p = new PictioLan();
+//		modele_gamer = new Gamer();
+//		modele_gamer.launchConnexion("127.0.0.1");
+//		modele_gamer.getConnection().auth_anonymous_protocole();
+//		
+//		//modele_gamer.getConnection().create_game_protocole(2, false, 4, "Animaux");
+//		modele_gamer.getConnection().join_game_protocole(new Game(0,"Animaux",4,false,"Anonyme_0",2), 0);
+//		
+//		modele_gamer.getConnection().start_game_protocole();
+//		modele_gamer.launchChatDraw();
+//		try {
+//			modele_gamer.getChat().sendMessage("UN MESSAGE !");
+//			modele_gamer.getDraw().sendMessage(new Point(1,1));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+		
 	}
 }

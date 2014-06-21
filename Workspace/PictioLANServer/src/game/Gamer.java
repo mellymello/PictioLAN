@@ -41,12 +41,24 @@ public class Gamer {
 		connection = c;
 	}
 
+	public void setIsReady(boolean b) {
+		ready = b;
+	}
+	
+	public ConnectionHandler getConnection() {
+		return connection;
+	}
+	
 	public void setChat(ChatHandler c) {
 		chat = c;
 	}
 	
 	public void setDrawing(DrawingHandler d) {
 		draw = d;
+	}
+	
+	public boolean isReady() {
+		return ready;
 	}
 	
 	public void quitGame() {
