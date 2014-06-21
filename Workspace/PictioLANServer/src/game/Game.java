@@ -158,14 +158,14 @@ public class Game {
 				
 				drawer.connection.send_word_gamer_protocole(word);
 				
-				for(Gamer g : gamers) {
-					g.connection.end_protocole();
-				}
-				
 				try {
 					Thread.currentThread().sleep(180000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
+				}
+				
+				for(Gamer g : gamers) {
+					g.connection.end_protocole();
 				}
 				
 				System.out.println("END");
