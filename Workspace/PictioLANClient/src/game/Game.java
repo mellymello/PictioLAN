@@ -105,41 +105,41 @@ public class Game implements Runnable {
 		
 		PictioLan.modele_gamer.server.get_liste_gamer_protocole();
 		
-//		
-//		if(client != null)
-//			client.printGamers();
-//		
-//		for(int i=0; i < nbrRounds ; i++) {
-//		
-//			if(PictioLan.modele_gamer.server.get_role_gamer_protocole()){
-//				
-//				if(PictioLan.modele_gamer.getGame().getClient() != null) {
-//					PictioLan.modele_gamer.getGame().getClient().setEnableChat(false);
-//					PictioLan.modele_gamer.getGame().getClient().setEnableDraw(true);
-//				}
-//				
-//				String w = PictioLan.modele_gamer.server.get_word_protocole();
-//				
-//				if(PictioLan.modele_gamer.getGame().getClient() != null) {
-//					PictioLan.modele_gamer.getGame().getClient().printRandomWord(w);
-//				}
-//				
-//			}
-//			else {
-//				
-//				if(PictioLan.modele_gamer.getGame().getClient() != null) {
-//					PictioLan.modele_gamer.getGame().getClient().setEnableChat(true);
-//					PictioLan.modele_gamer.getGame().getClient().setEnableDraw(false);
-//				}
-//				
-//			}
-//			
-//			PictioLan.modele_gamer.server.send_start_timer_protocole();
-//			
-//			//Afficher Timer
-//			PictioLan.modele_gamer.server.send_end_round_protocole();
-//		
-//		}
+		
+		if(client != null)
+			client.printGamers();
+		
+		for(int i=0; i < nbrRounds ; i++) {
+		
+			if(PictioLan.modele_gamer.server.get_role_gamer_protocole()){
+				
+				if(PictioLan.modele_gamer.getGame().getClient() != null) {
+					PictioLan.modele_gamer.getGame().getClient().setEnableChat(false);
+					PictioLan.modele_gamer.getGame().getClient().setEnableDraw(true);
+				}
+				
+				String w = PictioLan.modele_gamer.server.get_word_protocole();
+				
+				if(PictioLan.modele_gamer.getGame().getClient() != null) {
+					PictioLan.modele_gamer.getGame().getClient().printRandomWord(w);
+				}
+				
+			}
+			else {
+				
+				if(PictioLan.modele_gamer.getGame().getClient() != null) {
+					PictioLan.modele_gamer.getGame().getClient().setEnableChat(true);
+					PictioLan.modele_gamer.getGame().getClient().setEnableDraw(false);
+				}
+				
+			}
+			
+			PictioLan.modele_gamer.server.send_start_timer_protocole();
+			
+			//Afficher Timer
+			PictioLan.modele_gamer.server.send_end_round_protocole();
+		
+		}
 		
 		
 		//SYNCRO ICI
