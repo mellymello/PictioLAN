@@ -136,6 +136,18 @@ public class Game {
 			return "";
 	}
 	
+	public boolean isEveryoneIsReadyTimer() {
+		
+		for(Gamer g : gamers) {
+			
+			if(!g.isReadyTimer())
+				return false;
+		}
+		
+		return true;
+		
+	}
+	
 	public void startGame() {
 		
 //		System.out.println("PARTIE COMMENCEEEEE");
@@ -160,6 +172,15 @@ public class Game {
 					drawer.connection.send_word_gamer_protocole(word);
 					
 					round.add(new Round(this, drawer, word));
+					
+					//START TIMER
+					for(Gamer g : gamers) {
+						g.connection.send_wait_timer_protocole(g);
+					}
+					
+					for(Gamer g : gamers) {
+						g.connection.send_start_timer_protocole(g);
+					}
 					
 					try {
 						Thread.currentThread().sleep(60000);

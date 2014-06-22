@@ -32,6 +32,7 @@ public class JDraw extends JPanel implements Configuration {
 
 	public void addPoint(Point p) {
 		points.addElement(p);
+		ecouteur.refreshDraw();
 	}
 
 	public void effacerDessin() {
@@ -105,8 +106,8 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 	public void mouseDragged(MouseEvent e) {
 		if (panel.getEnabled()) {
 			panel.addPoint(new Point(e.getPoint()));
+			client.sendPoint(new Point(e.getPoint()));
 			panel.repaint();
-			// client.sendPoint(new Point(e.getPoint()));
 		}
 	}
 
@@ -122,7 +123,7 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 		if (panel.getEnabled()) {
 			panel.addPoint(new Point(e.getPoint()));
 			panel.points.clear();
-			// client.sendPoint(new Point(e.getPoint()));
+			client.sendPoint(new Point(e.getPoint()));
 			panel.repaint();
 		}
 	}
@@ -137,6 +138,10 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseExited(MouseEvent e) {
+	}
+	
+	public void refreshDraw() {
+		panel.repaint();
 	}
 
 }

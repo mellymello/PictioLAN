@@ -133,6 +133,10 @@ public class Game implements Runnable {
 				
 			}
 			
+			PictioLan.modele_gamer.server.send_start_timer_protocole();
+			
+			//Afficher Timer
+			
 			PictioLan.modele_gamer.server.send_end_round_protocole();
 		
 		}

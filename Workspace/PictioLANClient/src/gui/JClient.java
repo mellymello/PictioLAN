@@ -372,7 +372,8 @@ public class JClient extends JFrame implements Configuration {
 	public void sendPoint(Point point) {
 		// TODO Auto-generated method stub
 		//METHODE POUR ENVOYER LES POINTS
-		PictioLan.modele_gamer.getDraw().addPointToBuffer(point);
+		if(PictioLan.modele_gamer.getDraw() != null)
+			PictioLan.modele_gamer.getDraw().addPointToBuffer(point);
 	}
 	
 	class JBasePanel extends JPanel {

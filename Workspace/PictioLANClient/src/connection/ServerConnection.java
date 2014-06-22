@@ -328,6 +328,19 @@ public class ServerConnection {//implements Runnable {
 	
 	}
 	
+	public void send_start_timer_protocole() {
+		try {
+			
+			outConnexion.write("READY_START_TIMER\n");
+			outConnexion.flush();
+			
+			inConnexion.readLine();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void send_end_round_protocole() {
 		try {
 			

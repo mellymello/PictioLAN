@@ -73,6 +73,9 @@ public class ChatHandler implements Runnable {
 				list_message.remove(i);
 			}
 			
+//			if(list_message != null)
+//				list_message.clear();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

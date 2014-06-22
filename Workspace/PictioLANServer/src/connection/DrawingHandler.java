@@ -77,6 +77,9 @@ public class DrawingHandler implements Runnable {
 				list_point.remove(i);
 			}
 			
+//			if(list_point!=null)
+//				list_point.clear();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

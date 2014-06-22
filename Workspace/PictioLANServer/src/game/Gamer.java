@@ -17,6 +17,8 @@ public class Gamer {
 	Game gameActive;
 	boolean ready = false;
 	
+	boolean readyTimer = false;
+	
 	public Gamer(String pseudo) {
 		this.pseudo = pseudo;
 	}
@@ -63,6 +65,14 @@ public class Gamer {
 	
 	public void quitGame() {
 		ready = true;
+	}
+	
+	public void setReadyTimer(boolean b) {
+		readyTimer = b;
+	}
+	
+	public boolean isReadyTimer() {
+		return readyTimer;
 	}
 	
 	public void closeConnection() {

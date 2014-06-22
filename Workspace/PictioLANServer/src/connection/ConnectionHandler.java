@@ -283,6 +283,16 @@ public class ConnectionHandler implements Runnable {
 		out.flush();
 	}
 	
+	public void send_wait_timer_protocole(Gamer g) throws IOException {
+		in.readLine();
+		g.setReadyTimer(true);
+	}
+	
+	public void send_start_timer_protocole(Gamer g) throws IOException {
+		out.write("END_GAME\n");
+		out.flush();
+	}
+	
 	public void send_winner_protocole(String pseudo) throws IOException {
 			out.write(pseudo + "\n");
 			out.flush();
