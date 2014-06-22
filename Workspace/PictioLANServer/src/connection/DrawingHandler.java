@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.LinkedList;
 
 import server.ManagerGamer;
 import game.*;
@@ -26,6 +27,8 @@ public class DrawingHandler implements Runnable {
 	
 	boolean endConnection = false;
 	
+	LinkedList<Point> list_point = new LinkedList<Point>();
+
 	public DrawingHandler(Socket s) throws IOException {
 		
 		connexion = s;
@@ -33,16 +36,15 @@ public class DrawingHandler implements Runnable {
 		in = new BufferedReader (new InputStreamReader (connexion.getInputStream()));
 		out = new BufferedWriter (new OutputStreamWriter(connexion.getOutputStream()));
 		
-		threadDrawing = new Thread(this);
+		threadDrawing= new Thread(this);
 		threadDrawing.start();
 	}
 	
 	public void auth_protocole() throws IOException { 
 		
 		String pseudo = in.readLine();
-		String pass = in.readLine();
 		
-		gamer = ManagerGamer.authentification_BD(pseudo, pass);
+		gamer = ManagerGamer.getGamer(pseudo);
 		
 		if(gamer != null) {
 			out.write("AUTH_SUCCESS\n");
@@ -56,52 +58,90 @@ public class DrawingHandler implements Runnable {
 		}
 	}
 	
-	public void close() {
-		endConnection = true;
+	public void addMessage(Point p) {
+		list_point.add(p);
 	}
 	
-	
-	public void send(int x, int y) { 
+	public void send() { 
+		
 		try {
-			out.write(x);
+			out.write(list_point.size());
 			out.flush();
 			
-			out.write(y);
-			out.flush();
+			for(int i=0; i < list_point.size(); i++) {
+				out.write(list_point.get(i).x + "\n");
+				out.flush();
+				out.write(list_point.get(i).y + "\n");
+				out.flush();
+				
+				list_point.remove(i);
+			}
 			
-			System.out.println("TRANSMI : ");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public void sendError() {
+		try {
+			out.write(0);
+			out.flush();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public void close() {
+		endConnection = true;
+	}
+	
+	@Override
 	public void run() {
 
-		System.out.println("SERVER Drawing DEM");
-	
 		try {
 			
 			while(!endConnection) {
 				
 				String tmp = in.readLine();
-				
+
 				if(tmp.equals("AUTH")) {
 					auth_protocole();
 				}
-				else if(tmp.equals("DRAW_POINT")) {
-				
-					System.out.println("RECU SERVEUR: " + tmp);
-					
-					int x = in.read();
-					int y = in.read();
+				else if(tmp.equals("DRAW_GET_MESSAGE")) {
 					
 					if(gamer.getGame() != null) {
 						
-						for(DrawingHandler c : gamer.getGame().getListDrawing()) {
-							if(this != c)
-								c.send(x,y);
+						if(gamer.getGame().getListDrawing().isEmpty()) {
+							sendError();
+						}
+						else {
+						
+							for(DrawingHandler c : gamer.getGame().getListDrawing()) {
+								
+								if(this != c) 
+									c.send();
+							}
 						}
 						
+					}
+					else {
+						sendError();
+					}
+				
+				}
+				else if(tmp.equals("DRAW_SEND_MESSAGE")) {
+					
+					int x = in.read();
+					int y = in.read();
+				
+					if(gamer.getGame() != null) {
+						
+						for(DrawingHandler c : gamer.getGame().getListDrawing()) {
+							if(this != c) {
+								c.addMessage(new Point(x,y));
+							}
+						}
 					}
 				
 				}
@@ -120,10 +160,8 @@ public class DrawingHandler implements Runnable {
 			try {
 				if(in != null)
 					in.close();
-				
 				if(out != null)
 					out.close();
-				
 				if(connexion != null)
 					connexion.close();
 			}

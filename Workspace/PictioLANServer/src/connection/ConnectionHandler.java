@@ -44,7 +44,7 @@ public class ConnectionHandler implements Runnable {
 		pass = in.readLine();
 		email = in.readLine();
 		
-		temp = ManagerGamer.addGamer(pseudo, pass, email);
+		temp = ManagerGamer.addGamerBD(pseudo, pass, email);
 		
 		if(temp != null) 
 			out.write("AUTH_SUCCESSFUL\n");
@@ -63,6 +63,8 @@ public class ConnectionHandler implements Runnable {
 		
 		out.write("Anonyme_" + id + "\n");
 		out.flush();
+		
+		ManagerGamer.addAnonymoGamer(gamer);
 	}
 	
 	public void auth_connect_protocole() throws IOException {
@@ -286,6 +288,21 @@ public class ConnectionHandler implements Runnable {
 			out.flush();
 	}
 	
+	public void send_end_round_protocole(Gamer winner) throws IOException {
+		
+		if(winner != null) {
+			out.write("END_ROUND_WINNER\n");
+			out.flush();
+			
+			out.write(winner.getPseudo() + "\n");
+			out.flush();
+		}
+		else {
+			out.write("END_ROUND_NULL\n");
+			out.flush();
+		}
+	}
+	
 	public void end_protocole() throws IOException {
 			out.write("END_GAME\n");
 			out.flush();
@@ -297,7 +314,7 @@ public class ConnectionHandler implements Runnable {
 	}
 	
 	public void run() {
-		
+
 		try {
 			
 			in = new BufferedReader (new InputStreamReader (connexion.getInputStream()));
@@ -352,6 +369,7 @@ public class ConnectionHandler implements Runnable {
 //					send_winner_protocole();
 //				}
 				else if(protocole.equals("CLOSE_CONNEXION")) {
+					System.out.println("Arret du system");
 					break;
 				}
 			}
@@ -371,6 +389,8 @@ public class ConnectionHandler implements Runnable {
 				
 				if(connexion != null)
 					connexion.close();
+				
+				System.out.println("bloc finally atteint");
 			}
 			catch (IOException e) {
 				e.printStackTrace();

@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.LinkedList;
+
+import org.w3c.dom.ls.LSInput;
 
 import server.ManagerGamer;
 import game.*;
@@ -22,6 +25,8 @@ public class ChatHandler implements Runnable {
 	
 	Gamer gamer = null;
 	
+	LinkedList<String> list_message = new LinkedList<String>();
+	
 	public ChatHandler(Socket s) throws IOException {
 		
 		connexion = s;
@@ -36,9 +41,8 @@ public class ChatHandler implements Runnable {
 	public void auth_protocole() throws IOException { 
 		
 		String pseudo = in.readLine();
-		String pass = in.readLine();
 		
-		gamer = ManagerGamer.authentification_BD(pseudo, pass);
+		gamer = ManagerGamer.getGamer(pseudo);
 		
 		if(gamer != null) {
 			out.write("AUTH_SUCCESS\n");
@@ -52,17 +56,36 @@ public class ChatHandler implements Runnable {
 		}
 	}
 	
-	public void send(String s) { 
+	public void addMessage(String s) {
+		list_message.add(s);
+	}
+	
+	public void send() { 
 		
 		try {
-			
-			out.write(s+"\n");
+			out.write(list_message.size());
 			out.flush();
-			System.out.println("TRANSMI : " + s);
+			
+			for(int i=0; i < list_message.size(); i++) {
+				out.write(list_message.get(i) + "\n");
+				out.flush();
+				
+				list_message.remove(i);
+			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void sendError() {
+		try {
+			out.write(0);
+			out.flush();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
 	}
 	
 	public void close() {
@@ -72,35 +95,55 @@ public class ChatHandler implements Runnable {
 	@Override
 	public void run() {
 
-		System.out.println("SERVER CHAT DEM");
-	
 		try {
 			
 			while(!endConnection) {
 				
 				String tmp = in.readLine();
-				
+
 				if(tmp.equals("AUTH")) {
 					auth_protocole();
-					
 				}
-				else if(tmp.equals("CHAT_MESSAGE")) {
+				else if(tmp.equals("CHAT_GET_MESSAGE")) {
+					
+					if(gamer.getGame() != null) {
+						
+						if(gamer.getGame().getListChat().isEmpty()) {
+							sendError();
+						}
+						else {
+						
+							for(ChatHandler c : gamer.getGame().getListChat()) {
+								
+								if(this != c) 
+									c.send();
+							}
+						}
+						
+					}
+					else {
+						sendError();
+					}
+				
+				}
+				else if(tmp.equals("CHAT_SEND_MESSAGE")) {
 					
 					String message = in.readLine();
 					
-					if(gamer.getGame() != null && gamer.getGame().getWord() == message) {
-						
-						gamer.getGame().winWord(gamer);
-					}
+					System.out.println("CHAT : " + gamer.getGame().getWord() + "==" + message);
 					
-					System.out.println("RECU SERVEUR: " + message);
+					if(gamer.getGame() != null && gamer.getGame().getWord().equalsIgnoreCase(message)) {
+						gamer.getGame().getRoundActive().setWinner(gamer);
+//						gamer.getConnection().threadConnexion.notify();
+						System.out.println("SOMEONE WIN");
+					}
 					
 					if(gamer.getGame() != null) {
 						
 						for(ChatHandler c : gamer.getGame().getListChat()) {
-							
-							if(this != c) 
-								c.send(message);
+							if(this != c) {
+								c.addMessage(message);
+							}
 						}
 					}
 				

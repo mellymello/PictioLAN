@@ -26,6 +26,8 @@ public class Game implements Runnable {
 	
 	Thread threadGaming;
 	
+	boolean isStart = false;
+	
 	public Game(int id, String category, int nbrRounds, boolean mode, String creatorPseudo, int nbrMaxGamers, int nbrActivesGamers) {
 		
 		id_game = id;
@@ -85,51 +87,55 @@ public class Game implements Runnable {
 		client = c;
 	}
 	
+	public boolean isStart() {
+		return isStart;
+	}
+	
+	
 	public void startGame() {
+		isStart = true;
 		threadGaming = new Thread(this);
 		threadGaming.start();
 	}
 	
 	@Override
 	public void run() {
-		
-		System.out.println("OK");
-		
+	
 		PictioLan.modele_gamer.server.ready_protocole();
-		System.out.println("ready_protocole");
 		
 		PictioLan.modele_gamer.server.get_liste_gamer_protocole();
-		System.out.println("get_liste_gamer");
-
-		System.out.println("round = 0");
 		
-		if(PictioLan.modele_gamer.server.get_role_gamer_protocole()){
-			
-			if(PictioLan.modele_gamer.getGame().getClient() != null) {
-				PictioLan.modele_gamer.getGame().getClient().setEnableChat(false);
-				PictioLan.modele_gamer.getGame().getClient().setEnableDraw(true);
-			}
-			
-			System.out.println("DRAWER !");
-			String w = PictioLan.modele_gamer.server.get_word_protocole();
-			
-			System.out.println("WORD " + w);
-			
-			if(PictioLan.modele_gamer.getGame().getClient() != null) {
-				PictioLan.modele_gamer.getGame().getClient().printRandomWord(w);
-			}
-			
-		}
-		else {
-			
-			if(PictioLan.modele_gamer.getGame().getClient() != null) {
-				PictioLan.modele_gamer.getGame().getClient().setEnableChat(true);
-				PictioLan.modele_gamer.getGame().getClient().setEnableDraw(false);
-			}
-			
-			System.out.println("GESSER !");
-		}
+		if(client != null)
+			client.printGamers();
 		
+		for(int i=0; i < nbrRounds ; i++) {
+		
+			if(PictioLan.modele_gamer.server.get_role_gamer_protocole()){
+				
+				if(PictioLan.modele_gamer.getGame().getClient() != null) {
+					PictioLan.modele_gamer.getGame().getClient().setEnableChat(false);
+					PictioLan.modele_gamer.getGame().getClient().setEnableDraw(true);
+				}
+				
+				String w = PictioLan.modele_gamer.server.get_word_protocole();
+				
+				if(PictioLan.modele_gamer.getGame().getClient() != null) {
+					PictioLan.modele_gamer.getGame().getClient().printRandomWord(w);
+				}
+				
+			}
+			else {
+				
+				if(PictioLan.modele_gamer.getGame().getClient() != null) {
+					PictioLan.modele_gamer.getGame().getClient().setEnableChat(true);
+					PictioLan.modele_gamer.getGame().getClient().setEnableDraw(false);
+				}
+				
+			}
+			
+			PictioLan.modele_gamer.server.send_end_round_protocole();
+		
+		}
 		//SYNCRO ICI
 		
 		PictioLan.modele_gamer.server.end_game_protocole();

@@ -23,11 +23,13 @@ public class ServerListener {
 	public ServerListener () {
 		connexion = new ConnexionListener();
 		chat = new ChatListener();
-	}
+		drawing = new DrawingListener();
+ 	}
 	
 	//Socket ChatListener
 	class ChatListener implements Runnable {
 		
+		LinkedList<ChatHandler> chat = new LinkedList<ChatHandler>();
 		ServerSocket socketChatListener;
 		
 		public ChatListener ()  {
@@ -38,11 +40,11 @@ public class ServerListener {
 		public void run() {
 			
 			try {
-				
 				socketChatListener = new ServerSocket(chat_port);
 				
 				while(true) {
 					Socket s = socketChatListener.accept();
+					chat.add(new ChatHandler(s));
 				}
 				
 			} catch (IOException e) {
@@ -54,8 +56,9 @@ public class ServerListener {
 	//Socket ChatListener
 	class DrawingListener implements Runnable {
 		
-		LinkedList<DrawingHandler> client = new LinkedList<DrawingHandler>();
-		ServerSocket socketChatListener;
+		LinkedList<DrawingHandler> draw = new LinkedList<DrawingHandler>();
+		ServerSocket socketDrawListener;
+		Socket s = null;
 		
 		public DrawingListener() {
 			threadDrawing = new Thread(this);
@@ -66,11 +69,11 @@ public class ServerListener {
 			
 			try {
 				
-				socketChatListener = new ServerSocket(drawing_port);
+				socketDrawListener = new ServerSocket(drawing_port);
 				
 				while(true) {
-					Socket s = socketChatListener.accept();
-					client.add(new DrawingHandler(s));
+					Socket s = socketDrawListener.accept();
+					draw.add(new DrawingHandler(s));
 				}
 				
 			} catch (IOException e) {

@@ -208,8 +208,6 @@ public class ServerConnection {//implements Runnable {
 
 	public Game join_game_protocole(Game g, int id)  {
 		
-		System.out.println("OK1");
-		
 		try {
 			outConnexion.write("GAME_JOIN\n");
 			outConnexion.write(id);
@@ -234,7 +232,10 @@ public class ServerConnection {//implements Runnable {
 		endGame = false;
 		isStart = false;
 		
-		PictioLan.modele_gamer.getGame().startGame();
+		if(PictioLan.modele_gamer.getGame() != null)
+			PictioLan.modele_gamer.getGame().startGame();
+		else
+			System.out.println("Game not launch");
 	}
 	
 	public boolean get_role_gamer_protocole() {
@@ -264,25 +265,25 @@ public class ServerConnection {//implements Runnable {
 		return "";
 	}
 	
-	public boolean get_round_end_protocole() {
-		
-		try {
-			
-			String msg = inConnexion.readLine();
-			System.out.println(msg);
-			
-			String winner = inConnexion.readLine();
-			System.out.println(winner);
-			
-			String word = inConnexion.readLine();
-			System.out.println(word);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return gamer.getGame().getRounds().size() == gamer.getGame().getNbRounds();
-	}
+//	public boolean get_round_end_protocole() {
+//		
+//		try {
+//			
+//			String msg = inConnexion.readLine();
+//			System.out.println(msg);
+//			
+//			String winner = inConnexion.readLine();
+//			System.out.println(winner);
+//			
+//			String word = inConnexion.readLine();
+//			System.out.println(word);
+//			
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return gamer.getGame().getRounds().size() == gamer.getGame().getNbRounds();
+//	}
 	
 	public void ready_protocole() { 
 		
@@ -327,6 +328,24 @@ public class ServerConnection {//implements Runnable {
 	
 	}
 	
+	public void send_end_round_protocole() {
+		try {
+			
+			String rep = inConnexion.readLine();
+			String winner;
+			
+			if(rep.equals("END_ROUND_WINNER")) {
+				winner = inConnexion.readLine();
+				System.out.println("WINNER = " + winner);
+			}
+			else
+				System.out.println("WINNER = NULL");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void end_game_protocole() { 
 		
 		try {
@@ -335,8 +354,13 @@ public class ServerConnection {//implements Runnable {
 			outConnexion.write("CLOSE_CONNEXION\n");
 			outConnexion.flush();
 			
-			gamer.getChat().closeChat();
-			gamer.getDraw().closeDraw();
+			if(gamer.getChat() != null)
+				gamer.getChat().closeChat();
+			
+			if(gamer.getDraw() != null)
+				gamer.getDraw().closeDraw();
+			
+			closeConnexion();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

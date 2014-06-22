@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 public class ChatConnection implements Runnable {
 	
@@ -18,10 +20,10 @@ public class ChatConnection implements Runnable {
 	BufferedReader inChat;
 	BufferedWriter outChat;
 	
-	boolean isConnect = false;
+	boolean endConnection = true;
 	
-	boolean endConnection = false;
-	
+	LinkedList<String> buffer = new LinkedList<String>();
+ 	
 	public ChatConnection () throws IOException {
 		
 		socketChat = new Socket(PictioLan.modele_gamer.getIP(), chat_port);
@@ -29,18 +31,19 @@ public class ChatConnection implements Runnable {
 		outChat = new BufferedWriter(new OutputStreamWriter(socketChat.getOutputStream()));
 	}
 
-	public boolean isConnect() { return isConnect; };
+	public boolean isConnect() { return !endConnection; };
 
 	public void startChat() {
 		
-		if(isConnect) {
+		boolean actif = auth_protcole();
+		
+		if(!actif) {
 			chatThread = new Thread(this);
 			chatThread.start();
-			auth_protcole();
 		}
 	}
 	
-	public boolean auth_protcole() { 
+	private boolean auth_protcole() { 
 		
 		try {
 			
@@ -48,77 +51,126 @@ public class ChatConnection implements Runnable {
 			outChat.flush();
 			
 			String pseudo = PictioLan.modele_gamer.getPseudo();
-			String pass = PictioLan.modele_gamer.getPassword();
 				
 			outChat.write(pseudo + "\n");
 			outChat.flush();
-			outChat.write(pass + "\n");
-			outChat.flush();
 				
 			String rep = inChat.readLine();
-				
-			if(rep.equals("AUTH_SUCCESSFUL")) {
-				isConnect = true;
-				endConnection = false;
-			}
-			else {
-				isConnect = false;
-				endConnection = true;
-			}
+			
+			endConnection = !rep.equals("AUTH_SUCCESS");
 			
 		} catch(IOException e) { 
 			e.printStackTrace();
 		}
 		
-		return isConnect;
+		return endConnection;
 	}
 	
+	public synchronized boolean isBufferEmpty() {
+		return buffer.isEmpty();
+	}
 	
-	public void sendMessage(String msg) throws IOException {
-		outChat.write(msg + "\n");
+	public synchronized void addMessageToBuffer(String s) {
+		buffer.add(s);
+	}
+	
+	public synchronized LinkedList<String> getMessagesToBuffer() {
+		
+		LinkedList<String> temp = new LinkedList<String>();
+		
+		for(String s : buffer)
+			temp.add(s);
+		
+		return temp;
+	}
+	
+	public synchronized void removeMessagesToBuffer() {
+		buffer.remove();
+	}
+	
+	private void sendMessage() throws IOException {
+		
+		LinkedList<String> temp = getMessagesToBuffer();
+		
+		for(String msg : temp) {
+			
+			outChat.write("CHAT_SEND_MESSAGE\n");
+			outChat.flush();
+			
+			outChat.write(msg + "\n");
+			outChat.flush();
+		}
+		
+		removeMessagesToBuffer();
+	}
+
+	private void getMessage() throws IOException {
+		
+		outChat.write("CHAT_GET_MESSAGE\n");
 		outChat.flush();
-		System.out.println("ENVOIE : " + msg);
+		
+		int nbMessages = inChat.read();
+
+		for(int i=0; i < nbMessages; i++) {
+			
+			String message = inChat.readLine();
+			
+			if(PictioLan.modele_gamer.getGame().getClient() != null)
+				PictioLan.modele_gamer.getGame().getClient().getChat().addText(message);
+		}
 	}
+	
 	
 	public void closeChat() {
-		
 		endConnection = true;
 	}
 	
 	public void run() {
 		
+		String s;
 		String message;
-		
-		while(!endConnection) {
+
+		try {
 			
-			try {
-				System.out.println("Attente");
+			while (!endConnection) {
 				
-				message = inChat.readLine();
+				boolean launchGame = PictioLan.modele_gamer.getGame().getListGamers().size() == PictioLan.modele_gamer.getGame().getNbMaxGamers();
 				
-				if(PictioLan.modele_gamer.getGame().getClient() != null)
-					PictioLan.modele_gamer.getGame().getClient().getChat().addText(message);
+				if(launchGame) {
 				
-				System.out.println("RECU : " + message);
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			finally {
+					if(!isBufferEmpty()) {
+						sendMessage();
+					}
+					
+					getMessage();
+				}
 				
 				try {
-					if(inChat != null) 
-						inChat.close();
-					
-					if(outChat != null) 
-						outChat.close();
-					
-					if(socketChat !=  null)
-						socketChat.close();
-					
-				} catch (IOException e) {
+					chatThread.sleep(4000);
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+			}
+			
+			outChat.write("CLOSE\n");
+			outChat.flush();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+
+			try {
+				if (inChat != null)
+					inChat.close();
+
+				if (outChat != null)
+					outChat.close();
+
+				if (socketChat != null)
+					socketChat.close();
+
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}

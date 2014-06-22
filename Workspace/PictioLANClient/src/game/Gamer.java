@@ -66,13 +66,11 @@ public class Gamer {
 	public void launchChatDraw(){
 		try {
 			chat = new ChatConnection();
+			chat.startChat();
+
 			draw = new DrawingConnnection();
-			
-			if(chat.auth_protcole() && draw.auth_protcole()) {
-				chat.startChat();
-				draw.startDraw();
-			}
-			
+			draw.startDraw();
+		
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

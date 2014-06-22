@@ -24,6 +24,6 @@ public class Server {
 	
 	public static void main (String[] args) {
 		Server server = new Server();
-		JServer vue = new JServer(new JConfiguration(server), new JDictionary(), new JGamer(), new JStatistic(), new JActivesGames());
+//		JServer vue = new JServer(new JConfiguration(server), new JDictionary(), new JGamer(), new JStatistic(), new JActivesGames());
 	}
 }

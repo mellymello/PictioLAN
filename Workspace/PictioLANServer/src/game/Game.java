@@ -25,9 +25,6 @@ public class Game {
 	
 	private int nb_max_round;
 	private LinkedList<Round> round = new LinkedList<Round>();
-	private int indice_round = 0;
-	Thread execute_game;
-	
 	
 	public Game() {
 		id_game = id_generator++;
@@ -70,6 +67,10 @@ public class Game {
 		return nb_max_round;
 	}
 	
+	public Round getRoundActive() {
+		return round.getLast();
+	}
+	
 	public int getNbrMaxGamers() {
 		return nb_max_gamers;
 	}
@@ -109,7 +110,7 @@ public class Game {
 		
 		Gamer g = gamers.get(temp); 
 		
-		if(indice_round > 0 && round.get(indice_round-1).getDrawer() == g)
+		if(round.size() > 1 && round.get(round.size()-2).getDrawer() == g)
 			temp = temp + 1 % gamers.size();
 		
 		return g;
@@ -128,17 +129,16 @@ public class Game {
 	}
 	
 	public String getWord() {
-		return round.get(indice_round).getWord();
-	}
-	
-	public void winWord(Gamer winner) {
-		round.get(indice_round).setWinner(winner);
-		execute_game.notify();
+		
+		if(round != null && !round.isEmpty())
+			return round.getLast().getWord();
+		else
+			return "";
 	}
 	
 	public void startGame() {
 		
-		System.out.println("PARTIE COMMENCEEEEE");
+//		System.out.println("PARTIE COMMENCEEEEE");
 			
 			try {
 				
@@ -147,28 +147,36 @@ public class Game {
 					g.connection.send_list_gamer_protocole();
 			
 				//BOUCLE
-				System.out.println("Round 0");
 				
-				Gamer drawer = selectDrawer();
-				String word = "Chat";
+				for(int i=0; i < nb_max_round; i++) {
 				
-				//Envoyer le round 0
-				for(Gamer g : gamers)
-					g.connection.send_gamer_role_protocole(g==drawer);
-				
-				drawer.connection.send_word_gamer_protocole(word);
-				
-				try {
-					Thread.currentThread().sleep(180000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+					Gamer drawer = selectDrawer();
+					String word = "Chat";
+					
+					//Envoyer le round 0
+					for(Gamer g : gamers)
+						g.connection.send_gamer_role_protocole(g==drawer);
+					
+					drawer.connection.send_word_gamer_protocole(word);
+					
+					round.add(new Round(this, drawer, word));
+					
+					try {
+						Thread.currentThread().sleep(60000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
+					//WINNER
+					for(Gamer g : gamers) {
+						g.connection.send_end_round_protocole(round.getLast().getWinner());
+					}
 				}
 				
 				for(Gamer g : gamers) {
 					g.connection.end_protocole();
-				}
+				}			
 				
-				System.out.println("END");
 				
 			} catch (IOException e) {
 				e.printStackTrace();

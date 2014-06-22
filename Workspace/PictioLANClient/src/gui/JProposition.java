@@ -23,7 +23,6 @@ import connection.PictioLan;
 
 public class JProposition extends JPanel
 {
-	
 	private boolean actif = true;
 	private JPanel proposition = new JPanel();
 	private JLabel titre = new JLabel("Proposition");
@@ -56,15 +55,15 @@ public class JProposition extends JPanel
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+//				try {
 					
 					System.out.println("Vue1 = " + txtProp.getText());
 					
-					if(PictioLan.modele_gamer.getChat().isConnect())
-						PictioLan.modele_gamer.getChat().sendMessage(txtProp.getText());				
-					} catch (IOException e) {
-					e.printStackTrace();
-				}
+					if(PictioLan.modele_gamer.getChat() != null && PictioLan.modele_gamer.getChat().isConnect())
+						PictioLan.modele_gamer.getChat().addMessageToBuffer(txtProp.getText());				
+					//} catch (IOException e) {
+					//e.printStackTrace();
+				//}
 				
 				addText(txtProp);
 			}
@@ -83,11 +82,12 @@ public class JProposition extends JPanel
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode()==KeyEvent.VK_ENTER){
 			        
-					try {
-						PictioLan.modele_gamer.getChat().sendMessage(txtProp.getText());
-					} catch (IOException exp) {
-						exp.printStackTrace();
-					}
+//					try {
+					if(PictioLan.modele_gamer.getChat() != null && PictioLan.modele_gamer.getChat().isConnect())
+						PictioLan.modele_gamer.getChat().addMessageToBuffer(txtProp.getText());
+//					} catch (IOException exp) {
+//						exp.printStackTrace();
+//					}
 					
 					addText(txtProp);
 			    }

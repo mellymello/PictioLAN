@@ -1,5 +1,7 @@
 package gui;
 
+import game.Gamer;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -108,27 +110,34 @@ public class JClient extends JFrame implements Configuration {
 		
 	/* Méthodes pour gérer le client */
 	
+	public void printGamers() {
+		
+		for(Gamer g : PictioLan.modele_gamer.getGame().getListGamers()) {
+			listePartie.addMessage(g.getPseudo());
+		}
+	}
+	
 	public void printRandomWord(String word) {
-	//JOptionPane.showMessageDialog(this, "Word : " + word, "Your are the painter", JOptionPane.PLAIN_MESSAGE);
-	JOptionPane.showMessageDialog(this, "Word : " + word, "Your are the painter", JOptionPane.PLAIN_MESSAGE);
-	System.out.println("PAS BLOCANT");
+		//JOptionPane.showMessageDialog(this, "Word : " + word, "Your are the painter", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Word : " + word, "Your are the painter", JOptionPane.PLAIN_MESSAGE);
+		System.out.println("PAS BLOCANT");
 	}
 	
 	public void setEnableDraw(boolean e) {
-	//dessin.setEnabled(e);
+		//dessin.setEnabled(e);
 	}
 	
 	public void setEnableChat(boolean e) {
-	//proposition.setEnabled(e);
-	//proposition.setActif(e);
+		//proposition.setEnabled(e);
+		//proposition.setActif(e);
 	}
 	
 	public JProposition getChat() {
-	return proposition;
+		return proposition;
 	}
 	
 	public JDraw getDraw() {
-	return dessin;
+		return dessin;
 	}
 	
 	/* Fin Méthodes pour gérer le client */
@@ -157,8 +166,9 @@ public class JClient extends JFrame implements Configuration {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+					
 				PictioLan.modele_gamer.getConnection().start_game_protocole();
-//				PictioLan.modele_gamer.launchChatDraw();
+				PictioLan.modele_gamer.launchChatDraw();
 			}
 			
 		});
@@ -362,11 +372,7 @@ public class JClient extends JFrame implements Configuration {
 	public void sendPoint(Point point) {
 		// TODO Auto-generated method stub
 		//METHODE POUR ENVOYER LES POINTS
-		try {
-			PictioLan.modele_gamer.getDraw().sendMessage(point);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		PictioLan.modele_gamer.getDraw().addPointToBuffer(point);
 	}
 	
 	class JBasePanel extends JPanel {

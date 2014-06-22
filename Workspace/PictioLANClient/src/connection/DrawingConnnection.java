@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.LinkedList;
 
 public class DrawingConnnection implements Runnable {
 	
@@ -19,71 +20,114 @@ public class DrawingConnnection implements Runnable {
 	
 	Thread drawing;
 	
-	boolean isConnect = false;
+	boolean endConnection = true;
 	
-	boolean endConnection = false;
+	LinkedList<Point> buffer = new LinkedList<Point>();
 	
 	public DrawingConnnection () throws IOException {
 		
 		socketDrawing = new Socket(PictioLan.modele_gamer.getIP(), drawing_port);
-		
 		inDrawing = new BufferedReader(new InputStreamReader(socketDrawing.getInputStream()));
 		outDrawing = new BufferedWriter(new OutputStreamWriter(socketDrawing.getOutputStream()));
-		
-		drawing = new Thread(this);
-		drawing.start();
 	}
-	
-	public boolean isConnect() { return isConnect; };
+
+	public boolean isConnect() { return !endConnection; };
 
 	public void startDraw() {
 		
-		if(isConnect) {
+		boolean actif = auth_protcole();
+		
+		if(!actif) {
 			drawing = new Thread(this);
 			drawing.start();
-			auth_protcole();
 		}
 	}
 	
-	public boolean auth_protcole() { 
+	private boolean auth_protcole() { 
+		
 		try {
 			
 			outDrawing.write("AUTH\n");
+			outDrawing.flush();
 			
 			String pseudo = PictioLan.modele_gamer.getPseudo();
-			String pass = PictioLan.modele_gamer.getPassword();
 				
 			outDrawing.write(pseudo + "\n");
 			outDrawing.flush();
-			outDrawing.write(pass + "\n");
-			outDrawing.flush();
 				
 			String rep = inDrawing.readLine();
-				
-			if(rep.equals("AUTH_SUCCESSFUL")) {
-				isConnect = true;
-				endConnection = false;
-			}
-			else {
-				isConnect = false;
-				endConnection = true;
-			}
+			
+			endConnection = !rep.equals("AUTH_SUCCESS");
 			
 		} catch(IOException e) { 
 			e.printStackTrace();
 		}
 		
-		return isConnect;
+		return endConnection;
 	}
-		
-	public void sendMessage(Point p) throws IOException {
-		outDrawing.write(p.x);
-		outDrawing.flush();
-		outDrawing.write(p.y);
-		outDrawing.flush();
-		
-		System.out.println("ENVOIE POINT");
+	
+	public synchronized boolean isBufferEmpty() {
+		return buffer.isEmpty();
 	}
+	
+	public synchronized void addPointToBuffer(Point s) {
+		buffer.add(s);
+	}
+	
+	public synchronized LinkedList<Point> getPointsToBuffer() {
+		
+		LinkedList<Point> temp = new LinkedList<Point>();
+		
+		for(Point s : buffer)
+			temp.add(s);
+		
+		return temp;
+	}
+	
+	public synchronized void removeMessagesToBuffer() {
+		buffer.remove();
+	}
+	
+	private void sendMessage() throws IOException {
+		
+		LinkedList<Point> temp = getPointsToBuffer();
+		
+		for(Point msg : temp) {
+			
+			outDrawing.write("DRAW_SEND_MESSAGE\n");
+			outDrawing.flush();
+			
+			outDrawing.write(msg.x);
+			outDrawing.flush();
+			
+			outDrawing.write(msg.y);
+			outDrawing.flush();
+			
+			System.out.println("Envoie "+ msg.x +","+ msg.y);
+		}
+		
+		removeMessagesToBuffer();
+	}
+
+	private void getMessage() throws IOException {
+		
+		outDrawing.write("DRAW_GET_MESSAGE\n");
+		outDrawing.flush();
+		
+		int nbMessages = inDrawing.read();
+
+		for(int i=0; i < nbMessages; i++) {
+			
+			int x = inDrawing.read();
+			int y = inDrawing.read();
+			
+			System.out.println("Reçu "+ x +","+y);
+			
+			if(PictioLan.modele_gamer.getGame().getClient() != null)
+				PictioLan.modele_gamer.getGame().getClient().getDraw().addPoint(new Point(x,y));
+		}
+	}
+	
 	
 	public void closeDraw() {
 		endConnection = true;
@@ -91,42 +135,49 @@ public class DrawingConnnection implements Runnable {
 	
 	public void run() {
 		
-		int x = 0;
-		int y = 0;
-		
-		while(true) {
+
+		try {
 			
-			try {
-				System.out.println("Attente");
+			while (!endConnection) {
 				
-				x = inDrawing.read();
-				y = inDrawing.read();
+				boolean launchGame = PictioLan.modele_gamer.getGame().getListGamers().size() == PictioLan.modele_gamer.getGame().getNbMaxGamers();
 				
-				if(PictioLan.modele_gamer.getGame().getClient() != null)
-					PictioLan.modele_gamer.getGame().getClient().getDraw().addPoint(new Point(x,y));
+				if(launchGame) {
 				
-				System.out.println("RECU POINT");
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			finally {
+					if(!isBufferEmpty()) {
+						sendMessage();
+					}
+					
+					getMessage();
+				}
 				
 				try {
-					if(inDrawing != null) 
-						inDrawing.close();
-					
-					if(outDrawing != null) 
-						outDrawing.close();
-					
-					if(socketDrawing !=  null)
-						socketDrawing.close();
-					
-				} catch (IOException e) {
+					drawing.sleep(4000);
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 			
+			outDrawing.write("CLOSE\n");
+			outDrawing.flush();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+
+			try {
+				if (inDrawing != null)
+					inDrawing.close();
+
+				if (outDrawing != null)
+					outDrawing.close();
+
+				if (socketDrawing != null)
+					socketDrawing.close();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

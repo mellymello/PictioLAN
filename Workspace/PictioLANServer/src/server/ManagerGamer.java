@@ -22,6 +22,20 @@ public class ManagerGamer {
 		return idAnonyme++;
 	}
 	
+	public static void addAnonymoGamer(Gamer g) {
+		listGamer.add(g);
+	}
+	
+	public static Gamer getGamer(String pseudo) {
+		
+		for(Gamer g : listGamer) {
+			if(g.getPseudo().equals(pseudo))
+				return g;
+		}
+		
+		return null;
+	}
+	
 	public static Gamer authentification_BD(String pseudo, String pass) {
 		
 		String requete = "SELECT password FROM player WHERE pseudo = \"" + pseudo + "\"";
@@ -80,7 +94,7 @@ public class ManagerGamer {
         return sb.toString();
     }
 	
-	public static Gamer addGamer(String pseudo, String pass, String email){
+	public static Gamer addGamerBD(String pseudo, String pass, String email){
 	
 		LinkedList<String> listPseudo = getGamers();
 		
