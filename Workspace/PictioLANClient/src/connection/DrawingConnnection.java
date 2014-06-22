@@ -85,7 +85,7 @@ public class DrawingConnnection implements Runnable {
 	}
 	
 	public synchronized void removeMessagesToBuffer() {
-		buffer.remove();
+		buffer.clear();
 	}
 	
 	private void sendMessage() throws IOException {
@@ -97,13 +97,13 @@ public class DrawingConnnection implements Runnable {
 			outDrawing.write("DRAW_SEND_MESSAGE\n");
 			outDrawing.flush();
 			
-			outDrawing.write(msg.x);
+			outDrawing.write(0);
 			outDrawing.flush();
 			
-			outDrawing.write(msg.y);
+			outDrawing.write(0);
 			outDrawing.flush();
 			
-			System.out.println("Envoie "+ msg.x +","+ msg.y);
+			System.out.println("Envoie "+ 0 +","+ 0);
 		}
 		
 		removeMessagesToBuffer();
@@ -121,7 +121,7 @@ public class DrawingConnnection implements Runnable {
 			int x = inDrawing.read();
 			int y = inDrawing.read();
 			
-			System.out.println("Reçu "+ x +","+y);
+			System.out.println("Reçu "+ x +","+ y);
 			
 			if(PictioLan.modele_gamer.getGame().getClient() != null)
 				PictioLan.modele_gamer.getGame().getClient().getDraw().addPoint(new Point(x,y));

@@ -158,42 +158,49 @@ public class Game {
 				for(Gamer g : gamers)
 					g.connection.send_list_gamer_protocole();
 			
-				//BOUCLE
+//				//BOUCLE
+//				for(int i=0; i < nb_max_round; i++) {
+//				
+//					Gamer drawer = selectDrawer();
+//					String word = "Chat";
+//					
+//					//Envoyer le round 0
+//					for(Gamer g : gamers)
+//						g.connection.send_gamer_role_protocole(g==drawer);
+//					
+//					drawer.connection.send_word_gamer_protocole(word);
+//					
+//					round.add(new Round(this, drawer, word));
+//					
+//					//START TIMER
+//					for(Gamer g : gamers) {
+//						g.connection.send_wait_timer_protocole(g);
+//					}
+//					
+//					for(Gamer g : gamers) {
+//						g.connection.send_start_timer_protocole(g);
+//					}
+//					
+//					try {
+//						Thread.currentThread().sleep(60000);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//					
+//					//WINNER
+//					for(Gamer g : gamers) {
+//						g.connection.send_end_round_protocole(round.getLast().getWinner());
+//					}
+//				}
+//				
 				
-				for(int i=0; i < nb_max_round; i++) {
 				
-					Gamer drawer = selectDrawer();
-					String word = "Chat";
-					
-					//Envoyer le round 0
-					for(Gamer g : gamers)
-						g.connection.send_gamer_role_protocole(g==drawer);
-					
-					drawer.connection.send_word_gamer_protocole(word);
-					
-					round.add(new Round(this, drawer, word));
-					
-					//START TIMER
-					for(Gamer g : gamers) {
-						g.connection.send_wait_timer_protocole(g);
-					}
-					
-					for(Gamer g : gamers) {
-						g.connection.send_start_timer_protocole(g);
-					}
-					
-					try {
-						Thread.currentThread().sleep(60000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					
-					//WINNER
-					for(Gamer g : gamers) {
-						g.connection.send_end_round_protocole(round.getLast().getWinner());
-					}
+				try {
+					Thread.currentThread().sleep(120000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-				
+				//FIN du jeu
 				for(Gamer g : gamers) {
 					g.connection.end_protocole();
 				}			

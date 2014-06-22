@@ -31,7 +31,9 @@ public class ChatConnection implements Runnable {
 		outChat = new BufferedWriter(new OutputStreamWriter(socketChat.getOutputStream()));
 	}
 
-	public boolean isConnect() { return !endConnection; };
+	public boolean isConnect() { 
+		return !endConnection; 
+	}
 
 	public void startChat() {
 		
@@ -85,7 +87,11 @@ public class ChatConnection implements Runnable {
 	}
 	
 	public synchronized void removeMessagesToBuffer() {
-		buffer.remove();
+		System.out.println("REMOVE BUFFER");
+		buffer.clear();
+		for(String s : buffer)
+			System.out.print(" " + s);
+		System.out.println();
 	}
 	
 	private void sendMessage() throws IOException {
@@ -120,17 +126,17 @@ public class ChatConnection implements Runnable {
 		}
 	}
 	
-	
 	public void closeChat() {
 		endConnection = true;
 	}
 	
 	public void run() {
 		
-		String s;
-		String message;
-
+		System.out.println("RUN CHAT");
+		
 		try {
+			
+			System.out.println(endConnection);
 			
 			while (!endConnection) {
 				

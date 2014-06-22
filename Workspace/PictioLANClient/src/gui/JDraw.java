@@ -19,7 +19,10 @@ public class JDraw extends JPanel implements Configuration {
 	BufferedImage bImage = new BufferedImage(LARGEUR_DESSIN, HAUTEUR_DESSIN,
 			BufferedImage.TYPE_INT_RGB);
 
+	private JClient vue_parente;
+	
 	public JDraw(JClient client) {
+		vue_parente = client;
 		ecouteur = new JDrawListener(this, client);
 		this.addMouseListener(ecouteur);
 		this.addMouseMotionListener(ecouteur);
@@ -32,6 +35,7 @@ public class JDraw extends JPanel implements Configuration {
 
 	public void addPoint(Point p) {
 		points.addElement(p);
+		vue_parente.sendPoint(p);
 		ecouteur.refreshDraw();
 	}
 
@@ -106,7 +110,7 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 	public void mouseDragged(MouseEvent e) {
 		if (panel.getEnabled()) {
 			panel.addPoint(new Point(e.getPoint()));
-			client.sendPoint(new Point(e.getPoint()));
+//			client.sendPoint(new Point(e.getPoint()));
 			panel.repaint();
 		}
 	}
@@ -123,7 +127,7 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 		if (panel.getEnabled()) {
 			panel.addPoint(new Point(e.getPoint()));
 			panel.points.clear();
-			client.sendPoint(new Point(e.getPoint()));
+//			client.sendPoint(new Point(e.getPoint()));
 			panel.repaint();
 		}
 	}

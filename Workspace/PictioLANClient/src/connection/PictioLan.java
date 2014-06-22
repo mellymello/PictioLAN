@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 import game.Game;
 import game.Gamer;
+import gui.JClient;
 import gui.JWelcome;
 
 public class PictioLan {
@@ -25,7 +26,7 @@ public class PictioLan {
 	public static void main (String[] args) {
 		
 		PictioLan p = new PictioLan();
-		
+		//JClient client = new JClient("test");
 		
 //		modele_gamer = new Gamer();
 //		modele_gamer.launchConnexion("127.0.0.1");
@@ -33,6 +34,8 @@ public class PictioLan {
 //		
 //		//modele_gamer.getConnection().create_game_protocole(2, false, 4, "Animaux");
 //		modele_gamer.getConnection().join_game_protocole(new Game(0,"Animaux",4,false,"Anonyme_0",2), 0);
+//		
+//		modele_gamer.getGame().setClient(new JClient("test"));
 //		
 //		modele_gamer.getConnection().start_game_protocole();
 //		modele_gamer.launchChatDraw();
