@@ -134,7 +134,8 @@ public class JListGame extends JFrame {
 				public void mouseClicked(MouseEvent e) {
 					
 					try{
-						int selected = Integer.valueOf(gamesNameList.getSelectedValue());
+						int selected = Integer.valueOf(gamesNameList.getSelectedValue().substring(7, 8));
+						System.out.println(selected);
 					
 						for (int i = 0; i < games.size(); i++) {
 							

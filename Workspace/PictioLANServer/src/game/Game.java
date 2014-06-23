@@ -162,7 +162,8 @@ public class Game {
 				for(int i=0; i < nb_max_round; i++) {
 				
 					Gamer drawer = selectDrawer();
-					String word = "Chat";
+					String word = Dictionary.getWord(category);
+					//String word = "Chien";
 					
 					//Envoyer le round 0
 					for(Gamer g : gamers)
