@@ -79,9 +79,7 @@ public class DrawingConnnection implements Runnable {
 			outDrawing.write("DRAW_MESSAGE\n");
 			outDrawing.flush();
 			
-			BufferedImage tmp = PictioLan.modele_gamer.getGame().getClient()
-					.getDrawedImage();
-			
+			BufferedImage tmp = PictioLan.modele_gamer.getGame().getClient().getDraw().getImage();
 			
 			OutputStream outStream = socketDrawing.getOutputStream();
 
@@ -119,9 +117,14 @@ public class DrawingConnnection implements Runnable {
 		try {
 			ImageIO.write(recvImg, "png", new File(
 					"C:/Users/RighitZ/Desktop/rcvUSR.png"));
+			
+			PictioLan.modele_gamer.getGame().getClient().getDraw().setImage(recvImg);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+		
+		 
+		
 		
 		//Point
 //		int x = inDrawing.read();
