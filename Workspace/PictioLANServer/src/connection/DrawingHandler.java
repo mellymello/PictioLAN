@@ -69,9 +69,9 @@ public class DrawingHandler implements Runnable {
 			out.flush();
 			
 			for(int i=0; i < list_point.size(); i++) {
-				out.write(list_point.get(i).x + "\n");
+				out.write(list_point.get(i).x);
 				out.flush();
-				out.write(list_point.get(i).y + "\n");
+				out.write(list_point.get(i).y);
 				out.flush();
 				
 				list_point.remove(i);

@@ -136,8 +136,6 @@ public class ChatConnection implements Runnable {
 		
 		try {
 			
-			System.out.println(endConnection);
-			
 			while (!endConnection) {
 				
 				boolean launchGame = PictioLan.modele_gamer.getGame().getListGamers().size() == PictioLan.modele_gamer.getGame().getNbMaxGamers();

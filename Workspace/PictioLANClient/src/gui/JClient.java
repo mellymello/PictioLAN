@@ -140,6 +140,10 @@ public class JClient extends JFrame implements Configuration {
 		return dessin;
 	}
 	
+	public void afficherTimer(int i) {
+		info.setMessage("Timer : " + i + " sec");
+	}
+	
 	/* Fin Méthodes pour gérer le client */
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -375,7 +379,7 @@ public class JClient extends JFrame implements Configuration {
 		
 		System.out.println("Interface Graphique : (" + point.x + "," + point.y + ")");
 		
-		if(PictioLan.modele_gamer.getDraw() != null)
+		if(PictioLan.modele_gamer.getDraw() != null && PictioLan.modele_gamer.getDraw().isConnect())
 			PictioLan.modele_gamer.getDraw().addPointToBuffer(point);
 	}
 	

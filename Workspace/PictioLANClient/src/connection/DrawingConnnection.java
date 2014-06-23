@@ -66,15 +66,15 @@ public class DrawingConnnection implements Runnable {
 		return endConnection;
 	}
 	
-	public synchronized boolean isBufferEmpty() {
+	public boolean isBufferEmpty() {
 		return buffer.isEmpty();
 	}
 	
-	public synchronized void addPointToBuffer(Point s) {
+	public void addPointToBuffer(Point s) {
 		buffer.add(s);
 	}
 	
-	public synchronized LinkedList<Point> getPointsToBuffer() {
+	public LinkedList<Point> getPointsToBuffer() {
 		
 		LinkedList<Point> temp = new LinkedList<Point>();
 		
@@ -84,7 +84,7 @@ public class DrawingConnnection implements Runnable {
 		return temp;
 	}
 	
-	public synchronized void removeMessagesToBuffer() {
+	public void removeMessagesToBuffer() {
 		buffer.clear();
 	}
 	
@@ -97,13 +97,13 @@ public class DrawingConnnection implements Runnable {
 			outDrawing.write("DRAW_SEND_MESSAGE\n");
 			outDrawing.flush();
 			
-			outDrawing.write(0);
+			outDrawing.write(msg.x);
 			outDrawing.flush();
 			
-			outDrawing.write(0);
+			outDrawing.write(msg.y);
 			outDrawing.flush();
 			
-			System.out.println("Envoie "+ 0 +","+ 0);
+			System.out.println("Envoie "+ msg.x +","+ msg.y);
 		}
 		
 		removeMessagesToBuffer();

@@ -11,7 +11,6 @@ import javax.swing.JTextArea;
 
 public class JInformation extends JPanel
 {
-
 	private JLabel titre = new JLabel("     Pseudo                            | Eq | Pret ");
 	private JScrollPane msgScroll = new JScrollPane();
 	private JTextArea affichage = new JTextArea(5,25);
@@ -32,5 +31,6 @@ public class JInformation extends JPanel
 	public void setMessage(String message)
 	{
 		affichage.setText(message);
+		repaint();
 	}
 }

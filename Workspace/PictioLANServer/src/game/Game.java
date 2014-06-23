@@ -173,16 +173,16 @@ public class Game {
 					round.add(new Round(this, drawer, word));
 					
 					//START TIMER
-					for(Gamer g : gamers) {
-						g.connection.send_wait_timer_protocole(g);
-					}
+//					for(Gamer g : gamers) {
+//						g.connection.send_wait_timer_protocole(g);
+//					}
 					
-					for(Gamer g : gamers) {
-						g.connection.send_start_timer_protocole(g);
-					}
+//					for(Gamer g : gamers) {
+//						g.connection.send_start_timer_protocole(g);
+//					}
 					
 					try {
-						Thread.currentThread().sleep(60000);
+						Thread.currentThread().sleep(30000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -193,13 +193,6 @@ public class Game {
 					}
 				}
 				
-				
-				
-				try {
-					Thread.currentThread().sleep(120000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 				//FIN du jeu
 				for(Gamer g : gamers) {
 					g.connection.end_protocole();

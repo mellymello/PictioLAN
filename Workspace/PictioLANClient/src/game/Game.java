@@ -121,7 +121,8 @@ public class Game implements Runnable {
 				String w = PictioLan.modele_gamer.server.get_word_protocole();
 				
 				if(PictioLan.modele_gamer.getGame().getClient() != null) {
-					PictioLan.modele_gamer.getGame().getClient().printRandomWord(w);
+					//PictioLan.modele_gamer.getGame().getClient().printRandomWord(w);
+					System.out.println(w);
 				}
 				
 			}
@@ -134,9 +135,20 @@ public class Game implements Runnable {
 				
 			}
 			
-			PictioLan.modele_gamer.server.send_start_timer_protocole();
+//			PictioLan.modele_gamer.server.send_start_timer_protocole();
 			
 			//Afficher Timer
+			if(PictioLan.modele_gamer.getGame().getClient() != null) {
+				
+				for(int timer = 30; timer > 0; timer--) {
+					PictioLan.modele_gamer.getGame().getClient().afficherTimer(timer);
+					
+					try { 
+						Thread.currentThread().sleep(1000);
+					} catch(InterruptedException e){}
+				}
+			}
+			
 			PictioLan.modele_gamer.server.send_end_round_protocole();
 		
 		}
