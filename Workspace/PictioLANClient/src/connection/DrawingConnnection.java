@@ -84,6 +84,7 @@ public class DrawingConnnection implements Runnable {
 		}
 		
 		System.out.println("Envoie image");
+		PictioLan.modele_gamer.getGame().getClient().getDraw().clearPointsToSend();
 	}
 	
 
