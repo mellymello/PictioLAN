@@ -25,8 +25,6 @@ public class DrawingHandler implements Runnable {
 	
 	boolean endConnection = false;
 	
-	Vector<Point> buffer = new Vector<Point>();
-	
 	public DrawingHandler(Socket s) throws IOException {
 		
 		connexion = s;
@@ -56,9 +54,9 @@ public class DrawingHandler implements Runnable {
 		}
 	}
 
-	public void recieve() {
+	public synchronized void recieve() {
 		
-		buffer.clear();
+		gamer.getGame().buffer.clear();
 		
 		try {
 			
@@ -68,7 +66,7 @@ public class DrawingHandler implements Runnable {
 				int x = in.read();
 				int y = in.read();
 				
-				buffer.add(new Point(x,y));
+				gamer.getGame().buffer.add(new Point(x,y));
 			}
 			
 		} catch (IOException e) {
@@ -77,16 +75,19 @@ public class DrawingHandler implements Runnable {
 		
 	}
 	
-	public void send() { 
+	public synchronized void send() { 
+		
+		Vector<Point> temp =  gamer.getGame().buffer;
 		
 		try {
 			
-			out.write(buffer.size());
+			out.write(temp.size());
 			out.flush();
 			
-			for(int i=0;  i < buffer.size(); i++) {
-				out.write(buffer.get(i).x);
-				out.write(buffer.get(i).y);
+			for(int i=0;  i < temp.size(); i++) {
+				out.write(temp.get(i).x);
+				out.write(temp.get(i).y);
+				out.flush();
 			}
 			
 		} catch (IOException e) {
@@ -122,23 +123,10 @@ public class DrawingHandler implements Runnable {
 				}
 				else if(tmp.equals("DRAW_GET_MESSAGE")) {
 					
-					if(gamer.getGame() != null) {
-						
-						if(gamer.getGame().getListDrawing().isEmpty()) {
-							sendError();
-						}
-						else {
-						
-							for(DrawingHandler c : gamer.getGame().getListDrawing()) {
-								if(this != c) 
-									c.send();
-							}
-						}
-						
-					}
-					else {
+					if(gamer.getGame() == null || gamer.getGame().buffer.isEmpty())
 						sendError();
-					}
+					
+					send();
 				
 				}
 				else if(tmp.equals("DRAW_SEND_MESSAGE")) {

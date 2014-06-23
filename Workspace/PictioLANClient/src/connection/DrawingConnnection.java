@@ -90,13 +90,17 @@ public class DrawingConnnection implements Runnable {
 
 private void getMessage() throws IOException {
 	
+	System.out.println("Reçoit image1");
 	Vector<Point> buffer = new Vector<Point>();
 	
 	outDrawing.write("DRAW_GET_MESSAGE\n");
 	outDrawing.flush();
+	System.out.println("Reçoit image2");
 	
 	int size = inDrawing.read();
 
+	System.out.println(size);
+	
 	for(int i=0; i < size; i++) {
 		
 		int x = inDrawing.read();
@@ -107,6 +111,8 @@ private void getMessage() throws IOException {
 	
 	if(PictioLan.modele_gamer.getGame().getClient() != null)
 		PictioLan.modele_gamer.getGame().getClient().setPoint(buffer);
+	
+	System.out.println("Reçoit image3");
 }
 	
 	

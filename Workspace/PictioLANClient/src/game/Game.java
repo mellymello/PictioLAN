@@ -107,6 +107,8 @@ public class Game implements Runnable {
 	@Override
 	public void run() {
 	
+		System.out.println(PictioLan.modele_gamer.getPseudo());
+		
 		PictioLan.modele_gamer.server.ready_protocole();
 		
 		PictioLan.modele_gamer.server.get_liste_gamer_protocole();
@@ -131,8 +133,7 @@ public class Game implements Runnable {
 				String w = PictioLan.modele_gamer.server.get_word_protocole();
 				
 				if(PictioLan.modele_gamer.getGame().getClient() != null) {
-					//PictioLan.modele_gamer.getGame().getClient().printRandomWord(w);
-					System.out.println(w);
+					PictioLan.modele_gamer.getGame().getClient().printRandomWord(w);
 				}
 				
 			}

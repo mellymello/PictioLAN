@@ -1,8 +1,10 @@
 package game;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Vector;
 
 import server.BDConnection;
 import connection.ChatHandler;
@@ -25,6 +27,8 @@ public class Game {
 	
 	private int nb_max_round;
 	private LinkedList<Round> round = new LinkedList<Round>();
+	
+	public Vector<Point> buffer = new Vector<Point>();
 	
 	public Game() {
 		id_game = id_generator++;
@@ -183,7 +187,7 @@ public class Game {
 //					}
 					
 					try {
-						Thread.currentThread().sleep(30000);
+						Thread.currentThread().sleep(120000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
