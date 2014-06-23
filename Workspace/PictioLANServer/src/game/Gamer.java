@@ -58,6 +58,14 @@ public class Gamer {
 	public void setDrawing(DrawingHandler d) {
 		draw = d;
 	}
+
+	public ChatHandler  getChat() {
+		return chat;
+	}
+	
+	public DrawingHandler getDrawing() {
+		return draw;
+	}
 	
 	public boolean isReady() {
 		return ready;

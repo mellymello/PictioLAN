@@ -1,6 +1,3 @@
-/*************************************************************
-
- ************************************************************/
 package gui;
 
 import javax.swing.*;
@@ -10,8 +7,10 @@ import java.awt.*;
 import java.util.*;
 
 public class JDraw extends JPanel implements Configuration {
+	
 	protected Vector<Point> points = new Vector<Point>();
-
+	
+	
 	private JDrawListener ecouteur;
 
 	private boolean enabled = true;
@@ -19,10 +18,7 @@ public class JDraw extends JPanel implements Configuration {
 	BufferedImage bImage = new BufferedImage(LARGEUR_DESSIN, HAUTEUR_DESSIN,
 			BufferedImage.TYPE_INT_RGB);
 
-	private JClient vue_parente;
-	
 	public JDraw(JClient client) {
-		vue_parente = client;
 		ecouteur = new JDrawListener(this, client);
 		this.addMouseListener(ecouteur);
 		this.addMouseMotionListener(ecouteur);
@@ -31,18 +27,10 @@ public class JDraw extends JPanel implements Configuration {
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(0, 0, LARGEUR_DESSIN, HAUTEUR_DESSIN);
 		g2d.dispose();
-		
-		this.setEnabled(false);
 	}
 
 	public void addPoint(Point p) {
 		points.addElement(p);
-//		System.out.print("(" + p.x + "," + p.y + ")");
-		ecouteur.refreshDraw();
-	}
-	
-	public Vector<Point> getAllPoints(){
-		return points;
 	}
 
 	public void effacerDessin() {
@@ -101,7 +89,6 @@ public class JDraw extends JPanel implements Configuration {
 	public void setCurrentColor(Color c) {
 		currentColor = c;
 	}
-
 }
 
 class JDrawListener implements MouseListener, MouseMotionListener {
@@ -116,24 +103,30 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 	public void mouseDragged(MouseEvent e) {
 		if (panel.getEnabled()) {
 			panel.addPoint(new Point(e.getPoint()));
-//			client.sendPoint(new Point(e.getPoint()));
 			panel.repaint();
+			client.sendPoint(new Point(e.getPoint()));
 		}
 	}
 
 	public void mousePressed(MouseEvent e) {
 		if (panel.getEnabled()) {
+			
+//			panel.image.add(new Vector<Point>(panel.points));
+			
 			panel.points.clear();
 			panel.addPoint(new Point(e.getPoint()));
-			// client.sendPoint(new Rectangle(new Point(e.getPoint()));
+			//client.sendPoint(new Rectangle(new Point(e.getPoint()));
 		}
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		if (panel.getEnabled()) {
 			panel.addPoint(new Point(e.getPoint()));
+				
+//			panel.image.add(new Vector<Point>(panel.points));
+			
 			panel.points.clear();
-//			client.sendPoint(new Point(e.getPoint()));
+			client.sendPoint(new Point(e.getPoint()));
 			panel.repaint();
 		}
 	}
@@ -148,10 +141,6 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseExited(MouseEvent e) {
-	}
-	
-	public void refreshDraw() {
-		panel.repaint();
 	}
 
 }

@@ -59,7 +59,7 @@ public class JProposition extends JPanel
 					
 					System.out.println("Vue1 = " + txtProp.getText());
 					
-					if(PictioLan.modele_gamer.getChat() != null && PictioLan.modele_gamer.getChat().isConnect())
+					if(PictioLan.modele_gamer != null && PictioLan.modele_gamer.getChat() != null && PictioLan.modele_gamer.getChat().isConnect())
 						PictioLan.modele_gamer.getChat().addMessageToBuffer(txtProp.getText());				
 					//} catch (IOException e) {
 					//e.printStackTrace();

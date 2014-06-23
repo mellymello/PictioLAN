@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
@@ -28,7 +29,7 @@ public class Game {
 	private int nb_max_round;
 	private LinkedList<Round> round = new LinkedList<Round>();
 	
-	public Vector<Point> buffer = new Vector<Point>();
+	public Vector<Rectangle> buffer = new Vector<Rectangle>();
 	
 	public Game() {
 		id_game = id_generator++;

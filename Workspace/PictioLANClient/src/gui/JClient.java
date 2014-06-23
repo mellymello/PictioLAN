@@ -5,6 +5,7 @@ import game.Gamer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -12,7 +13,6 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -57,8 +57,6 @@ public class JClient extends JFrame implements Configuration {
 	private JButton red;
 	private JButton white;
 	private JButton yellow;
-	
-	private boolean isDrawer = false;
 
 	public JClient(String titre) {
 		
@@ -86,9 +84,7 @@ public class JClient extends JFrame implements Configuration {
 		this.getRootPane().setDefaultButton(proposition.getEnvoyer());
 		this.setResizable(false);
 		
-		//Attribue la vue au client
-		if(PictioLan.modele_gamer != null && PictioLan.modele_gamer.getGame() != null)
-			PictioLan.modele_gamer.getGame().setClient(this);
+		PictioLan.modele_gamer.getGame().setClient(this);
 	}
 
 	private void initializate(){
@@ -111,35 +107,25 @@ public class JClient extends JFrame implements Configuration {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
+	
 	/* Méthodes pour gérer le client */
-	
-	public void printGamers() {
-		
-		for(Gamer g : PictioLan.modele_gamer.getGame().getListGamers()) {
-			listePartie.addMessage(g.getPseudo());
-		}
-	}
-	
+
 	public void printRandomWord(String word) {
 		JOptionPane.showMessageDialog(this, "Word : " + word, "Your are the painter", JOptionPane.PLAIN_MESSAGE);
 	}
-	
-	public void setEnableDraw(boolean e) {
-		//dessin.setEnabled(e);
-	}
-	
-	public void setEnableChat(boolean e) {
-		//proposition.setEnabled(e);
-		//proposition.setActif(e);
-	}
-	
+
 	public JProposition getChat() {
 		return proposition;
 	}
 	
 	public JDraw getDraw() {
 		return dessin;
+	}
+	
+	public void printGamers() {
+		for(Gamer g : PictioLan.modele_gamer.getGame().getListGamers()) {
+			listePartie.addMessage(g.getPseudo());
+		}
 	}
 	
 	public void afficherTimer(int i) {
@@ -172,9 +158,6 @@ public class JClient extends JFrame implements Configuration {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-					
-				dessin.setEnabled(true);
-				
 				if(PictioLan.modele_gamer != null && PictioLan.modele_gamer.getConnection() != null) {
 					PictioLan.modele_gamer.getConnection().start_game_protocole();
 					PictioLan.modele_gamer.launchChatDraw();
@@ -183,8 +166,6 @@ public class JClient extends JFrame implements Configuration {
 			
 		});
 		
-		// pCentreHaut_buttons.add(btnSelectColor);
-
 		pCentreHaut.add(pCentreHaut_buttons);
 		
 		colorButtons();
@@ -201,17 +182,6 @@ public class JClient extends JFrame implements Configuration {
 				dessin.effacerDessin();
 			}
 		});
-
-//		btnSelectColor.addActionListener(new ActionListener() {
-//
-//			//@Override
-//			public void actionPerformed(ActionEvent e) {
-//				Color trait = JColorChooser.showDialog(null,
-//						"JColorChooser Sample", null);
-//				dessin.setCurrentColor(trait);
-//
-//			}
-//		});
 	}
 
 	private void loadColorsImages() {
@@ -379,92 +349,12 @@ public class JClient extends JFrame implements Configuration {
 		pCentreHaut_colors.add(yellow);
 	}
 	
-	public void setPoint(Vector<Point> points) {
-		
-//		points.clear();
-//		points.add(new Point(153,152));
-//		points.add(new Point(153,153));
-//		points.add(new Point(155,153));
-//		points.add(new Point(157,154));
-//		points.add(new Point(158,154));
-//		points.add(new Point(158,155));
-//		points.add(new Point(160,155));
-//		points.add(new Point(161,155));
-//		points.add(new Point(162,156));
-//		points.add(new Point(163,156));
-//		points.add(new Point(164,156));
-//		points.add(new Point(165,156));
-//		points.add(new Point(167,156));
-//		points.add(new Point(169,156));
-//		points.add(new Point(171,157));
-//		points.add(new Point(174,158));
-//		points.add(new Point(177,159));
-//		points.add(new Point(178,160));
-//		points.add(new Point(179,161));
-//		points.add(new Point(182,161));
-//		points.add(new Point(183,161));
-//		points.add(new Point(184,162));
-//		points.add(new Point(186,162));
-//		points.add(new Point(188,162));
-//		points.add(new Point(190,162));
-//		points.add(new Point(191,162));
-//		points.add(new Point(193,162));
-//		points.add(new Point(195,162));
-//		points.add(new Point(197,163));
-//		points.add(new Point(199,163));
-//		points.add(new Point(201,163));
-//		points.add(new Point(203,163));
-//		points.add(new Point(205,163));
-//		points.add(new Point(206,163));
-//		points.add(new Point(209,163));
-//		points.add(new Point(212,163));
-//		points.add(new Point(213,162));
-//		points.add(new Point(215,162));
-//		points.add(new Point(217,162));
-//		points.add(new Point(218,161));
-//		points.add(new Point(220,161));
-//		points.add(new Point(222,161));
-//		points.add(new Point(224,161));
-//		points.add(new Point(226,161));
-//		points.add(new Point(227,161));
-//		points.add(new Point(229,161));
-//		points.add(new Point(232,160));
-//		points.add(new Point(235,160));
-//		points.add(new Point(238,160));
-//		points.add(new Point(241,159));
-//		points.add(new Point(245,159));
-//		points.add(new Point(250,158));
-//		points.add(new Point(252,158));
-//		points.add(new Point(255,158));
-//		points.add(new Point(257,158));
-//		points.add(new Point(259,157));
-//		points.add(new Point(260,157));
-//		points.add(new Point(261,157));
-//		points.add(new Point(262,157));
-//		points.add(new Point(263,157));
-//		points.add(new Point(265,157));
-//		points.add(new Point(266,157));
-//		points.add(new Point(268,157));
-//		points.add(new Point(269,157));
-//		points.add(new Point(269,157));
-		
-		for(Point p : points) {
-			dessin.addPoint(p);
-		}
-	}
-	
-	public Vector<Point> getDrawedPoint() {
-		
-		Vector<Point> test = dessin.getAllPoints();
-		
-		System.out.print("Interface : ");
-		for(Point p : test) {
-			System.out.print("(" + p.x + "," + p.y + ")");
-		}
-		
-		System.out.println();
-		
-		return test;
+	public void sendPoint(Point point) {
+//		try {
+//			PictioLan.modele_gamer.getDraw().sendMessage(point);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	class JBasePanel extends JPanel {

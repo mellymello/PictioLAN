@@ -95,7 +95,9 @@ public class Game implements Runnable {
 	public boolean isDrawer() {
 		return isDrawer;
 	}
-	
+	public void setIsDrawer(boolean b) {
+		isDrawer = b;
+	}	
 	
 	
 	public void startGame() {
@@ -126,8 +128,8 @@ public class Game implements Runnable {
 				isDrawer = true;
 				
 				if(PictioLan.modele_gamer.getGame().getClient() != null) {
-					PictioLan.modele_gamer.getGame().getClient().setEnableChat(false);
-					PictioLan.modele_gamer.getGame().getClient().setEnableDraw(true);
+//					PictioLan.modele_gamer.getGame().getClient().setEnableChat(false);
+//					PictioLan.modele_gamer.getGame().getClient().setEnableDraw(true);
 				}
 				
 				String w = PictioLan.modele_gamer.server.get_word_protocole();
@@ -142,8 +144,8 @@ public class Game implements Runnable {
 				isDrawer = false;
 				
 				if(PictioLan.modele_gamer.getGame().getClient() != null) {
-					PictioLan.modele_gamer.getGame().getClient().setEnableChat(true);
-					PictioLan.modele_gamer.getGame().getClient().setEnableDraw(false);
+//					PictioLan.modele_gamer.getGame().getClient().setEnableChat(true);
+//					PictioLan.modele_gamer.getGame().getClient().setEnableDraw(false);
 				}
 				
 			}
