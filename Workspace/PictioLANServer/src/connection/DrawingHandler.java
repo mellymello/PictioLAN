@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.Vector;
 
 import server.ManagerGamer;
@@ -24,8 +23,6 @@ public class DrawingHandler implements Runnable {
 	BufferedWriter out;
 	
 	boolean endConnection = false;
-	
-	Vector<Point> buffer = new Vector<Point>();
 	
 	public DrawingHandler(Socket s) throws IOException {
 		
@@ -58,51 +55,29 @@ public class DrawingHandler implements Runnable {
 
 	public void recieve() {
 		
-		buffer.clear();
-		
 		try {
 			
-			int size = in.read();
+			int x = in.read();
+			int y = in.read();
 			
-			for(int i=0;  i < size; i++) {
-				int x = in.read();
-				int y = in.read();
+			if(gamer.getGame() != null && !gamer.getGame().getListDrawing().isEmpty()) {
 				
-				buffer.add(new Point(x,y));
+				for(DrawingHandler c : gamer.getGame().getListDrawing()) {
+					
+					if(this != c) { 
+						c.out.write(x);
+						c.out.write(y);
+						c.out.flush();
+					}
+				}
 			}
-			
+		
 		} catch (IOException e) {
 			
 		}
 		
 	}
 	
-	public void send() { 
-		
-		try {
-			
-			out.write(buffer.size());
-			out.flush();
-			
-			for(int i=0;  i < buffer.size(); i++) {
-				out.write(buffer.get(i).x);
-				out.write(buffer.get(i).y);
-			}
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void sendError() {
-		try {
-			out.write(0);
-			out.flush();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
-	}
 	
 	public void close() {
 		endConnection = true;
@@ -120,30 +95,8 @@ public class DrawingHandler implements Runnable {
 				if(tmp.equals("AUTH")) {
 					auth_protocole();
 				}
-				else if(tmp.equals("DRAW_GET_MESSAGE")) {
-					
-					if(gamer.getGame() != null) {
-						
-						if(gamer.getGame().getListDrawing().isEmpty()) {
-							sendError();
-						}
-						else {
-						
-							for(DrawingHandler c : gamer.getGame().getListDrawing()) {
-								if(this != c) 
-									c.send();
-							}
-						}
-						
-					}
-					else {
-						sendError();
-					}
-				
-				}
-				else if(tmp.equals("DRAW_SEND_MESSAGE")) {
+				else if(tmp.equals("DRAW_MESSAGE")) {
 					recieve();
-				
 				}
 				else if(tmp.equals("CLOSE")) {
 					endConnection = true;

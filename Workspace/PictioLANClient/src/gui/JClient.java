@@ -107,8 +107,6 @@ public class JClient extends JFrame implements Configuration {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-<<<<<<< HEAD
-=======
 		
 	/* Méthodes pour gérer le client */
 	
@@ -118,10 +116,7 @@ public class JClient extends JFrame implements Configuration {
 			gamerPartie.addMessage(g.getPseudo());
 		}
 	}
->>>>>>> 0e4fa7e5c7c0ab05d6f89375925d50845c965cf9
 	
-	/* Méthodes pour gérer le client */
-
 	public void printRandomWord(String word) {
 		JOptionPane.showMessageDialog(this, "Word : " + word, "Your are the painter", JOptionPane.PLAIN_MESSAGE);
 	}
@@ -132,12 +127,6 @@ public class JClient extends JFrame implements Configuration {
 	
 	public JDraw getDraw() {
 		return dessin;
-	}
-	
-	public void printGamers() {
-		for(Gamer g : PictioLan.modele_gamer.getGame().getListGamers()) {
-			listePartie.addMessage(g.getPseudo());
-		}
 	}
 	
 	public void afficherTimer(int i) {
@@ -362,11 +351,11 @@ public class JClient extends JFrame implements Configuration {
 	}
 	
 	public void sendPoint(Point point) {
-//		try {
-//			PictioLan.modele_gamer.getDraw().sendMessage(point);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			PictioLan.modele_gamer.getDraw().sendMessage(point.x,point.y);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	class JBasePanel extends JPanel {

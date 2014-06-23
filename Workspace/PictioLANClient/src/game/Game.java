@@ -116,6 +116,7 @@ public class Game implements Runnable {
 		PictioLan.modele_gamer.server.get_liste_gamer_protocole();
 		
 		
+		
 		if(client != null)
 			client.printGamers();
 		
@@ -125,6 +126,7 @@ public class Game implements Runnable {
 			
 			if(PictioLan.modele_gamer.server.get_role_gamer_protocole()){
 				
+				System.out.println("IM DRAWER");
 				isDrawer = true;
 				
 				if(PictioLan.modele_gamer.getGame().getClient() != null) {
