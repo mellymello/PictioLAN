@@ -147,7 +147,7 @@ public class DrawingHandler implements Runnable {
 						
 						for(DrawingHandler c : gamer.getGame().getListDrawing()) {
 							if(this != c) {
-								c.addMessage(new Point(x,y));
+								//c.addMessage(new Point(x,y));
 							}
 						}
 					}
