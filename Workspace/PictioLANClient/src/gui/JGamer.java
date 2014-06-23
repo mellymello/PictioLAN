@@ -9,13 +9,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class JListePartie extends JPanel
+public class JGamer extends JPanel
 {
-	private JLabel titre = new JLabel("Liste des parties");
+	private JLabel titre = new JLabel("Liste des joueurs");
 	private JScrollPane msgScroll = new JScrollPane();
 	private JTextArea affichage = new JTextArea(5,25);
 	
-	public JListePartie()
+	public JGamer()
 	{
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());

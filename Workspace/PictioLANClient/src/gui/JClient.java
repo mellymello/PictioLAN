@@ -30,7 +30,7 @@ public class JClient extends JFrame implements Configuration {
 	private JPanel left = new JPanel();
 	private JPanel pCentre = new JPanel();
 	private JProposition proposition;
-	private JListePartie listePartie = new JListePartie();
+	private JGamer gamerPartie = new JGamer();
 	private JInformation info = new JInformation();
 	private JInfoConnexion infoConnect = new JInfoConnexion();
 
@@ -107,6 +107,18 @@ public class JClient extends JFrame implements Configuration {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
+=======
+		
+	/* Méthodes pour gérer le client */
+	
+	public void printGamers() {
+		
+		for(Gamer g : PictioLan.modele_gamer.getGame().getListGamers()) {
+			gamerPartie.addMessage(g.getPseudo());
+		}
+	}
+>>>>>>> 0e4fa7e5c7c0ab05d6f89375925d50845c965cf9
 	
 	/* Méthodes pour gérer le client */
 
@@ -139,7 +151,7 @@ public class JClient extends JFrame implements Configuration {
 		left.setOpaque(false);
 		left.setLayout(new GridLayout(3, 1));
 		left.add(infoConnect);
-		left.add(listePartie);
+		left.add(gamerPartie);
 		left.add(info);
 	}
 

@@ -10,7 +10,12 @@ public class JDraw extends JPanel implements Configuration {
 	
 	protected Vector<Point> points = new Vector<Point>();
 	
+<<<<<<< HEAD
 	
+=======
+	protected Vector<Point> pointsToSend = new Vector<Point>();
+
+>>>>>>> 0e4fa7e5c7c0ab05d6f89375925d50845c965cf9
 	private JDrawListener ecouteur;
 
 	private boolean enabled = true;
@@ -31,10 +36,24 @@ public class JDraw extends JPanel implements Configuration {
 
 	public void addPoint(Point p) {
 		points.addElement(p);
+<<<<<<< HEAD
+=======
+		pointsToSend.addElement(p);
+		ecouteur.refreshDraw();
+	}
+	
+	public Vector<Point> getAllPoints(){
+		return pointsToSend;
+	}
+	
+	public void clearPointsToSend(){
+		pointsToSend.clear();
+>>>>>>> 0e4fa7e5c7c0ab05d6f89375925d50845c965cf9
 	}
 
 	public void effacerDessin() {
 		points.clear();
+		pointsToSend.clear();
 		Graphics g = bImage.getGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, LARGEUR_DESSIN, HAUTEUR_DESSIN);
@@ -115,7 +134,12 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 			
 			panel.points.clear();
 			panel.addPoint(new Point(e.getPoint()));
+<<<<<<< HEAD
 			//client.sendPoint(new Rectangle(new Point(e.getPoint()));
+=======
+			
+			// client.sendPoint(new Rectangle(new Point(e.getPoint()));
+>>>>>>> 0e4fa7e5c7c0ab05d6f89375925d50845c965cf9
 		}
 	}
 
