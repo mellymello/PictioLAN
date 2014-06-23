@@ -87,7 +87,8 @@ public class JClient extends JFrame implements Configuration {
 		this.setResizable(false);
 		
 		//Attribue la vue au client
-		PictioLan.modele_gamer.getGame().setClient(this);
+		if(PictioLan.modele_gamer != null && PictioLan.modele_gamer.getGame() != null)
+			PictioLan.modele_gamer.getGame().setClient(this);
 	}
 
 	private void initializate(){
@@ -173,8 +174,11 @@ public class JClient extends JFrame implements Configuration {
 			public void actionPerformed(ActionEvent arg0) {
 					
 				dessin.setEnabled(true);
-				PictioLan.modele_gamer.getConnection().start_game_protocole();
-				PictioLan.modele_gamer.launchChatDraw();
+				
+				if(PictioLan.modele_gamer != null && PictioLan.modele_gamer.getConnection() != null) {
+					PictioLan.modele_gamer.getConnection().start_game_protocole();
+					PictioLan.modele_gamer.launchChatDraw();
+				}
 			}
 			
 		});
@@ -377,13 +381,90 @@ public class JClient extends JFrame implements Configuration {
 	
 	public void setPoint(Vector<Point> points) {
 		
+//		points.clear();
+//		points.add(new Point(153,152));
+//		points.add(new Point(153,153));
+//		points.add(new Point(155,153));
+//		points.add(new Point(157,154));
+//		points.add(new Point(158,154));
+//		points.add(new Point(158,155));
+//		points.add(new Point(160,155));
+//		points.add(new Point(161,155));
+//		points.add(new Point(162,156));
+//		points.add(new Point(163,156));
+//		points.add(new Point(164,156));
+//		points.add(new Point(165,156));
+//		points.add(new Point(167,156));
+//		points.add(new Point(169,156));
+//		points.add(new Point(171,157));
+//		points.add(new Point(174,158));
+//		points.add(new Point(177,159));
+//		points.add(new Point(178,160));
+//		points.add(new Point(179,161));
+//		points.add(new Point(182,161));
+//		points.add(new Point(183,161));
+//		points.add(new Point(184,162));
+//		points.add(new Point(186,162));
+//		points.add(new Point(188,162));
+//		points.add(new Point(190,162));
+//		points.add(new Point(191,162));
+//		points.add(new Point(193,162));
+//		points.add(new Point(195,162));
+//		points.add(new Point(197,163));
+//		points.add(new Point(199,163));
+//		points.add(new Point(201,163));
+//		points.add(new Point(203,163));
+//		points.add(new Point(205,163));
+//		points.add(new Point(206,163));
+//		points.add(new Point(209,163));
+//		points.add(new Point(212,163));
+//		points.add(new Point(213,162));
+//		points.add(new Point(215,162));
+//		points.add(new Point(217,162));
+//		points.add(new Point(218,161));
+//		points.add(new Point(220,161));
+//		points.add(new Point(222,161));
+//		points.add(new Point(224,161));
+//		points.add(new Point(226,161));
+//		points.add(new Point(227,161));
+//		points.add(new Point(229,161));
+//		points.add(new Point(232,160));
+//		points.add(new Point(235,160));
+//		points.add(new Point(238,160));
+//		points.add(new Point(241,159));
+//		points.add(new Point(245,159));
+//		points.add(new Point(250,158));
+//		points.add(new Point(252,158));
+//		points.add(new Point(255,158));
+//		points.add(new Point(257,158));
+//		points.add(new Point(259,157));
+//		points.add(new Point(260,157));
+//		points.add(new Point(261,157));
+//		points.add(new Point(262,157));
+//		points.add(new Point(263,157));
+//		points.add(new Point(265,157));
+//		points.add(new Point(266,157));
+//		points.add(new Point(268,157));
+//		points.add(new Point(269,157));
+//		points.add(new Point(269,157));
+		
 		for(Point p : points) {
 			dessin.addPoint(p);
 		}
 	}
 	
 	public Vector<Point> getDrawedPoint() {
-		return dessin.getAllPoints();
+		
+		Vector<Point> test = dessin.getAllPoints();
+		
+		System.out.print("Interface : ");
+		for(Point p : test) {
+			System.out.print("(" + p.x + "," + p.y + ")");
+		}
+		
+		System.out.println();
+		
+		return test;
 	}
 	
 	class JBasePanel extends JPanel {

@@ -29,6 +29,8 @@ public class DrawingConnnection implements Runnable {
 		inDrawing = new BufferedReader(new InputStreamReader(socketDrawing.getInputStream()));
 		outDrawing = new BufferedWriter(new OutputStreamWriter(socketDrawing.getOutputStream()));
 	}
+	
+	Vector<Point> debug = new Vector<Point>();
 
 	public boolean isConnect() { return !endConnection; };
 
@@ -68,7 +70,7 @@ public class DrawingConnnection implements Runnable {
 	
 	private void sendMessage() throws IOException {
 	
-		Vector<Point> temp = PictioLan.modele_gamer.getGame().getClient().getDrawedPoint();
+		Vector<Point> temp = debug;//PictioLan.modele_gamer.getGame().getClient().getDrawedPoint();
 		
 		outDrawing.write("DRAW_SEND_MESSAGE\n");
 		outDrawing.flush();
@@ -76,44 +78,53 @@ public class DrawingConnnection implements Runnable {
 		outDrawing.write(temp.size());
 		outDrawing.flush();
 		
+		System.out.print("Envoie image [" +  temp.size() + "]: ");
+		
 		for(int i=0; i < temp.size(); i++) {
 			
 			outDrawing.write(temp.get(i).x);
-			outDrawing.write(temp.get(i).x);
 			outDrawing.flush();
+			outDrawing.write(temp.get(i).y);
+			outDrawing.flush();
+			
+			System.out.print("(" + temp.get(i).x +  "," + temp.get(i).y + ")");
 		}
 		
-		System.out.println("Envoie image");
+
 		PictioLan.modele_gamer.getGame().getClient().getDraw().clearPointsToSend();
+
+		System.out.println();
+
 	}
 	
 
 
 private void getMessage() throws IOException {
 	
-	System.out.println("Reçoit image1");
 	Vector<Point> buffer = new Vector<Point>();
 	
 	outDrawing.write("DRAW_GET_MESSAGE\n");
 	outDrawing.flush();
-	System.out.println("Reçoit image2");
-	
+
 	int size = inDrawing.read();
 
-	System.out.println(size);
+	System.out.print("Reçoit image [" + size + "]: ");
 	
 	for(int i=0; i < size; i++) {
 		
 		int x = inDrawing.read();
 		int y = inDrawing.read();
 		
+		System.out.print("(" + x +  "," + y + ")");
+		
 		buffer.add(new Point(x,y));
 	}
+	
+	System.out.println();
 	
 	if(PictioLan.modele_gamer.getGame().getClient() != null)
 		PictioLan.modele_gamer.getGame().getClient().setPoint(buffer);
 	
-	System.out.println("Reçoit image3");
 }
 	
 	
@@ -122,6 +133,30 @@ private void getMessage() throws IOException {
 	}
 	
 	public void run() {
+		
+		debug.add(new Point(103,63));
+		debug.add(new Point(103,63));
+		debug.add(new Point(104,63));
+		debug.add(new Point(106,63));
+		debug.add(new Point(110,63));
+		debug.add(new Point(115,63));
+		debug.add(new Point(119,63));
+		debug.add(new Point(122,246));
+		debug.add(new Point(124,234));
+		debug.add(new Point(127,223));
+		debug.add(new Point(63,212));
+		debug.add(new Point(63,200));
+		debug.add(new Point(63,191));
+		debug.add(new Point(63,181));
+		debug.add(new Point(63,174));
+		debug.add(new Point(63,165));
+		debug.add(new Point(63,63));
+		debug.add(new Point(63,63));
+		debug.add(new Point(164,63));
+		debug.add(new Point(171,127));
+		debug.add(new Point(178,120));
+		debug.add(new Point(186,113));
+		
 		
 		try {
 			
@@ -151,6 +186,7 @@ private void getMessage() throws IOException {
 
 			try {
 				if (inDrawing != null)
+				
 					inDrawing.close();
 
 				if (outDrawing != null)

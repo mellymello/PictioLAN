@@ -124,7 +124,7 @@ public class JCreateGame extends JFrame {
 			nbrPlayerLabel.setForeground(Color.WHITE);
 			nbrPlayerLabel.setFont(new Font(nbrPlayerLabel.getFont().getName(),
 					Font.BOLD, 14));
-			nbrPlayers = new JComboBox<Integer>(new Integer[] { 1, 2,
+			nbrPlayers = new JComboBox<Integer>(new Integer[] { 2,
 					3, 4, 5, 6, 7, 8 });
 			nbrPlayers.setSelectedIndex(3);
 			nbrPlayers.setEditable(true);
