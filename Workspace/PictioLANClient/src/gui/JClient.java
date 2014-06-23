@@ -30,7 +30,7 @@ public class JClient extends JFrame implements Configuration {
 	private JPanel left = new JPanel();
 	private JPanel pCentre = new JPanel();
 	private JProposition proposition;
-	private JListePartie listePartie = new JListePartie();
+	private JGamer gamerPartie = new JGamer();
 	private JInformation info = new JInformation();
 	private JInfoConnexion infoConnect = new JInfoConnexion();
 
@@ -117,7 +117,7 @@ public class JClient extends JFrame implements Configuration {
 	public void printGamers() {
 		
 		for(Gamer g : PictioLan.modele_gamer.getGame().getListGamers()) {
-			listePartie.addMessage(g.getPseudo());
+			gamerPartie.addMessage(g.getPseudo());
 		}
 	}
 	
@@ -153,7 +153,7 @@ public class JClient extends JFrame implements Configuration {
 		left.setOpaque(false);
 		left.setLayout(new GridLayout(3, 1));
 		left.add(infoConnect);
-		left.add(listePartie);
+		left.add(gamerPartie);
 		left.add(info);
 	}
 
