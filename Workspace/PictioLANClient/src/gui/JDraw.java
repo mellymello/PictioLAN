@@ -1,17 +1,23 @@
 package gui;
 
 import javax.swing.*;
+
+import connection.PictioLan;
+
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.*;
+import java.io.IOException;
 import java.util.*;
 
 public class JDraw extends JPanel implements Configuration {
-	
+
 	protected Vector<Point> points = new Vector<Point>();
 
 	protected Vector<Point> pointsToSend = new Vector<Point>();
-	
+
+	protected BufferedImage img;
+
 	private JDrawListener ecouteur;
 
 	private boolean enabled = true;
@@ -34,12 +40,12 @@ public class JDraw extends JPanel implements Configuration {
 		points.addElement(p);
 		pointsToSend.addElement(p);
 	}
-	
-	public Vector<Point> getAllPoints(){
+
+	public Vector<Point> getAllPoints() {
 		return pointsToSend;
 	}
-	
-	public void clearPointsToSend(){
+
+	public void clearPointsToSend() {
 		pointsToSend.clear();
 	}
 
@@ -53,12 +59,35 @@ public class JDraw extends JPanel implements Configuration {
 		repaint();
 	}
 
+	public void setImage(BufferedImage img) {
+		this.img = img;
+	}
+
+	public BufferedImage getImage() {
+		return img;
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		drawImage();
-		g.drawImage(bImage, 0, 0, null);
-		drawLines(g);
+		if (PictioLan.modele_gamer.getGame().isDrawer()) {
+			drawImage();
+			g.drawImage(bImage, 0, 0, null);
+			drawLines(g);
+
+			// store the image
+			img = bImage;
+			try {
+				PictioLan.modele_gamer.getDraw().sendMessage();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+
+			g.drawImage(img, 0, 0, null);
+		}
+
 	}
 
 	public void drawImage() {
@@ -115,15 +144,15 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 		if (panel.getEnabled()) {
 			panel.addPoint(new Point(e.getPoint()));
 			panel.repaint();
-			client.sendPoint(new Point(e.getPoint()));
+//			client.sendPoint(new Point(e.getPoint()));
 		}
 	}
 
 	public void mousePressed(MouseEvent e) {
 		if (panel.getEnabled()) {
-			
-//			panel.image.add(new Vector<Point>(panel.points));
-			
+
+			// panel.image.add(new Vector<Point>(panel.points));
+
 			panel.points.clear();
 			panel.addPoint(new Point(e.getPoint()));
 		}
@@ -132,11 +161,11 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 	public void mouseReleased(MouseEvent e) {
 		if (panel.getEnabled()) {
 			panel.addPoint(new Point(e.getPoint()));
-				
-//			panel.image.add(new Vector<Point>(panel.points));
-			
+
+			// panel.image.add(new Vector<Point>(panel.points));
+
 			panel.points.clear();
-			client.sendPoint(new Point(e.getPoint()));
+//			client.sendPoint(new Point(e.getPoint()));
 			panel.repaint();
 		}
 	}

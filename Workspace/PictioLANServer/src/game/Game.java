@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
@@ -30,6 +31,9 @@ public class Game {
 	private LinkedList<Round> round = new LinkedList<Round>();
 	
 	public Vector<Rectangle> buffer = new Vector<Rectangle>();
+	
+	
+	public BufferedImage drawedImage;
 	
 	public Game() {
 		id_game = id_generator++;
