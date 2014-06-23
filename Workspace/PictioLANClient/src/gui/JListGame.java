@@ -297,7 +297,7 @@ public class JListGame extends JFrame {
 			String[] tmp = new String[games.size()];
 
 			for (int i = 0; i < games.size(); i++) {
-				tmp[i] = String.valueOf(games.get(i).getID());
+				tmp[i] = "GAME : " + String.valueOf(games.get(i).getID());
 			}
 
 			gamesNameList.setListData(tmp);

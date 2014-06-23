@@ -31,12 +31,17 @@ public class JDraw extends JPanel implements Configuration {
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(0, 0, LARGEUR_DESSIN, HAUTEUR_DESSIN);
 		g2d.dispose();
+		
+		this.setEnabled(false);
 	}
 
 	public void addPoint(Point p) {
 		points.addElement(p);
-		vue_parente.sendPoint(p);
 		ecouteur.refreshDraw();
+	}
+	
+	public Vector<Point> getAllPoints(){
+		return points;
 	}
 
 	public void effacerDessin() {

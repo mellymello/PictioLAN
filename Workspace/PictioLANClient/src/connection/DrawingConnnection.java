@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.LinkedList;
+import java.util.Vector;
 
 public class DrawingConnnection implements Runnable {
 	
@@ -21,10 +22,6 @@ public class DrawingConnnection implements Runnable {
 	Thread drawing;
 	
 	boolean endConnection = true;
-	
-//	LinkedList<Point> buffer = new LinkedList<Point>();
-	
-	String image;
 	
 	public DrawingConnnection () throws IOException {
 		
@@ -68,84 +65,23 @@ public class DrawingConnnection implements Runnable {
 		return endConnection;
 	}
 	
-//	public boolean isBufferEmpty() {
-//		return buffer.isEmpty();
-//	}
-	
-//	public void addPointToBuffer(Point s) {
-//		buffer.add(s);
-//	}
-//	
-//	public LinkedList<Point> getPointsToBuffer() {
-//		
-//		LinkedList<Point> temp = new LinkedList<Point>();
-//		
-//		for(Point s : buffer)
-//			temp.add(s);
-//		
-//		return temp;
-//	}
-//	
-//	public void removeMessagesToBuffer() {
-//		buffer.clear();
-//	}
-	
-//	private void sendMessage() throws IOException {
-//		
-//		LinkedList<Point> temp = getPointsToBuffer();
-//		
-//		for(Point msg : temp) {
-//			
-//			outDrawing.write("DRAW_SEND_MESSAGE\n");
-//			outDrawing.flush();
-//			
-//			outDrawing.write(msg.x);
-//			outDrawing.flush();
-//			
-//			outDrawing.write(msg.y);
-//			outDrawing.flush();
-//			
-//			System.out.println("Envoie "+ msg.x +","+ msg.y);
-//		}
-//		
-//		removeMessagesToBuffer();
-//	}
-
-//	private void getMessage() throws IOException {
-//		
-//		outDrawing.write("DRAW_GET_MESSAGE\n");
-//		outDrawing.flush();
-//		
-//		int nbMessages = inDrawing.read();
-//
-//		for(int i=0; i < nbMessages; i++) {
-//			
-//			int x = inDrawing.read();
-//			int y = inDrawing.read();
-//			
-//			System.out.println("Reçu "+ x +","+ y);
-//			
-//			if(PictioLan.modele_gamer.getGame().getClient() != null)
-//				PictioLan.modele_gamer.getGame().getClient().getDraw().addPoint(new Point(x,y));
-//		}
-//	}
-//	
-	
-	public boolean isBufferEmpty() {
-		return (image != null && !image.isEmpty());
-	}
-	
-	public void setImage(String image) {
-		this.image = image; 
-	}
 	
 	private void sendMessage() throws IOException {
 	
+		Vector<Point> temp = PictioLan.modele_gamer.getGame().getClient().getDrawedPoint();
+		
 		outDrawing.write("DRAW_SEND_MESSAGE\n");
 		outDrawing.flush();
 		
-		outDrawing.write(image + "\n");
+		outDrawing.write(temp.size());
 		outDrawing.flush();
+		
+		for(int i=0; i < temp.size(); i++) {
+			
+			outDrawing.write(temp.get(i).x);
+			outDrawing.write(temp.get(i).x);
+			outDrawing.flush();
+		}
 		
 		System.out.println("Envoie image");
 	}
@@ -154,13 +90,23 @@ public class DrawingConnnection implements Runnable {
 
 private void getMessage() throws IOException {
 	
+	Vector<Point> buffer = new Vector<Point>();
+	
 	outDrawing.write("DRAW_GET_MESSAGE\n");
 	outDrawing.flush();
 	
-	String msg = inDrawing.readLine();
+	int size = inDrawing.read();
 
+	for(int i=0; i < size; i++) {
+		
+		int x = inDrawing.read();
+		int y = inDrawing.read();
+		
+		buffer.add(new Point(x,y));
+	}
+	
 	if(PictioLan.modele_gamer.getGame().getClient() != null)
-		PictioLan.modele_gamer.getGame().getClient().getDraw();
+		PictioLan.modele_gamer.getGame().getClient().setPoint(buffer);
 }
 	
 	
@@ -176,15 +122,11 @@ private void getMessage() throws IOException {
 				
 					
 				if(PictioLan.modele_gamer.getGame().isDrawer()) {
-					
-					if(!isBufferEmpty()) {
-						sendMessage();
-					}
+					sendMessage();
 					
 				} else {
 					getMessage();
 				}
-					
 				
 				try {
 					drawing.sleep(4000);

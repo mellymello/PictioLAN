@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.LinkedList;
+import java.util.Vector;
 
 import server.ManagerGamer;
 import game.*;
@@ -19,17 +20,12 @@ public class DrawingHandler implements Runnable {
 	Socket connexion = null;
 	Thread threadDrawing;
 	
-	//InputStreamReader in;
-	//OutputStreamWriter out;
-	
 	BufferedReader in;
 	BufferedWriter out;
 	
 	boolean endConnection = false;
 	
-	//LinkedList<Point> list_point = new LinkedList<Point>();
-
-	String image;
+	Vector<Point> buffer = new Vector<Point>();
 	
 	public DrawingHandler(Socket s) throws IOException {
 		
@@ -59,31 +55,39 @@ public class DrawingHandler implements Runnable {
 			out.flush();
 		}
 	}
-	
-	public void addMessage(String image) {
-		this.image = image;
+
+	public void recieve() {
+		
+		buffer.clear();
+		
+		try {
+			
+			int size = in.read();
+			
+			for(int i=0;  i < size; i++) {
+				int x = in.read();
+				int y = in.read();
+				
+				buffer.add(new Point(x,y));
+			}
+			
+		} catch (IOException e) {
+			
+		}
+		
 	}
 	
 	public void send() { 
 		
 		try {
 			
-			out.write(image + "\n");
+			out.write(buffer.size());
 			out.flush();
 			
-//			out.write(list_point.size());
-//			out.flush();
-//			
-//			for(int i=0; i < list_point.size(); i++) {
-//				out.write(list_point.get(i).x);
-//				out.flush();
-//				out.write(list_point.get(i).y);
-//				out.flush();
-//				
-//				list_point.remove(i);
-			
-//			if(list_point!=null)
-//				list_point.clear();
+			for(int i=0;  i < buffer.size(); i++) {
+				out.write(buffer.get(i).x);
+				out.write(buffer.get(i).y);
+			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -126,7 +130,6 @@ public class DrawingHandler implements Runnable {
 						else {
 						
 							for(DrawingHandler c : gamer.getGame().getListDrawing()) {
-								
 								if(this != c) 
 									c.send();
 							}
@@ -139,18 +142,7 @@ public class DrawingHandler implements Runnable {
 				
 				}
 				else if(tmp.equals("DRAW_SEND_MESSAGE")) {
-					
-					int x = in.read();
-					int y = in.read();
-				
-					if(gamer.getGame() != null) {
-						
-						for(DrawingHandler c : gamer.getGame().getListDrawing()) {
-							if(this != c) {
-								//c.addMessage(new Point(x,y));
-							}
-						}
-					}
+					recieve();
 				
 				}
 				else if(tmp.equals("CLOSE")) {

@@ -12,6 +12,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -56,6 +57,8 @@ public class JClient extends JFrame implements Configuration {
 	private JButton red;
 	private JButton white;
 	private JButton yellow;
+	
+	private boolean isDrawer = false;
 
 	public JClient(String titre) {
 		
@@ -118,9 +121,7 @@ public class JClient extends JFrame implements Configuration {
 	}
 	
 	public void printRandomWord(String word) {
-		//JOptionPane.showMessageDialog(this, "Word : " + word, "Your are the painter", JOptionPane.PLAIN_MESSAGE);
 		JOptionPane.showMessageDialog(this, "Word : " + word, "Your are the painter", JOptionPane.PLAIN_MESSAGE);
-		System.out.println("PAS BLOCANT");
 	}
 	
 	public void setEnableDraw(boolean e) {
@@ -171,6 +172,7 @@ public class JClient extends JFrame implements Configuration {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 					
+				dessin.setEnabled(true);
 				PictioLan.modele_gamer.getConnection().start_game_protocole();
 				PictioLan.modele_gamer.launchChatDraw();
 			}
@@ -373,18 +375,15 @@ public class JClient extends JFrame implements Configuration {
 		pCentreHaut_colors.add(yellow);
 	}
 	
-	public void sendPoint(Point point) {
-		// TODO Auto-generated method stub
-		//METHODE POUR ENVOYER LES POINTS
+	public void setPoint(Vector<Point> points) {
 		
-		System.out.println("Interface Graphique : (" + point.x + "," + point.y + ")");
-//		
-//		if(PictioLan.modele_gamer.getDraw() != null && PictioLan.modele_gamer.getDraw().isConnect())
-//			PictioLan.modele_gamer.getDraw().addPointToBuffer(point);
-		
-		if(PictioLan.modele_gamer.getDraw() != null && PictioLan.modele_gamer.getDraw().isConnect())
-			PictioLan.modele_gamer.getDraw().setImage("mon image");
+		for(Point p : points) {
+			dessin.addPoint(p);
+		}
+	}
 	
+	public Vector<Point> getDrawedPoint() {
+		return dessin.getAllPoints();
 	}
 	
 	class JBasePanel extends JPanel {
