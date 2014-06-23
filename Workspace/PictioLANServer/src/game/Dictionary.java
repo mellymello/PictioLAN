@@ -4,7 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Random;
+
 import javax.swing.JOptionPane;
+
 import server.BDConnection;
 
 public class Dictionary {
@@ -33,14 +35,14 @@ public class Dictionary {
 
 		int nbrW = -1;
 
-		String requete = "SELECT count(ID_Word) FROM word WHERE ID_Category="
+		String requete = "SELECT count(ID_Word) AS nbr FROM word WHERE ID_Category="
 				+ categoryID;
 
 		ResultSet res;
 		try {
 			res = BDConnection.getBD().executeQuery(requete);
 
-			nbrW = res.getInt("ID_Category");
+			nbrW = res.getInt("nbr");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null,
 					"Impossible to get count words for category ID: "
@@ -58,30 +60,65 @@ public class Dictionary {
 	static public String getWord(String category) {
 		String word = "";
 		Random rand = new Random();
+		System.out.println(category);
+		if(category.equals("ALL"))
+		{
+			try {
 
-		try {
+				int categoryID = 0;
+				int nbrWord = 0;
+				LinkedList<String> listeCat = getListCategory();
+				for(String l : listeCat)
+				{
+					categoryID = getCategoryID(l);
+					nbrWord += getNbrWords(categoryID);
+				}
+				
 
-			int categoryID = getCategoryID(category);
-			int nbrWord = getNbrWords(categoryID);
 
-			int nombreAleatoire = rand.nextInt(nbrWord);
-			String requete = "SELECT Word FROM `Word` WHERE Words.ID_Word = "
-					+ nombreAleatoire
-					+ " AND Category.Name = "
-					+ category
-					+ " INNER JOIN Category ON Category.ID_Category = Words.ID_Category";
+				int nombreAleatoire = rand.nextInt(nbrWord);
+				String requete = "SELECT Word FROM `Word` WHERE Word.ID_Word = "
+						+ nombreAleatoire;
 
-			ResultSet res;
+				ResultSet res;
+				System.out.println(requete);
+				res = BDConnection.getBD().executeQuery(requete);
+				res.next();
+				word = res.getString("Word");
 
-			res = BDConnection.getBD().executeQuery(requete);
-			res.next();
-			word = res.getString("Word");
-
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null,
-					"Impossible to get a random word from category : "
-							+ category, "Error", JOptionPane.ERROR_MESSAGE);
-
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null,
+						"Impossible to get a random word from category : "
+						+ category, "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		else
+		{
+			try {
+	
+				int categoryID = getCategoryID(category);
+				int nbrWord = getNbrWords(categoryID);
+	
+				int nombreAleatoire = rand.nextInt(nbrWord);
+				System.out.println(nombreAleatoire);
+				String requete = "SELECT Word FROM `Word` WHERE Word.ID_Word = "
+						+ nombreAleatoire
+						+ " AND ID_Category = "
+						+ categoryID;
+	
+				ResultSet res;
+				System.out.println(requete);
+	
+				res = BDConnection.getBD().executeQuery(requete);
+				res.next();
+				word = res.getString("Word");
+	
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null,
+						"Impossible to get a random word from category : "
+								+ category, "Error", JOptionPane.ERROR_MESSAGE);
+	
+			}
 		}
 		return word;
 	}

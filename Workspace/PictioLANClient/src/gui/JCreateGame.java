@@ -142,9 +142,12 @@ public class JCreateGame extends JFrame {
 					Font.BOLD, 14));
 			
 			LinkedList<String> tempCategory = PictioLan.modele_gamer.getConnection().list_category_protocole();
-			String[] stringTabCategory = new String[tempCategory.size()];
+			String[] stringTabCategory = new String[tempCategory.size()+1];
 			for(int i=0; i < tempCategory.size(); i++)
+			{
 				stringTabCategory[i] = tempCategory.get(i);
+			}
+			stringTabCategory[tempCategory.size()] = "ALL";
 			category = new JComboBox<String>(stringTabCategory);
 			category.setEditable(false);
 
