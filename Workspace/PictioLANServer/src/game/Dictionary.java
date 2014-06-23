@@ -73,23 +73,19 @@ public class Dictionary {
 					categoryID = getCategoryID(l);
 					nbrWord += getNbrWords(categoryID);
 				}
-				
-
 
 				int nombreAleatoire = rand.nextInt(nbrWord);
 				String requete = "SELECT Word FROM `Word` WHERE Word.ID_Word = "
 						+ nombreAleatoire;
 
 				ResultSet res;
-				System.out.println(requete);
 				res = BDConnection.getBD().executeQuery(requete);
 				res.next();
 				word = res.getString("Word");
 
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null,
-						"Impossible to get a random word from category : "
-						+ category, "Error", JOptionPane.ERROR_MESSAGE);
+						"Impossible to get a random word from ALL : ", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		else
@@ -97,11 +93,18 @@ public class Dictionary {
 			try {
 	
 				int categoryID = getCategoryID(category);
-				int nbrWord = getNbrWords(categoryID);
+				int nbrWordCat = getNbrWords(categoryID);
+				int nbrWordTot = 0;
+				
+				for(int i = 1; i < categoryID; i++)
+				{
+					nbrWordTot += getNbrWords(i);
+				}
 	
-				int nombreAleatoire = rand.nextInt(nbrWord);
+				int nombreAleatoire = rand.nextInt(nbrWordCat);
+				nombreAleatoire += nbrWordTot;
 				System.out.println(nombreAleatoire);
-				String requete = "SELECT Word FROM `Word` WHERE Word.ID_Word = "
+				String requete = "SELECT Word FROM `Word` WHERE ID_Word = "
 						+ nombreAleatoire
 						+ " AND ID_Category = "
 						+ categoryID;
