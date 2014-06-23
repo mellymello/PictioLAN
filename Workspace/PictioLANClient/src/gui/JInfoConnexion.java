@@ -32,6 +32,9 @@ public class JInfoConnexion extends JPanel implements Configuration
 	    
 	    lblEquipe.setForeground(Color.WHITE);
 	    
+	    groupe.add(equipe1);
+	    groupe.add(equipe2);
+	    
 	    pEquipe.add(lblEquipe);
 		pEquipe.add(equipe1);
 		pEquipe.add(equipe2);

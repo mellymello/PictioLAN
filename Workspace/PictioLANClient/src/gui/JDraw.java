@@ -31,6 +31,8 @@ public class JDraw extends JPanel implements Configuration {
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(0, 0, LARGEUR_DESSIN, HAUTEUR_DESSIN);
 		g2d.dispose();
+		
+		this.setEnabled(false);
 	}
 
 	public void addPoint(Point p) {

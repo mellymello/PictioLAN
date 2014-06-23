@@ -56,6 +56,8 @@ public class JClient extends JFrame implements Configuration {
 	private JButton red;
 	private JButton white;
 	private JButton yellow;
+	
+	private boolean isDrawer = false;
 
 	public JClient(String titre) {
 		
@@ -167,6 +169,7 @@ public class JClient extends JFrame implements Configuration {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 					
+				dessin.setEnabled(true);
 				PictioLan.modele_gamer.getConnection().start_game_protocole();
 				PictioLan.modele_gamer.launchChatDraw();
 			}
