@@ -86,6 +86,7 @@ public class DrawingHandler implements Runnable {
 			
 			for(int i=0;  i < temp.size(); i++) {
 				out.write(temp.get(i).x);
+				out.flush();
 				out.write(temp.get(i).y);
 				out.flush();
 			}

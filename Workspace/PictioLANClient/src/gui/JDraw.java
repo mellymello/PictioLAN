@@ -37,6 +37,7 @@ public class JDraw extends JPanel implements Configuration {
 
 	public void addPoint(Point p) {
 		points.addElement(p);
+//		System.out.print("(" + p.x + "," + p.y + ")");
 		ecouteur.refreshDraw();
 	}
 	
