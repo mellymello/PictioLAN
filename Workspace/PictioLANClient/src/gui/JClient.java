@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -356,6 +357,10 @@ public class JClient extends JFrame implements Configuration {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public BufferedImage getDrawedImage(){
+		return dessin.getImage();
 	}
 	
 	class JBasePanel extends JPanel {

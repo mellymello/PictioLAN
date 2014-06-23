@@ -1,13 +1,18 @@
 package connection;
 
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Vector;
+
+import javax.imageio.ImageIO;
 
 import server.ManagerGamer;
 import game.*;
@@ -62,12 +67,39 @@ public class DrawingHandler implements Runnable {
 			
 			if(gamer.getGame() != null && !gamer.getGame().getListDrawing().isEmpty()) {
 				
+				
+					BufferedImage recvImg = ImageIO.read(ImageIO
+							.createImageInputStream(connexion.getInputStream()));
+
+					System.out.println("SERVER: Image received!!!!");
+					// store the image on server current game:
+					gamer.getGame().drawedImage = recvImg;
+
+					if (recvImg == null) {
+						recvImg = new BufferedImage(150, 150, BufferedImage.TYPE_INT_RGB);
+					}
+					
+					ImageIO.write(recvImg, "png", new File(
+							"C:/Users/RighitZ/Desktop/srv.png"));
+					
+					
+
+			
+				
 				for(DrawingHandler c : gamer.getGame().getListDrawing()) {
 					
 					if(this != c) { 
-						c.out.write(x);
-						c.out.write(y);
-						c.out.flush();
+						
+				
+			
+
+						ImageIO.write(recvImg, "png", connexion.getOutputStream());
+						out.flush();
+						System.out.println("SRV : img sended !!!");
+						
+//						c.out.write(x);
+//						c.out.write(y);
+//						c.out.flush();
 					}
 				}
 			}
