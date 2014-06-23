@@ -7,6 +7,7 @@ import connection.PictioLan;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.*;
+import java.io.IOException;
 import java.util.*;
 
 public class JDraw extends JPanel implements Configuration {
@@ -76,6 +77,12 @@ public class JDraw extends JPanel implements Configuration {
 
 			// store the image
 			img = bImage;
+			try {
+				PictioLan.modele_gamer.getDraw().sendMessage();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 
 			g.drawImage(img, 0, 0, null);
@@ -137,7 +144,7 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 		if (panel.getEnabled()) {
 			panel.addPoint(new Point(e.getPoint()));
 			panel.repaint();
-			client.sendPoint(new Point(e.getPoint()));
+//			client.sendPoint(new Point(e.getPoint()));
 		}
 	}
 
@@ -158,7 +165,7 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 			// panel.image.add(new Vector<Point>(panel.points));
 
 			panel.points.clear();
-			client.sendPoint(new Point(e.getPoint()));
+//			client.sendPoint(new Point(e.getPoint()));
 			panel.repaint();
 		}
 	}

@@ -72,7 +72,7 @@ public class DrawingConnnection implements Runnable {
 	}
 	
 	
-	public void sendMessage(int x, int y) throws IOException {
+	public void sendMessage() throws IOException {
 		
 		if(PictioLan.modele_gamer.getGame().isStart()) {
 		

@@ -351,13 +351,13 @@ public class JClient extends JFrame implements Configuration {
 		pCentreHaut_colors.add(yellow);
 	}
 	
-	public void sendPoint(Point point) {
-		try {
-			PictioLan.modele_gamer.getDraw().sendMessage(point.x,point.y);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	public void sendPoint(Point point) {
+//		try {
+////			PictioLan.modele_gamer.getDraw().sendMessage(point.x,point.y);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	public BufferedImage getDrawedImage(){
 		return dessin.getImage();
