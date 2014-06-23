@@ -27,6 +27,7 @@ public class Game implements Runnable {
 	Thread threadGaming;
 	
 	boolean isStart = false;
+	boolean isDrawer = false;
 	
 	public Game(int id, String category, int nbrRounds, boolean mode, String creatorPseudo, int nbrMaxGamers, int nbrActivesGamers) {
 		
@@ -91,6 +92,11 @@ public class Game implements Runnable {
 		return isStart;
 	}
 	
+	public boolean isDrawer() {
+		return isDrawer;
+	}
+	
+	
 	
 	public void startGame() {
 		isStart = true;
@@ -110,8 +116,12 @@ public class Game implements Runnable {
 			client.printGamers();
 		
 		for(int i=0; i < nbrRounds ; i++) {
-		
+			
+			isDrawer = false;
+			
 			if(PictioLan.modele_gamer.server.get_role_gamer_protocole()){
+				
+				isDrawer = true;
 				
 				if(PictioLan.modele_gamer.getGame().getClient() != null) {
 					PictioLan.modele_gamer.getGame().getClient().setEnableChat(false);
@@ -127,6 +137,8 @@ public class Game implements Runnable {
 				
 			}
 			else {
+				
+				isDrawer = false;
 				
 				if(PictioLan.modele_gamer.getGame().getClient() != null) {
 					PictioLan.modele_gamer.getGame().getClient().setEnableChat(true);
@@ -149,8 +161,8 @@ public class Game implements Runnable {
 				}
 			}
 			
+			
 			PictioLan.modele_gamer.server.send_end_round_protocole();
-		
 		}
 		
 		

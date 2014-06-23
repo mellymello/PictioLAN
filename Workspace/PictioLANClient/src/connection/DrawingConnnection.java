@@ -22,7 +22,9 @@ public class DrawingConnnection implements Runnable {
 	
 	boolean endConnection = true;
 	
-	LinkedList<Point> buffer = new LinkedList<Point>();
+//	LinkedList<Point> buffer = new LinkedList<Point>();
+	
+	String image;
 	
 	public DrawingConnnection () throws IOException {
 		
@@ -66,67 +68,100 @@ public class DrawingConnnection implements Runnable {
 		return endConnection;
 	}
 	
+//	public boolean isBufferEmpty() {
+//		return buffer.isEmpty();
+//	}
+	
+//	public void addPointToBuffer(Point s) {
+//		buffer.add(s);
+//	}
+//	
+//	public LinkedList<Point> getPointsToBuffer() {
+//		
+//		LinkedList<Point> temp = new LinkedList<Point>();
+//		
+//		for(Point s : buffer)
+//			temp.add(s);
+//		
+//		return temp;
+//	}
+//	
+//	public void removeMessagesToBuffer() {
+//		buffer.clear();
+//	}
+	
+//	private void sendMessage() throws IOException {
+//		
+//		LinkedList<Point> temp = getPointsToBuffer();
+//		
+//		for(Point msg : temp) {
+//			
+//			outDrawing.write("DRAW_SEND_MESSAGE\n");
+//			outDrawing.flush();
+//			
+//			outDrawing.write(msg.x);
+//			outDrawing.flush();
+//			
+//			outDrawing.write(msg.y);
+//			outDrawing.flush();
+//			
+//			System.out.println("Envoie "+ msg.x +","+ msg.y);
+//		}
+//		
+//		removeMessagesToBuffer();
+//	}
+
+//	private void getMessage() throws IOException {
+//		
+//		outDrawing.write("DRAW_GET_MESSAGE\n");
+//		outDrawing.flush();
+//		
+//		int nbMessages = inDrawing.read();
+//
+//		for(int i=0; i < nbMessages; i++) {
+//			
+//			int x = inDrawing.read();
+//			int y = inDrawing.read();
+//			
+//			System.out.println("Reçu "+ x +","+ y);
+//			
+//			if(PictioLan.modele_gamer.getGame().getClient() != null)
+//				PictioLan.modele_gamer.getGame().getClient().getDraw().addPoint(new Point(x,y));
+//		}
+//	}
+//	
+	
 	public boolean isBufferEmpty() {
-		return buffer.isEmpty();
+		return (image != null && !image.isEmpty());
 	}
 	
-	public void addPointToBuffer(Point s) {
-		buffer.add(s);
-	}
-	
-	public LinkedList<Point> getPointsToBuffer() {
-		
-		LinkedList<Point> temp = new LinkedList<Point>();
-		
-		for(Point s : buffer)
-			temp.add(s);
-		
-		return temp;
-	}
-	
-	public void removeMessagesToBuffer() {
-		buffer.clear();
+	public void setImage(String image) {
+		this.image = image; 
 	}
 	
 	private void sendMessage() throws IOException {
-		
-		LinkedList<Point> temp = getPointsToBuffer();
-		
-		for(Point msg : temp) {
-			
-			outDrawing.write("DRAW_SEND_MESSAGE\n");
-			outDrawing.flush();
-			
-			outDrawing.write(msg.x);
-			outDrawing.flush();
-			
-			outDrawing.write(msg.y);
-			outDrawing.flush();
-			
-			System.out.println("Envoie "+ msg.x +","+ msg.y);
-		}
-		
-		removeMessagesToBuffer();
-	}
-
-	private void getMessage() throws IOException {
-		
-		outDrawing.write("DRAW_GET_MESSAGE\n");
+	
+		outDrawing.write("DRAW_SEND_MESSAGE\n");
 		outDrawing.flush();
 		
-		int nbMessages = inDrawing.read();
-
-		for(int i=0; i < nbMessages; i++) {
-			
-			int x = inDrawing.read();
-			int y = inDrawing.read();
-			
-			System.out.println("Reçu "+ x +","+ y);
-			
-			if(PictioLan.modele_gamer.getGame().getClient() != null)
-				PictioLan.modele_gamer.getGame().getClient().getDraw().addPoint(new Point(x,y));
-		}
+		outDrawing.write(image + "\n");
+		outDrawing.flush();
+		
+		System.out.println("Envoie image");
 	}
+	
+
+
+private void getMessage() throws IOException {
+	
+	outDrawing.write("DRAW_GET_MESSAGE\n");
+	outDrawing.flush();
+	
+	String msg = inDrawing.readLine();
+
+	if(PictioLan.modele_gamer.getGame().getClient() != null)
+		PictioLan.modele_gamer.getGame().getClient().getDraw();
+}
 	
 	
 	public void closeDraw() {
@@ -135,21 +170,21 @@ public class DrawingConnnection implements Runnable {
 	
 	public void run() {
 		
-
 		try {
 			
 			while (!endConnection) {
 				
-				boolean launchGame = PictioLan.modele_gamer.getGame().getListGamers().size() == PictioLan.modele_gamer.getGame().getNbMaxGamers();
-				
-				if(launchGame) {
-				
+					
+				if(PictioLan.modele_gamer.getGame().isDrawer()) {
+					
 					if(!isBufferEmpty()) {
 						sendMessage();
 					}
 					
+				} else {
 					getMessage();
 				}
+					
 				
 				try {
 					drawing.sleep(4000);

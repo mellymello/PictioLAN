@@ -7,7 +7,8 @@ public class Round {
 	
 	String word;
 	
-	public Round(){}
+	public Round(Gamer drawer, String word){
+	}
 	
 	public void setWord( String w){ word = w; }
 	public String getWord() {return word;}

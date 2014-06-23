@@ -27,8 +27,10 @@ public class DrawingHandler implements Runnable {
 	
 	boolean endConnection = false;
 	
-	LinkedList<Point> list_point = new LinkedList<Point>();
+	//LinkedList<Point> list_point = new LinkedList<Point>();
 
+	String image;
+	
 	public DrawingHandler(Socket s) throws IOException {
 		
 		connexion = s;
@@ -58,24 +60,27 @@ public class DrawingHandler implements Runnable {
 		}
 	}
 	
-	public void addMessage(Point p) {
-		list_point.add(p);
+	public void addMessage(String image) {
+		this.image = image;
 	}
 	
 	public void send() { 
 		
 		try {
-			out.write(list_point.size());
+			
+			out.write(image + "\n");
 			out.flush();
 			
-			for(int i=0; i < list_point.size(); i++) {
-				out.write(list_point.get(i).x);
-				out.flush();
-				out.write(list_point.get(i).y);
-				out.flush();
-				
-				list_point.remove(i);
-			}
+//			out.write(list_point.size());
+//			out.flush();
+//			
+//			for(int i=0; i < list_point.size(); i++) {
+//				out.write(list_point.get(i).x);
+//				out.flush();
+//				out.write(list_point.get(i).y);
+//				out.flush();
+//				
+//				list_point.remove(i);
 			
 //			if(list_point!=null)
 //				list_point.clear();

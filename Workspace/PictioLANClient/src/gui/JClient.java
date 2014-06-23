@@ -378,9 +378,13 @@ public class JClient extends JFrame implements Configuration {
 		//METHODE POUR ENVOYER LES POINTS
 		
 		System.out.println("Interface Graphique : (" + point.x + "," + point.y + ")");
+//		
+//		if(PictioLan.modele_gamer.getDraw() != null && PictioLan.modele_gamer.getDraw().isConnect())
+//			PictioLan.modele_gamer.getDraw().addPointToBuffer(point);
 		
 		if(PictioLan.modele_gamer.getDraw() != null && PictioLan.modele_gamer.getDraw().isConnect())
-			PictioLan.modele_gamer.getDraw().addPointToBuffer(point);
+			PictioLan.modele_gamer.getDraw().setImage("mon image");
+	
 	}
 	
 	class JBasePanel extends JPanel {
