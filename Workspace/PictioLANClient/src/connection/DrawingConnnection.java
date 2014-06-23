@@ -81,6 +81,8 @@ public class DrawingConnnection implements Runnable {
 			
 			BufferedImage tmp = PictioLan.modele_gamer.getGame().getClient()
 					.getDrawedImage();
+			
+			
 			OutputStream outStream = socketDrawing.getOutputStream();
 
 			if (tmp == null) {

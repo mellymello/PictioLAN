@@ -62,8 +62,8 @@ public class DrawingHandler implements Runnable {
 		
 		try {
 			
-			int x = in.read();
-			int y = in.read();
+//			int x = in.read();
+//			int y = in.read();
 			
 			if(gamer.getGame() != null && !gamer.getGame().getListDrawing().isEmpty()) {
 				
