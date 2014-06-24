@@ -80,7 +80,7 @@ public class DrawingHandler implements Runnable {
 					}
 					
 					ImageIO.write(recvImg, "png", new File(
-							"C:/Users/RighitZ/Desktop/srv.png"));
+							"C:/Users/Magali/Desktop/srv.png"));
 					
 					
 

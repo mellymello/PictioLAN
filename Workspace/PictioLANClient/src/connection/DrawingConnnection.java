@@ -118,7 +118,7 @@ public class DrawingConnnection implements Runnable {
 
 		try {
 			ImageIO.write(recvImg, "png", new File(
-					"C:/Users/RighitZ/Desktop/rcvUSR.png"));
+					"C:/Users/Magali/Desktop/rcvUSR.png"));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
