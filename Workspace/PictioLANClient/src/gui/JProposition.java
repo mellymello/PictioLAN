@@ -55,15 +55,12 @@ public class JProposition extends JPanel
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-//				try {
 					
 					System.out.println("Vue1 = " + txtProp.getText());
 					
 					if(PictioLan.modele_gamer != null && PictioLan.modele_gamer.getChat() != null && PictioLan.modele_gamer.getChat().isConnect())
 						PictioLan.modele_gamer.getChat().addMessageToBuffer(txtProp.getText());				
-					//} catch (IOException e) {
-					//e.printStackTrace();
-				//}
+
 				
 				addText(txtProp);
 			}
@@ -82,12 +79,9 @@ public class JProposition extends JPanel
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode()==KeyEvent.VK_ENTER){
 			        
-//					try {
 					if(PictioLan.modele_gamer.getChat() != null && PictioLan.modele_gamer.getChat().isConnect())
 						PictioLan.modele_gamer.getChat().addMessageToBuffer(txtProp.getText());
-//					} catch (IOException exp) {
-//						exp.printStackTrace();
-//					}
+
 					
 					addText(txtProp);
 			    }

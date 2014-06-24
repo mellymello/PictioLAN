@@ -29,8 +29,6 @@ public class BDConnection {
 		}
 	}
 	
-	//static public Statement getBD() { return stmt; }
-	
 	public static Statement getBD(){
 		if(bd == null){
 			bd = new BDConnection();

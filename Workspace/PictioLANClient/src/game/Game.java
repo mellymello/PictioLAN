@@ -129,10 +129,6 @@ public class Game implements Runnable {
 				System.out.println("IM DRAWER");
 				isDrawer = true;
 				
-				if(PictioLan.modele_gamer.getGame().getClient() != null) {
-//					PictioLan.modele_gamer.getGame().getClient().setEnableChat(false);
-//					PictioLan.modele_gamer.getGame().getClient().setEnableDraw(true);
-				}
 				
 				String w = PictioLan.modele_gamer.server.get_word_protocole();
 				
@@ -144,15 +140,9 @@ public class Game implements Runnable {
 			else {
 				
 				isDrawer = false;
-				
-				if(PictioLan.modele_gamer.getGame().getClient() != null) {
-//					PictioLan.modele_gamer.getGame().getClient().setEnableChat(true);
-//					PictioLan.modele_gamer.getGame().getClient().setEnableDraw(false);
-				}
+
 				
 			}
-			
-//			PictioLan.modele_gamer.server.send_start_timer_protocole();
 			
 			//Afficher Timer
 			if(PictioLan.modele_gamer.getGame().getClient() != null) {

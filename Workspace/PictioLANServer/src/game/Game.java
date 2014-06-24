@@ -182,15 +182,6 @@ public class Game {
 					
 					round.add(new Round(this, drawer, word));
 					
-					//START TIMER
-//					for(Gamer g : gamers) {
-//						g.connection.send_wait_timer_protocole(g);
-//					}
-					
-//					for(Gamer g : gamers) {
-//						g.connection.send_start_timer_protocole(g);
-//					}
-					
 					try {
 						Thread.currentThread().sleep(120000);
 					} catch (InterruptedException e) {
@@ -213,49 +204,5 @@ public class Game {
 				e.printStackTrace();
 			}
 			
-//			execute_game = new Thread(this);
-//			execute_game.start();
 		}
-	
-//
-//	
-//	@Override
-//	public void run() {
-//		
-//		for(int r=0; r < nb_max_round; r++) {
-//			
-//			Gamer drawer = selectDrawer();
-//			String word = Dictionary.getWord(category);
-//			round.add(new Round(this,drawer,word));
-//
-//			//Protocole start round
-//			for(Gamer g : gamers) {
-//				g.connection.round_start_protocole(g == drawer);
-//			}
-//			
-//			//Protocole word round
-//			drawer.connection.round_word_protocole(word);
-//			
-//			try {
-//				execute_game.sleep(60000);
-//			
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//			
-//			String winner;
-//			if(round.get(indice_round).getWinner() != null)
-//				winner = round.get(indice_round).getWinner().getPseudo();
-//			else
-//				winner = "NONE";
-//			
-//			//Protocole end round
-//			for(Gamer g : gamers) {
-//				g.connection.round_end_protocole(winner,word);
-//			}
-//			
-//			indice_round++;
-//		}
-//		
-//	}
 }

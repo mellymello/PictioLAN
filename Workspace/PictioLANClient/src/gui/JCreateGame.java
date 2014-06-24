@@ -244,7 +244,6 @@ public class JCreateGame extends JFrame {
 
 			c.insets = new Insets(15, 0, 0, 0);
 			c.fill = GridBagConstraints.WEST;
-//			c.anchor = GridBagConstraints.LINE_START; // bottom of space
 			c.gridwidth = 1;
 			c.gridx = 1;
 			c.gridy = 3;

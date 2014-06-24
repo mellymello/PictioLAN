@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 
-public class ServerConnection {//implements Runnable {
+public class ServerConnection {
 	
 	int connexion_port = 3336;
 	
@@ -22,8 +22,7 @@ public class ServerConnection {//implements Runnable {
 	BufferedWriter outConnexion;
 	
 	Gamer gamer;
-	
-//	Thread gaming;
+
 	
 	boolean endGame;
 	boolean isStart;
@@ -131,10 +130,7 @@ public class ServerConnection {//implements Runnable {
 			int id = inConnexion.read();
 			
 			gamer.setGame(new Game(id, category, nbRound, mode, gamer.getPseudo(), nbGamer));
-			
-			//gamer.setGame(new Game(id, category, nbRound, mode, gamer.getPseudo(), nbGamer));
-			//gamer.getGame().getListGamers().add(gamer);
-//			start_game_protocole();
+
 			
 			return id;
 			
@@ -265,25 +261,6 @@ public class ServerConnection {//implements Runnable {
 		return "";
 	}
 	
-//	public boolean get_round_end_protocole() {
-//		
-//		try {
-//			
-//			String msg = inConnexion.readLine();
-//			System.out.println(msg);
-//			
-//			String winner = inConnexion.readLine();
-//			System.out.println(winner);
-//			
-//			String word = inConnexion.readLine();
-//			System.out.println(word);
-//			
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return gamer.getGame().getRounds().size() == gamer.getGame().getNbRounds();
-//	}
 	
 	public void ready_protocole() { 
 		
@@ -305,10 +282,7 @@ public class ServerConnection {//implements Runnable {
 	public void get_liste_gamer_protocole() {
 
 		try {
-		
-//			outConnexion.write("GAME_LIST_GAMER\n");
-//			outConnexion.flush();
-			
+				
 			//Utilisateurs
 			int nbGamers = inConnexion.read();
 			
@@ -398,96 +372,5 @@ public class ServerConnection {//implements Runnable {
 		}
 	}
 
-//	public boolean get_round_start_protocole() {
-//		
-//		try {
-//			
-//			inConnexion.readLine();
-//			String type = inConnexion.readLine();
-//			
-//			if(type.equals("Drawer")) {
-//				
-//				return true;
-//			}
-//			else{
-//				
-//				return false;
-//			}
-//			
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return false;
-//	}
-//	
-//	public void get_round_word() {
-//		
-//		try {
-//			inConnexion.readLine();
-//			gamer.getGame().getRoundActive().setWord(inConnexion.readLine());
-//			
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
-//	
-//	public boolean get_round_end_protocole() {
-//		
-//		try {
-//			
-//			inConnexion.readLine();
-//			String winner = inConnexion.readLine();
-//			String word = inConnexion.readLine();
-//			
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return gamer.getGame().getRounds().size() == gamer.getGame().getNbRounds();
-//	}
-//	
-//	public void closeConnexion() {
-//
-//		try {
-//			if(socketConnexion != null)
-//				socketConnexion.close();
-//		
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	@Override
-//	public void run() {
-//		
-//		String pseudo;
-//		
-//		try {
-//			System.out.println("client thread");
-//			String start_message = inConnexion.readLine();
-//			System.out.println(start_message);
-//			int nbGamers = inConnexion.read();
-//			System.out.println(nbGamers);
-//			//Récupérer tous les joueurs
-//			for(int i=0; i < nbGamers; i++){
-//				gamer.getGame().getListGamers().add(new Gamer(inConnexion.readLine()));
-//			}
-//			
-//			while(!endGame) {
-//				
-//				//J'ai démarré
-//				if(get_round_start_protocole())
-//					get_round_word();
-//				
-//				endGame = get_round_end_protocole();
-//			}
-//		
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
 } //Fin de la class ConnexionListener
 

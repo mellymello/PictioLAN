@@ -47,7 +47,6 @@ public class JActivesGames extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 
 				if ((activesGamesID.getSelectedValue()) != null) {
-					System.out.println("TOOOO DOOO DELETE A GAME");
 					// ManageGamer.deleteGamer(activesGames.getSelectedValue());
 					setGamesList();
 				} else {

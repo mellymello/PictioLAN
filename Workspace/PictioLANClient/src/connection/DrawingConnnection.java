@@ -89,19 +89,8 @@ public class DrawingConnnection implements Runnable {
 
 			ImageIO.write(tmp, "png", outStream);
 			outStream.flush();
-			System.out.println("CLI : img sended !!!");
+			System.out.println("CLIENT : img sent !!!");
 			
-//			//Envoyer un message [DRAW_MESSAGE]
-//			outDrawing.write("DRAW_MESSAGE\n");
-//			outDrawing.flush();
-//			
-//			//Envoyer le point
-//			outDrawing.write(x);
-//			outDrawing.flush();
-//			outDrawing.write(y);
-//			outDrawing.flush();
-//	
-//			System.out.println("Envoyer(" + x +  "," + y + ")");
 		}
 	}
 	
@@ -112,29 +101,16 @@ public class DrawingConnnection implements Runnable {
 		BufferedImage recvImg = ImageIO.read(ImageIO
 				.createImageInputStream(socketDrawing.getInputStream()));
 
-		System.out.println("Client Image received!!!!");
+		System.out.println("CLIENT:  img received!!!!");
 
 		try {
-			ImageIO.write(recvImg, "png", new File(
-					"C:/Users/RighitZ/Desktop/rcvUSR.png"));
 			
 			PictioLan.modele_gamer.getGame().getClient().getDraw().setImage(recvImg);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		
-		 
-		
-		
-		//Point
-//		int x = inDrawing.read();
-//		int y = inDrawing.read();
-//		
-//		System.out.println("Recevoir(" + x +  "," + y + ")");
-//		
-//		if(PictioLan.modele_gamer.getGame().getClient() != null) {
-//			PictioLan.modele_gamer.getGame().getClient().getDraw().addPoint(new Point(x,y));
-//		}
+
 	}
 	
 	

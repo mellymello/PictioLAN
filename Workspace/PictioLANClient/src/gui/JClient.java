@@ -40,7 +40,6 @@ public class JClient extends JFrame implements Configuration {
 	private JPanel pCentreHaut_colors = new JPanel();
 	private JButton btnClearEcran = new JButton("Effacer écran");
 	private JButton btnPret = new JButton("Prêt");
-	// private JButton btnSelectColor = new JButton("Couleurs");
 
 	private JBasePanel basePanel;
 	private JLogoPanel logoPanel;
@@ -73,9 +72,6 @@ public class JClient extends JFrame implements Configuration {
 		createLeft();
 		createCenter();
 
-//		this.getContentPane().add(left, BorderLayout.WEST);
-//		this.getContentPane().add(pCentre, BorderLayout.CENTER);
-//		this.getContentPane().add(proposition, BorderLayout.SOUTH);
 
 		basePanel.add(left, BorderLayout.WEST);
 		basePanel.add(pCentre, BorderLayout.CENTER);
@@ -106,8 +102,7 @@ public class JClient extends JFrame implements Configuration {
 		this.getContentPane().add(logoPanel, BorderLayout.SOUTH);
 		
 	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		
 	/* Méthodes pour gérer le client */
 	
@@ -135,7 +130,7 @@ public class JClient extends JFrame implements Configuration {
 	}
 	
 	/* Fin Méthodes pour gérer le client */
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	private void createLeft() {
 		left.setOpaque(false);
@@ -351,13 +346,6 @@ public class JClient extends JFrame implements Configuration {
 		pCentreHaut_colors.add(yellow);
 	}
 	
-//	public void sendPoint(Point point) {
-//		try {
-////			PictioLan.modele_gamer.getDraw().sendMessage(point.x,point.y);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
 	
 	public BufferedImage getDrawedImage(){
 		return dessin.getImage();

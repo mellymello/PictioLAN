@@ -73,8 +73,6 @@ public class ChatHandler implements Runnable {
 				list_message.remove(i);
 			}
 			
-//			if(list_message != null)
-//				list_message.clear();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -135,11 +133,6 @@ public class ChatHandler implements Runnable {
 					
 					System.out.println("CHAT : " + gamer.getGame().getWord() + "==" + message);
 					
-//					if(gamer.getGame() != null && gamer.getGame().getWord().equalsIgnoreCase(message)) {
-//						gamer.getGame().getRoundActive().setWinner(gamer);
-////						gamer.getConnection().threadConnexion.notify();
-//						System.out.println("SOMEONE WIN");
-//					}
 					
 					if(gamer.getGame() != null) {
 						

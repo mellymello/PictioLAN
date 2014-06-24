@@ -41,7 +41,6 @@ public class JServer extends JFrame{
       
       this.setTitle("Server");
       this.getContentPane().add(panelOnglet);
-//      this.setSize(500,500);
       pack();
       this.setMinimumSize(new Dimension(250, 325));
       this.setVisible(true);

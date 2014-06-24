@@ -54,7 +54,7 @@ public class Dictionary {
 	}
 
 	/*
-	 * TODO Utiliser la connexion à la base de donnée pour récupérer un mot
+	 * Utiliser la connexion à la base de donnée pour récupérer un mot
 	 * aléatoirement du dictionnaire.
 	 */
 	static public String getWord(String category) {
@@ -127,7 +127,7 @@ public class Dictionary {
 	}
 
 	/*
-	 * TODO Utiliser la connexion à la base de donnée pour récupérer la liste
+	 * Utiliser la connexion à la base de donnée pour récupérer la liste
 	 * des catégories enregistrées dans la BD.
 	 */
 	static public LinkedList<String> getListCategory() {
@@ -152,7 +152,7 @@ public class Dictionary {
 	}
 
 	/*
-	 * TODO Utiliser la connexion à la base de donnée pour récupérer la liste
+	 * Utiliser la connexion à la base de donnée pour récupérer la liste
 	 * des mots composant une catégorie enregistrés dans la BD.
 	 */
 	static public LinkedList<String> getListWordCategory(String category) {

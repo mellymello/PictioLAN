@@ -144,15 +144,11 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 		if (panel.getEnabled()) {
 			panel.addPoint(new Point(e.getPoint()));
 			panel.repaint();
-//			client.sendPoint(new Point(e.getPoint()));
 		}
 	}
 
 	public void mousePressed(MouseEvent e) {
 		if (panel.getEnabled()) {
-
-			// panel.image.add(new Vector<Point>(panel.points));
-
 			panel.points.clear();
 			panel.addPoint(new Point(e.getPoint()));
 		}
@@ -161,11 +157,7 @@ class JDrawListener implements MouseListener, MouseMotionListener {
 	public void mouseReleased(MouseEvent e) {
 		if (panel.getEnabled()) {
 			panel.addPoint(new Point(e.getPoint()));
-
-			// panel.image.add(new Vector<Point>(panel.points));
-
 			panel.points.clear();
-//			client.sendPoint(new Point(e.getPoint()));
 			panel.repaint();
 		}
 	}
