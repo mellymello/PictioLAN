@@ -26,6 +26,5 @@ public class PictioLan {
 	public static void main (String[] args) {
 		
 		PictioLan p = new PictioLan();
-
 	}
 }

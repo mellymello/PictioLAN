@@ -106,6 +106,7 @@ public class DrawingConnnection implements Runnable {
 		try {
 			
 			PictioLan.modele_gamer.getGame().getClient().getDraw().setImage(recvImg);
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
