@@ -72,8 +72,7 @@ public class DrawingHandler implements Runnable {
 							.createImageInputStream(connexion.getInputStream()));
 
 					System.out.println("SERVER: Image received!!!!");
-					// store the image on server current game:
-					gamer.getGame().drawedImage = recvImg;
+
 
 					if (recvImg == null) {
 						recvImg = new BufferedImage(150, 150, BufferedImage.TYPE_INT_RGB);
@@ -82,6 +81,8 @@ public class DrawingHandler implements Runnable {
 					ImageIO.write(recvImg, "png", new File(
 							"C:/Users/Magali/Desktop/srv.png"));
 					
+					// store the image on server current game:
+					gamer.getGame().drawedImage = recvImg;
 					
 
 			
