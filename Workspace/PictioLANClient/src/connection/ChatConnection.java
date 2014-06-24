@@ -150,7 +150,7 @@ public class ChatConnection implements Runnable {
 				}
 				
 				try {
-					chatThread.sleep(4000);
+					chatThread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

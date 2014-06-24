@@ -183,7 +183,7 @@ public class Game {
 					round.add(new Round(this, drawer, word));
 					
 					try {
-						Thread.currentThread().sleep(120000);
+						Thread.currentThread().sleep(60000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

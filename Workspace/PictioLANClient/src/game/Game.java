@@ -147,7 +147,7 @@ public class Game implements Runnable {
 			//Afficher Timer
 			if(PictioLan.modele_gamer.getGame().getClient() != null) {
 				
-				for(int timer = 30; timer > 0; timer--) {
+				for(int timer = 60; timer > 0; timer--) {
 					PictioLan.modele_gamer.getGame().getClient().afficherTimer(timer);
 					
 					try { 
